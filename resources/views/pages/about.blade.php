@@ -86,12 +86,32 @@
                     @endif
 
                     <!-- Mobile menu button -->
-                    <button class="lg:hidden p-2 rounded-lg hover:bg-gray-100">
+                    <button id="mobile-menu-button" class="lg:hidden p-2 rounded-lg hover:bg-gray-100">
                         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
                         </svg>
                     </button>
                 </div>
+            </div>
+
+            <!-- Mobile Menu -->
+            <div id="mobile-menu" class="hidden lg:hidden absolute top-16 right-0 bg-white shadow-lg border w-64 h-auto z-40">
+                <nav class="flex flex-col gap-4 p-6">
+                    <a href="{{ route('home') }}" class="bg-wa-50 border border-wa-200 rounded-lg text-gray-700 hover:text-wa-600 hover:bg-wa-100 font-medium transition py-3 px-4 shadow-sm hover:shadow-md">Home</a>
+                    <a href="{{ route('gallery') }}" class="bg-wa-50 border border-wa-200 rounded-lg text-gray-700 hover:text-wa-600 hover:bg-wa-100 font-medium transition py-3 px-4 shadow-sm hover:shadow-md">Galeri</a>
+                    <a href="{{ route('service') }}" class="bg-wa-50 border border-wa-200 rounded-lg text-gray-700 hover:text-wa-600 hover:bg-wa-100 font-medium transition py-3 px-4 shadow-sm hover:shadow-md">Layanan</a>
+                    <a href="{{ route('contact') }}" class="bg-wa-50 border border-wa-200 rounded-lg text-gray-700 hover:text-wa-600 hover:bg-wa-100 font-medium transition py-3 px-4 shadow-sm hover:shadow-md">Kontak</a>
+                    @if (Route::has('login'))
+                        @auth
+                            <a href="{{ url('/dashboard') }}" class="bg-wa-50 border border-wa-200 rounded-lg text-gray-700 hover:text-wa-600 hover:bg-wa-100 font-medium transition py-3 px-4 shadow-sm hover:shadow-md">Dashboard</a>
+                        @else
+                            <a href="{{ route('login') }}" class="bg-wa-50 border border-wa-200 rounded-lg text-gray-700 hover:text-wa-600 hover:bg-wa-100 font-medium transition py-3 px-4 shadow-sm hover:shadow-md">Login</a>
+                            @if (Route::has('register'))
+                                <a href="{{ route('register') }}" class="bg-wa-50 border border-wa-200 rounded-lg text-gray-700 hover:text-wa-600 hover:bg-wa-100 font-medium transition py-3 px-4 shadow-sm hover:shadow-md">Register</a>
+                            @endif
+                        @endauth
+                    @endif
+                </nav>
             </div>
         </div>
     </header>
