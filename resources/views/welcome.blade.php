@@ -32,19 +32,20 @@
         .bg-gradient-wa {
             background: linear-gradient(135deg, #00d95f 0%, #00ba54 100%);
         }
-        .hero-wave {
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 320'%3E%3Cpath fill='%2300d95f' fill-opacity='0.1' d='M0,96L48,112C96,128,192,160,288,160C384,160,480,128,576,112C672,96,768,96,864,112C960,128,1056,160,1152,160C1248,160,1344,128,1392,112L1440,96L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z'%3E%3C/path%3E%3C/svg%3E");
-            background-repeat: repeat-x;
-            background-position: 0 bottom;
-            animation: wave-flow 10s linear infinite;
-        }
 
-        @keyframes wave-flow {
-            0% { background-position-x: 0; }
-            100% { background-position-x: 1440px; }
-        }
+        
 
     </style>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+
+            mobileMenuButton.addEventListener('click', function() {
+                mobileMenu.classList.toggle('hidden');
+            });
+        });
+    </script>
 </head>
 <body class="bg-wa-50 text-gray-800 antialiased">
 
@@ -55,8 +56,7 @@
                 <!-- Logo -->
                 <div class="flex items-center">
                     <div class="flex items-center gap-3">
-                        <img src="/images/logo.jpg" alt="Logo" class="w-10 h-10 rounded-full">
-                        <span class="font-bold text-xl text-wa-700">Mega Jaya AC</span>
+                        <img src="/images/logo.jpg" alt="Logo" class="w-12 h-12 rounded-full">
                     </div>
                 </div>
 
@@ -88,12 +88,32 @@
                     @endif
 
                     <!-- Mobile menu button -->
-                    <button class="lg:hidden p-2 rounded-lg hover:bg-gray-100">
+                    <button id="mobile-menu-button" class="lg:hidden p-2 rounded-lg hover:bg-gray-100">
                         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
                         </svg>
                     </button>
                 </div>
+            </div>
+
+            <!-- Mobile Menu -->
+            <div id="mobile-menu" class="hidden lg:hidden absolute top-16 right-0 bg-white shadow-lg border w-64 h-auto z-40">
+                <nav class="flex flex-col gap-4 p-6">
+                    <a href="{{ route('home') }}" class="bg-wa-50 border border-wa-200 rounded-lg text-gray-700 hover:text-wa-600 hover:bg-wa-100 font-medium transition py-3 px-4 shadow-sm hover:shadow-md">Home</a>
+                    <a href="{{ route('gallery') }}" class="bg-wa-50 border border-wa-200 rounded-lg text-gray-700 hover:text-wa-600 hover:bg-wa-100 font-medium transition py-3 px-4 shadow-sm hover:shadow-md">Galeri</a>
+                    <a href="{{ route('service') }}" class="bg-wa-50 border border-wa-200 rounded-lg text-gray-700 hover:text-wa-600 hover:bg-wa-100 font-medium transition py-3 px-4 shadow-sm hover:shadow-md">Layanan</a>
+                    <a href="{{ route('contact') }}" class="bg-wa-50 border border-wa-200 rounded-lg text-gray-700 hover:text-wa-600 hover:bg-wa-100 font-medium transition py-3 px-4 shadow-sm hover:shadow-md">Kontak</a>
+                    @if (Route::has('login'))
+                        @auth
+                            <a href="{{ url('/dashboard') }}" class="bg-wa-50 border border-wa-200 rounded-lg text-gray-700 hover:text-wa-600 hover:bg-wa-100 font-medium transition py-3 px-4 shadow-sm hover:shadow-md">Dashboard</a>
+                        @else
+                            <a href="{{ route('login') }}" class="bg-wa-50 border border-wa-200 rounded-lg text-gray-700 hover:text-wa-600 hover:bg-wa-100 font-medium transition py-3 px-4 shadow-sm hover:shadow-md">Login</a>
+                            @if (Route::has('register'))
+                                <a href="{{ route('register') }}" class="bg-wa-50 border border-wa-200 rounded-lg text-gray-700 hover:text-wa-600 hover:bg-wa-100 font-medium transition py-3 px-4 shadow-sm hover:shadow-md">Register</a>
+                            @endif
+                        @endauth
+                    @endif
+                </nav>
             </div>
         </div>
     </header>
