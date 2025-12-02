@@ -98,7 +98,7 @@
     </header>
   
     <!-- HERO -->
-    <section class="hero-bg pt-20 pb-32 lg:pt-32">
+    <section class="hero-bg h-screen flex items-center justify-center">
         <div class="max-w-7xl mx-auto px-6 lg:px-8 text-center">
             <div class="max-w-3xl mx-auto">
                 <h1 class="text-4xl lg:text-6xl font-bold text-gray-900 mb-6">
@@ -112,7 +112,7 @@
     </section>
 
     <!-- STORY -->
-    <section class="py-20 bg-white">
+    <section class="h-screen bg-white flex items-center justify-center">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="grid md:grid-cols-2 gap-12 items-center">
                 <div>
@@ -126,7 +126,7 @@
                     </p>
                 </div>
                 <div>
-                    <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?q=80&w=1470" 
+                    <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?q=80&w=1470"
                          alt="Tim kami" class="rounded-xl shadow-2xl w-full object-cover h-96">
                 </div>
             </div>
@@ -158,7 +158,7 @@
     </section>
 
     <!-- CTA -->
-    <section class="py-20 bg-wa-600 text-white text-center">
+    <section class="h-screen bg-wa-600 text-white text-center flex items-center justify-center">
         <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
             <h2 class="text-3xl md:text-4xl font-bold mb-6">Yuk Gabung Bareng Kami!</h2>
             <p class="text-xl mb-8">Mulai perjalanan seru bareng CoolService AC sekarang juga.</p>
