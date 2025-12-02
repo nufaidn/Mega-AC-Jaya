@@ -32,8 +32,13 @@
             background: linear-gradient(135deg, #00d95f 0%, #00ba54 100%);
         }
         .hero-bg {
-            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="%2300d95f" fill-opacity="0.08" d="M0,96L48,112C96,128,192,160,288,160C384,160,480,128,576,112C672,96,768,96,864,112C960,128,1056,160,1152,160C1248,160,1344,128,1392,112L1440,96L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path></svg>') no-repeat bottom;
-            background-size: cover;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="%2300d95f" fill-opacity="0.08" d="M0,96L48,112C96,128,192,160,288,160C384,160,480,128,576,112C672,96,768,96,864,112C960,128,1056,160,1152,160C1248,160,1344,128,1392,112L1440,96L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path></svg>') repeat-x 0 bottom;
+            animation: wave-flow 20s linear infinite;
+        }
+
+        @keyframes wave-flow {
+            0% { background-position-x: 0; }
+            100% { background-position-x: 1440px; }
         }
     </style>
 </head>
@@ -59,7 +64,6 @@
                 <!-- Desktop Menu -->
                 <nav class="hidden lg:flex items-center gap-8">
                     <a href="{{ route('home') }}" class="text-gray-700 hover:text-wa-600 font-medium transition">Home</a>
-                    <a href="{{ route('about') }}" class="text-gray-700 hover:text-wa-600 font-medium transition">About</a>
                     <a href="{{ route('gallery') }}" class="text-gray-700 hover:text-wa-600 font-medium transition">Galeri</a>
                     <a href="{{ route('service') }}" class="text-wa-700 font-semibold transition">Layanan</a>
                     <a href="{{ route('contact') }}" class="text-gray-700 hover:text-wa-600 font-medium transition">Kontak</a>
@@ -96,7 +100,7 @@
     </header>
 
     <!-- HERO -->
-    <section class="hero-bg pt-20 pb-32 lg:pt-32">
+    <section class="hero-bg h-screen flex items-center justify-center">
         <div class="max-w-7xl mx-auto px-6 lg:px-8 text-center">
             <div class="max-w-3xl mx-auto">
                 <h1 class="text-4xl lg:text-6xl font-bold text-gray-900 mb-6">

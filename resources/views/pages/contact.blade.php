@@ -58,7 +58,6 @@
             <!-- Desktop Menu -->
             <nav class="hidden lg:flex items-center gap-8">
                 <a href="{{ route('home') }}" class="text-gray-700 hover:text-wa-600 font-medium transition">Home</a>
-                <a href="{{ route('about') }}" class="text-gray-700 hover:text-wa-600 font-medium transition">About</a>
                 <a href="{{ route('gallery') }}" class="text-gray-700 hover:text-wa-600 font-medium transition">Galeri</a>
                 <a href="{{ route('service') }}" class="text-gray-700 hover:text-wa-600 font-medium transition">Layanan</a>
                 <a href="{{ route('contact') }}" class="text-gray-700 hover:text-wa-600 font-medium transition">Kontak</a>
@@ -95,7 +94,7 @@
 </header>
 
   <!-- Hero Section -->
-  <section class="bg-gradient-to-br from-wa-500 to-wa-700 text-white py-24">
+  <section class="bg-gradient-to-br from-wa-500 to-wa-700 text-white h-screen flex items-center justify-center">
     <div class="max-w-5xl mx-auto px-6 text-center">
       <h1 class="text-4xl md:text-6xl font-bold mb-6">Hubungi Kami</h1>
       <p class="text-xl md:text-2xl opacity-90 max-w-3xl mx-auto">
