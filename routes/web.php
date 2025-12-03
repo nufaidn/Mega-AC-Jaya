@@ -4,6 +4,8 @@ use Illuminate\Support\Facades\Route;
 use Laravel\Fortify\Features;
 use Livewire\Volt\Volt;
 use App\Http\Controllers\Admin\ServiceController;
+use App\Http\Controllers\BookingController;
+use App\Models\Service;
 
 Route::get('/', function () {
     return view('welcome');
@@ -11,9 +13,15 @@ Route::get('/', function () {
 
 Route::view('about', 'pages.about')->name('about');
 Route::view('gallery', 'pages.gallery')->name('gallery');
-Route::view('service', 'pages.service')->name('service');
+Route::get('service', function () {
+    $services = Service::all();
+    return view('pages.service', compact('services'));
+})->name('service');
 Route::view('product', 'pages.product')->name('product');
 Route::view('contact', 'pages.contact')->name('contact');
+Route::resource('bookings', BookingController::class);
+
+
 
 Route::view('dashboard', 'dashboard')
     ->middleware(['auth', 'verified'])

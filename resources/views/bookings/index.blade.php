@@ -232,7 +232,7 @@
                     <h3 class="text-2xl font-bold mb-4 text-center">{{ $service->name }}</h3>
                     <p class="text-gray-600 mb-4">{{ $service->description }}</p>
                     <p class="text-wa-600 font-semibold mb-4 text-center">Rp {{ number_format($service->price, 0, ',', '.') }}</p>
-                    <a href="{{ route('bookings.create', ['service' => $service->name]) }}" class="block w-full text-center bg-wa-600 text-white py-2 rounded-lg hover:bg-wa-700 transition">
+                    <a href="{{ route('bookings.create', ['service_id' => $service->id]) }}" class="block w-full text-center bg-wa-600 text-white py-2 rounded-lg hover:bg-wa-700 transition">
                         Book Now
                     </a>
                 </div>
