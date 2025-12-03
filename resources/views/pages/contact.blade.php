@@ -52,60 +52,105 @@
 </head>
 <body class="bg-gray-50 text-gray-800">
 
-  <!-- Navbar -->
-  <header class="bg-white shadow-sm sticky top-0 z-50">
-    <div class="max-w-7xl mx-auto px-6 lg:px-8">
-        <div class="flex justify-between items-center h-16">
-            <!-- Logo -->
-            <div class="flex items-center">
-                <div class="flex items-center gap-3">
-                    <div class="w-10 h-10 bg-gradient-wa rounded-full flex items-center justify-center">
-                        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z" />
-                        </svg>
-                    </div>
-                    <span class="font-bold text-xl text-wa-700">Mega AC Jaya</span>
-                </div>
-            </div>
+    <!-- Navbar -->
+    <header class="bg-white shadow-sm sticky top-0 z-50">
+      <div class="max-w-7xl mx-auto px-6 lg:px-8">
+          <div class="flex justify-between items-center h-16">
+              <!-- Logo -->
+              <div class="flex items-center">
+                  <div class="flex items-center gap-3">
+                      <img src="/images/logo.jpg" alt="Logo" class="w-12 h-12 rounded-full">
+                      <span class="font-bold text-xl text-wa-700">Mega AC Jaya</span>
+                  </div>
+              </div>
 
-            <!-- Desktop Menu -->
-            <nav class="hidden lg:flex items-center gap-8">
-                <a href="{{ route('home') }}" class="text-gray-700 hover:text-wa-600 font-medium transition">Home</a>
-                <a href="{{ route('about') }}" class="text-gray-700 hover:text-wa-600 font-medium transition">About</a>
-                <a href="{{ route('gallery') }}" class="text-gray-700 hover:text-wa-600 font-medium transition">Galeri</a>
-                <a href="{{ route('service') }}" class="text-gray-700 hover:text-wa-600 font-medium transition">Layanan</a>
-                <a href="{{ route('contact') }}" class="text-gray-700 hover:text-wa-600 font-medium transition">Kontak</a>
-            </nav>
+              <!-- Desktop Menu -->
+              <nav class="hidden lg:flex items-center gap-8">
+                  <a href="{{ route('home') }}" class="text-wa-700 font-semibold transition">Home</a>
+                  <a href="{{ route('gallery') }}" class="text-gray-700 hover:text-wa-600 font-medium transition">Galeri</a>
+                  <a href="{{ route('service') }}" class="text-gray-700 hover:text-wa-600 font-medium transition">Layanan</a>
+                  <a href="{{ route('product') }}" class="text-gray-700 font-medium transition">Produk</a>
+                  <a href="{{ route('contact') }}" class="text-gray-700 hover:text-wa-600 font-medium transition">Kontak</a>
+              </nav>
 
-                <!-- Login & Register -->
-                <div class="flex items-center gap-3">
-                    @if (Route::has('login'))
-                        @auth
-                            <a href="{{ url('/dashboard') }}" class="hidden md:inline-block px-6 py-2 bg-gradient-wa text-white rounded-lg font-medium hover:shadow-lg transition">
-                                Dashboard
-                            </a>
-                        @else
-                            <a href="{{ route('login') }}" class="hidden md:inline-block px-6 py-2 border border-wa-600 text-wa-600 rounded-lg font-medium hover:bg-wa-50 transition">
-                                Login
-                            </a>
-                            @if (Route::has('register'))
-                                <a href="{{ route('register') }}" class="hidden md:inline-block px-6 py-2 bg-gradient-wa text-white rounded-lg font-medium hover:shadow-lg transition">
-                                    Register
-                                </a>
-                            @endif
-                        @endauth
-                    @endif
+              <!-- Login & Register -->
+              <div class="flex items-center gap-3">
+                  @if (Route::has('login'))
+                      @auth
+                          <a href="{{ url('/dashboard') }}" class="hidden md:inline-block px-6 py-2 bg-gradient-wa text-white rounded-lg font-medium hover:shadow-lg transition">
+                              Dashboard
+                          </a>
+                      @else
+                          <a href="{{ route('login') }}" class="hidden md:inline-block px-6 py-2 border border-wa-600 text-wa-600 rounded-lg font-medium hover:bg-wa-50 transition">
+                              Login
+                          </a>
+                          @if (Route::has('register'))
+                              <a href="{{ route('register') }}" class="hidden md:inline-block px-6 py-2 bg-gradient-wa text-white rounded-lg font-medium hover:shadow-lg transition">
+                                  Register
+                              </a>
+                          @endif
+                      @endauth
+                  @endif
 
-                <!-- Mobile menu button -->
-                <button class="lg:hidden p-2 rounded-lg hover:bg-gray-100">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
-                    </svg>
-                </button>
-            </div>
-        </div>
-    </div>
-</header>
+                  <!-- Mobile menu button -->
+                  <button id="mobile-menu-button" class="lg:hidden p-2 rounded-lg hover:bg-gray-100">
+                      <svg id="menu-open-icon" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                      </svg>
+                      <svg id="menu-close-icon" class="w-6 h-6 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                      </svg>
+                  </button>
+              </div>
+          </div>
+
+          <!-- Mobile Menu Card -->
+          <div id="mobile-menu" class="hidden lg:hidden absolute top-16 right-4 w-64 bg-white shadow-lg rounded-md border border-gray-100 z-40 overflow-hidden">
+              <nav class="flex flex-col py-6">
+                  <a href="{{ route('home') }}" class="text-gray-700 hover:text-wa-600 hover:bg-wa-50 font-medium transition py-3 px-6">Home</a>
+                  <a href="{{ route('gallery') }}" class="text-gray-700 hover:text-wa-600 hover:bg-wa-50 font-medium transition py-3 px-6">Galeri</a>
+                  <a href="{{ route('service') }}" class="text-gray-700 hover:text-wa-600 hover:bg-wa-50 font-medium transition py-3 px-6">Layanan</a>
+                  <a href="{{ route('product') }}" class="text-gray-700 hover:text-wa-600 hover:bg-wa-50 font-medium transition py-3 px-6">Produk</a>
+                  <a href="{{ route('contact') }}" class="text-gray-700 hover:text-wa-600 hover:bg-wa-50 font-medium transition py-3 px-6">Kontak</a>
+                  @if (Route::has('login'))
+                      @auth
+                          <a href="{{ url('/dashboard') }}" class="mx-6 mt-3 px-6 py-2 bg-gradient-wa text-white rounded-lg font-medium hover:shadow-lg transition text-center">
+                              Dashboard
+                          </a>
+                      @else
+                          <a href="{{ route('login') }}" class="mx-6 mt-3 px-6 py-2 border border-wa-600 text-wa-600 rounded-lg font-medium hover:bg-wa-50 transition text-center">
+                              Login
+                          </a>
+                          @if (Route::has('register'))
+                              <a href="{{ route('register') }}" class="mx-6 mt-2 px-6 py-2 bg-gradient-wa text-white rounded-lg font-medium hover:shadow-lg transition text-center">
+                                  Register
+                              </a>
+                          @endif
+                      @endauth
+                  @endif
+              </nav>
+          </div>
+      </div>
+  </header>
+
+  <script>
+      const mobileMenuButton = document.getElementById('mobile-menu-button');
+      const mobileMenu = document.getElementById('mobile-menu');
+      const menuOpenIcon = document.getElementById('menu-open-icon');
+      const menuCloseIcon = document.getElementById('menu-close-icon');
+
+      mobileMenuButton.addEventListener('click', () => {
+          if (mobileMenu.classList.contains('hidden')) {
+              mobileMenu.classList.remove('hidden');
+              mobileMenu.classList.add('mobile-menu-enter');
+          } else {
+              mobileMenu.classList.add('hidden');
+              mobileMenu.classList.remove('mobile-menu-enter');
+          }
+          menuOpenIcon.classList.toggle('hidden');
+          menuCloseIcon.classList.toggle('hidden');
+      });
+  </script>
 
   <!-- Hero Section -->
   <section class="bg-gradient-to-br from-wa-500 to-wa-700 text-white h-screen flex items-center justify-center">
@@ -222,14 +267,22 @@
   </footer>
 
   <script>
-    document.addEventListener('DOMContentLoaded', function() {
       const mobileMenuButton = document.getElementById('mobile-menu-button');
       const mobileMenu = document.getElementById('mobile-menu');
+      const menuOpenIcon = document.getElementById('menu-open-icon');
+      const menuCloseIcon = document.getElementById('menu-close-icon');
 
-      mobileMenuButton.addEventListener('click', function() {
-        mobileMenu.classList.toggle('hidden');
+      mobileMenuButton.addEventListener('click', () => {
+          if (mobileMenu.classList.contains('hidden')) {
+              mobileMenu.classList.remove('hidden');
+              mobileMenu.classList.add('mobile-menu-enter');
+          } else {
+              mobileMenu.classList.add('hidden');
+              mobileMenu.classList.remove('mobile-menu-enter');
+          }
+          menuOpenIcon.classList.toggle('hidden');
+          menuCloseIcon.classList.toggle('hidden');
       });
-    });
   </script>
 </body>
 </html>
