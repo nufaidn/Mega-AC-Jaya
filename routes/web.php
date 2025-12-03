@@ -4,6 +4,8 @@ use Illuminate\Support\Facades\Route;
 use Laravel\Fortify\Features;
 use Livewire\Volt\Volt;
 use App\Http\Controllers\Admin\ServiceController;
+use App\Http\Controllers\BookingController;
+use App\Models\Service;
 use App\Http\Controllers\Admin\ProductController;
 
 Route::get('/', function () {
@@ -12,17 +14,27 @@ Route::get('/', function () {
 
 Route::view('about', 'pages.about')->name('about');
 Route::view('gallery', 'pages.gallery')->name('gallery');
-Route::view('service', 'pages.service')->name('service');
+Route::get('service', function () {
+    $services = Service::all();
+    return view('pages.service', compact('services'));
+})->name('service');
 Route::view('product', 'pages.product')->name('product');
 Route::view('contact', 'pages.contact')->name('contact');
+
+
+
 
 Route::view('dashboard', 'dashboard')
     ->middleware(['auth', 'verified'])
     ->name('dashboard');
 
+Route::get('bookings/create', [BookingController::class, 'create'])->name('bookings.create');
+Route::post('bookings', [BookingController::class, 'store'])->name('bookings.store');
+
 Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
     Route::resource('services', ServiceController::class);
     Route::resource('products', ProductController::class);
+    Route::resource('bookings', BookingController::class)->except(['create', 'store']);
 });
 
 Route::middleware(['auth'])->group(function () {
