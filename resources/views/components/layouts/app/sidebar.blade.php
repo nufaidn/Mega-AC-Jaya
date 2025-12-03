@@ -17,6 +17,7 @@
                     @if(auth()->check() && auth()->user()->usertype == 'admin')
                     <flux:navlist.item icon="wrench-screwdriver" :href="route('admin.services.index')" :current="request()->routeIs('admin.services.*')" wire:navigate>{{ __('Services') }}</flux:navlist.item>
                     <flux:navlist.item icon="layout-grid" :href="route('admin.products.index')" :current="request()->routeIs('admin.products.*')" wire:navigate>{{ __('Products') }}</flux:navlist.item>
+                    <flux:navlist.item icon="calendar" :href="route('admin.bookings.index')" :current="request()->routeIs('admin.bookings.*')" wire:navigate>{{ __('Booking') }}</flux:navlist.item>
                     @endif
                 </flux:navlist.group>
             </flux:navlist>
