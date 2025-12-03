@@ -13,7 +13,10 @@ Route::get('/', function () {
 })->name('home');
 
 Route::view('about', 'pages.about')->name('about');
-Route::view('gallery', 'pages.gallery')->name('gallery');
+Route::get('gallery', function () {
+    $galleries = \App\Models\Gallery::latest()->get();
+    return view('pages.gallery', compact('galleries'));
+})->name('gallery');
 Route::get('service', function () {
     $services = Service::all();
     return view('pages.service', compact('services'));
@@ -35,6 +38,7 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::resource('services', ServiceController::class);
     Route::resource('products', ProductController::class);
     Route::resource('bookings', BookingController::class)->except(['create', 'store']);
+    Route::get('galleries', \App\Livewire\Admin\GalleryManager::class)->name('galleries.index');
 });
 
 Route::middleware(['auth'])->group(function () {
