@@ -35,6 +35,19 @@
       background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="%2300d95f" fill-opacity="0.08" d="M0,96L48,112C96,128,192,160,288,160C384,160,480,128,576,112C672,96,768,96,864,112C960,128,1056,160,1152,160C1248,160,1344,128,1392,112L1440,96L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path></svg>') no-repeat bottom;
       background-size: cover;
     }
+    @keyframes slideDown {
+      from {
+        opacity: 0;
+        transform: translateY(-10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    .mobile-menu-enter {
+      animation: slideDown 0.3s ease-out;
+    }
   </style>
 </head>
 <body class="bg-gray-50 text-gray-800">
@@ -45,65 +58,51 @@
         <div class="flex justify-between items-center h-16">
             <!-- Logo -->
             <div class="flex items-center">
-                    <div class="flex items-center gap-3">
-                        <img src="/images/logo.jpg" alt="Logo" class="w-12 h-12 rounded-full">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 bg-gradient-wa rounded-full flex items-center justify-center">
+                        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z" />
+                        </svg>
                     </div>
-          </div>
+                    <span class="font-bold text-xl text-wa-700">Mega AC Jaya</span>
+                </div>
+            </div>
 
             <!-- Desktop Menu -->
             <nav class="hidden lg:flex items-center gap-8">
                 <a href="{{ route('home') }}" class="text-gray-700 hover:text-wa-600 font-medium transition">Home</a>
+                <a href="{{ route('about') }}" class="text-gray-700 hover:text-wa-600 font-medium transition">About</a>
                 <a href="{{ route('gallery') }}" class="text-gray-700 hover:text-wa-600 font-medium transition">Galeri</a>
                 <a href="{{ route('service') }}" class="text-gray-700 hover:text-wa-600 font-medium transition">Layanan</a>
                 <a href="{{ route('contact') }}" class="text-gray-700 hover:text-wa-600 font-medium transition">Kontak</a>
             </nav>
 
-            <!-- Login & Register -->
-            <div class="flex items-center gap-3">
-                @if (Route::has('login'))
-                    @auth
-                        <a href="{{ url('/dashboard') }}" class="hidden md:inline-block px-6 py-2 bg-gradient-wa text-white rounded-lg font-medium hover:shadow-lg transition">
-                            Dashboard
-                        </a>
-                    @else
-                        <a href="{{ route('login') }}" class="hidden md:inline-block px-6 py-2 border border-wa-600 text-wa-600 rounded-lg font-medium hover:bg-wa-50 transition">
-                            Login
-                        </a>
-                        @if (Route::has('register'))
-                            <a href="{{ route('register') }}" class="hidden md:inline-block px-6 py-2 bg-gradient-wa text-white rounded-lg font-medium hover:shadow-lg transition">
-                                Register
+                <!-- Login & Register -->
+                <div class="flex items-center gap-3">
+                    @if (Route::has('login'))
+                        @auth
+                            <a href="{{ url('/dashboard') }}" class="hidden md:inline-block px-6 py-2 bg-gradient-wa text-white rounded-lg font-medium hover:shadow-lg transition">
+                                Dashboard
                             </a>
-                        @endif
-                    @endauth
-                @endif
+                        @else
+                            <a href="{{ route('login') }}" class="hidden md:inline-block px-6 py-2 border border-wa-600 text-wa-600 rounded-lg font-medium hover:bg-wa-50 transition">
+                                Login
+                            </a>
+                            @if (Route::has('register'))
+                                <a href="{{ route('register') }}" class="hidden md:inline-block px-6 py-2 bg-gradient-wa text-white rounded-lg font-medium hover:shadow-lg transition">
+                                    Register
+                                </a>
+                            @endif
+                        @endauth
+                    @endif
 
                 <!-- Mobile menu button -->
-                <button id="mobile-menu-button" class="lg:hidden p-2 rounded-lg hover:bg-gray-100">
+                <button class="lg:hidden p-2 rounded-lg hover:bg-gray-100">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
                     </svg>
                 </button>
             </div>
-        </div>
-
-        <!-- Mobile Menu -->
-        <div id="mobile-menu" class="hidden lg:hidden absolute top-16 right-0 bg-white shadow-lg border w-64 h-auto z-40">
-            <nav class="flex flex-col gap-4 p-6">
-                <a href="{{ route('home') }}" class="bg-wa-50 border border-wa-200 rounded-lg text-gray-700 hover:text-wa-600 hover:bg-wa-100 font-medium transition py-3 px-4 shadow-sm hover:shadow-md">Home</a>
-                <a href="{{ route('gallery') }}" class="bg-wa-50 border border-wa-200 rounded-lg text-gray-700 hover:text-wa-600 hover:bg-wa-100 font-medium transition py-3 px-4 shadow-sm hover:shadow-md">Galeri</a>
-                <a href="{{ route('service') }}" class="bg-wa-50 border border-wa-200 rounded-lg text-gray-700 hover:text-wa-600 hover:bg-wa-100 font-medium transition py-3 px-4 shadow-sm hover:shadow-md">Layanan</a>
-                <a href="{{ route('contact') }}" class="bg-wa-50 border border-wa-200 rounded-lg text-gray-700 hover:text-wa-600 hover:bg-wa-100 font-medium transition py-3 px-4 shadow-sm hover:shadow-md">Kontak</a>
-                @if (Route::has('login'))
-                    @auth
-                        <a href="{{ url('/dashboard') }}" class="bg-wa-50 border border-wa-200 rounded-lg text-gray-700 hover:text-wa-600 hover:bg-wa-100 font-medium transition py-3 px-4 shadow-sm hover:shadow-md">Dashboard</a>
-                    @else
-                        <a href="{{ route('login') }}" class="bg-wa-50 border border-wa-200 rounded-lg text-gray-700 hover:text-wa-600 hover:bg-wa-100 font-medium transition py-3 px-4 shadow-sm hover:shadow-md">Login</a>
-                        @if (Route::has('register'))
-                            <a href="{{ route('register') }}" class="bg-wa-50 border border-wa-200 rounded-lg text-gray-700 hover:text-wa-600 hover:bg-wa-100 font-medium transition py-3 px-4 shadow-sm hover:shadow-md">Register</a>
-                        @endif
-                    @endauth
-                @endif
-            </nav>
         </div>
     </div>
 </header>

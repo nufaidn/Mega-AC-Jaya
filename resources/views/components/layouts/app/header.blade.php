@@ -101,6 +101,11 @@
                     <flux:navlist.item icon="layout-grid" :href="route('dashboard')" :current="request()->routeIs('dashboard')" wire:navigate>
                     {{ __('Dashboard') }}
                     </flux:navlist.item>
+                    @if(auth()->check() && auth()->user()->usertype == 'admin')
+                    <flux:navlist.item icon="wrench-screwdriver" :href="route('admin.services.index')" :current="request()->routeIs('admin.services.*')" wire:navigate>
+                    {{ __('Services') }}
+                    </flux:navlist.item>
+                    @endif
                 </flux:navlist.group>
             </flux:navlist>
 

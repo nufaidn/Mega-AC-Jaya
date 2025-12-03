@@ -12,6 +12,7 @@ Route::get('/', function () {
 Route::view('about', 'pages.about')->name('about');
 Route::view('gallery', 'pages.gallery')->name('gallery');
 Route::view('service', 'pages.service')->name('service');
+Route::view('product', 'pages.product')->name('product');
 Route::view('contact', 'pages.contact')->name('contact');
 
 Route::view('dashboard', 'dashboard')
