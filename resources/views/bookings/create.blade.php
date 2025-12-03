@@ -136,7 +136,13 @@
 
                             <div>
                                 <label for="time" class="block font-medium text-sm text-gray-700">{{ __('Preferred Time') }}</label>
-                                <input id="time" class="block mt-1 w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm" type="time" name="time" value="{{ old('time') }}" required />
+                                <select id="time" name="time" class="block mt-1 w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm" required>
+                                    <option value="">-- Pilih Jam --</option>
+                                    @foreach (range(8, 17) as $hour)
+                                    @php $time = sprintf('%02d:00', $hour); @endphp
+                                    <option value="{{ $time }}" {{ old('time') == $time ? 'selected' : '' }}>{{ $time }}</option>
+                                    @endforeach
+                                </select>
                                 @error('time')
                                 <p class="text-sm text-red-600 space-y-1 mt-2">{{ $message }}</p>
                                 @enderror

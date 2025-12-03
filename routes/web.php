@@ -20,7 +20,7 @@ Route::get('service', function () {
 })->name('service');
 Route::view('product', 'pages.product')->name('product');
 Route::view('contact', 'pages.contact')->name('contact');
-Route::resource('bookings', BookingController::class);
+
 
 
 
@@ -28,9 +28,13 @@ Route::view('dashboard', 'dashboard')
     ->middleware(['auth', 'verified'])
     ->name('dashboard');
 
+Route::get('bookings/create', [BookingController::class, 'create'])->name('bookings.create');
+Route::post('bookings', [BookingController::class, 'store'])->name('bookings.store');
+
 Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
     Route::resource('services', ServiceController::class);
     Route::resource('products', ProductController::class);
+    Route::resource('bookings', BookingController::class)->except(['create', 'store']);
 });
 
 Route::middleware(['auth'])->group(function () {
