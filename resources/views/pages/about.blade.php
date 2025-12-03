@@ -34,8 +34,13 @@
             background: linear-gradient(135deg, #00d95f 0%, #00ba54 100%);
         }
         .hero-bg {
-            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="%2300d95f" fill-opacity="0.08" d="M0,96L48,112C96,128,192,160,288,160C384,160,480,128,576,112C672,96,768,96,864,112C960,128,1056,160,1152,160C1248,160,1344,128,1392,112L1440,96L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path></svg>') no-repeat bottom;
-            background-size: cover;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="%2300d95f" fill-opacity="0.08" d="M0,96L48,112C96,128,192,160,288,160C384,160,480,128,576,112C672,96,768,96,864,112C960,128,1056,160,1152,160C1248,160,1344,128,1392,112L1440,96L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path></svg>') repeat-x 0 bottom;
+            animation: wave-flow 10s linear infinite;
+        }
+
+        @keyframes wave-flow {
+            0% { background-position-x: 0; }
+            100% { background-position-x: 1440px; }
         }
         @keyframes slideDown {
             from {
@@ -67,14 +72,14 @@
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z" />
                             </svg>
                         </div>
-                        <span class="font-bold text-xl text-wa-700">Mega AC Jaya</span>
+                        <span class="font-bold text-xl text-wa-700">Mega Jaya AC</span>
                     </div>
                 </div>
 
                 <!-- Desktop Menu -->
                 <nav class="hidden lg:flex items-center gap-8">
                     <a href="{{ route('home') }}" class="text-gray-700 hover:text-wa-600 font-medium transition">Home</a>
-                    <a href="{{ route('about') }}" class="text-wa-700 font-semibold transition">About</a>
+                    <a href="{{ route('about') }}" class="text-gray-700 hover:text-wa-600 font-medium transition">About</a>
                     <a href="{{ route('gallery') }}" class="text-gray-700 hover:text-wa-600 font-medium transition">Galeri</a>
                     <a href="{{ route('service') }}" class="text-gray-700 hover:text-wa-600 font-medium transition">Layanan</a>
                     <a href="{{ route('product') }}" class="text-gray-700 hover:text-wa-600 font-medium transition">Produk</a>
@@ -101,8 +106,8 @@
                     @endif
 
                     <!-- Mobile menu button -->
-                    <button id="mobile-menu-button" class="lg:hidden p-2 rounded-lg hover:bg-gray-100">
-                        <svg id="menu-open-icon" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <button class="lg:hidden p-2 rounded-lg hover:bg-gray-100">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
                         </svg>
                         <svg id="menu-close-icon" class="w-6 h-6 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -110,34 +115,6 @@
                         </svg>
                     </button>
                 </div>
-            </div>
-
-            <!-- Mobile Menu -->
-            <div id="mobile-menu" class="hidden lg:hidden absolute top-16 left-0 right-0 bg-white shadow-lg border-t border-gray-100 z-40">
-                <nav class="flex flex-col py-4">
-                    <a href="{{ route('home') }}" class="text-gray-700 hover:text-wa-600 hover:bg-wa-50 font-medium transition py-3 px-6">Home</a>
-                    <a href="{{ route('about') }}" class="text-gray-700 hover:text-wa-600 hover:bg-wa-50 font-medium transition py-3 px-6">About</a>
-                    <a href="{{ route('gallery') }}" class="text-gray-700 hover:text-wa-600 hover:bg-wa-50 font-medium transition py-3 px-6">Galeri</a>
-                    <a href="{{ route('service') }}" class="text-gray-700 hover:text-wa-600 hover:bg-wa-50 font-medium transition py-3 px-6">Layanan</a>
-                    <a href="{{ route('product') }}" class="text-gray-700 hover:text-wa-600 hover:bg-wa-50 font-medium transition py-3 px-6">Produk</a>
-                    <a href="{{ route('contact') }}" class="text-gray-700 hover:text-wa-600 hover:bg-wa-50 font-medium transition py-3 px-6">Kontak</a>
-                    @if (Route::has('login'))
-                        @auth
-                            <a href="{{ url('/dashboard') }}" class="mx-6 mt-3 px-6 py-2 bg-gradient-wa text-white rounded-lg font-medium hover:shadow-lg transition text-center">
-                                Dashboard
-                            </a>
-                        @else
-                            <a href="{{ route('login') }}" class="mx-6 mt-3 px-6 py-2 border border-wa-600 text-wa-600 rounded-lg font-medium hover:bg-wa-50 transition text-center">
-                                Login
-                            </a>
-                            @if (Route::has('register'))
-                                <a href="{{ route('register') }}" class="mx-6 mt-2 px-6 py-2 bg-gradient-wa text-white rounded-lg font-medium hover:shadow-lg transition text-center">
-                                    Register
-                                </a>
-                            @endif
-                        @endauth
-                    @endif
-                </nav>
             </div>
         </div>
     </header>
@@ -162,7 +139,7 @@
     </script>
   
     <!-- HERO -->
-    <section class="hero-bg pt-20 pb-32 lg:pt-32">
+    <section class="hero-bg h-screen flex items-center justify-center">
         <div class="max-w-7xl mx-auto px-6 lg:px-8 text-center">
             <div class="max-w-3xl mx-auto">
                 <h1 class="text-4xl lg:text-6xl font-bold text-gray-900 mb-6">
@@ -176,7 +153,7 @@
     </section>
 
     <!-- STORY -->
-    <section class="py-20 bg-white">
+    <section class="h-screen bg-white flex items-center justify-center">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="grid md:grid-cols-2 gap-12 items-center">
                 <div>
@@ -190,7 +167,7 @@
                     </p>
                 </div>
                 <div>
-                    <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?q=80&w=1470" 
+                    <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?q=80&w=1470"
                          alt="Tim kami" class="rounded-xl shadow-2xl w-full object-cover h-96">
                 </div>
             </div>
@@ -222,7 +199,7 @@
     </section>
 
     <!-- CTA -->
-    <section class="py-20 bg-wa-600 text-white text-center">
+    <section class="h-screen bg-wa-600 text-white text-center flex items-center justify-center">
         <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
             <h2 class="text-3xl md:text-4xl font-bold mb-6">Yuk Gabung Bareng Kami!</h2>
             <p class="text-xl mb-8">Mulai perjalanan seru bareng CoolService AC sekarang juga.</p>

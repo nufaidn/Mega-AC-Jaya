@@ -6,6 +6,7 @@ use Livewire\Volt\Volt;
 use App\Http\Controllers\Admin\ServiceController;
 use App\Http\Controllers\BookingController;
 use App\Models\Service;
+use App\Http\Controllers\Admin\ProductController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -29,6 +30,7 @@ Route::view('dashboard', 'dashboard')
 
 Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
     Route::resource('services', ServiceController::class);
+    Route::resource('products', ProductController::class);
 });
 
 Route::middleware(['auth'])->group(function () {

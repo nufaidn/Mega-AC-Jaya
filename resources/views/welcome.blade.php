@@ -5,8 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Service AC Profesional | Bersih, Dingin, Nyaman</title>
     <link rel="icon" href="/favicon.ico" sizes="any">
-    <!-- Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
@@ -19,6 +18,7 @@
                             500: '#00d95f',
                             600: '#00ba54',
                             700: '#009944',
+                            800: '#007a3d',
                         }
                     },
                     fontFamily: {
@@ -54,19 +54,13 @@
 <body class="bg-wa-50 text-gray-800 antialiased">
 
     <!-- Navbar -->
-        <!-- Navbar -->
     <header class="bg-white shadow-sm sticky top-0 z-50">
         <div class="max-w-7xl mx-auto px-6 lg:px-8">
             <div class="flex justify-between items-center h-16">
                 <!-- Logo -->
                 <div class="flex items-center">
                     <div class="flex items-center gap-3">
-                        <div class="w-10 h-10 bg-gradient-wa rounded-full flex items-center justify-center">
-                            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z" />
-                            </svg>
-                        </div>
-                        <span class="font-bold text-xl text-wa-700">Mega AC Jaya</span>
+                        <img src="/images/logo.jpg" alt="Logo" class="w-12 h-12 rounded-full">
                     </div>
                 </div>
 
@@ -186,41 +180,47 @@
         </div>
     </section>
 
-    <!-- Layanan Utama -->
-    <section id="layanan" class="py-20 bg-white">
-        <div class="max-w-7xl mx-auto px-6 lg:px-8">
+    <!-- Layanan Kami - Full Screen -->
+    <section id="layanan" class="min-h-screen flex items-center bg-white py-20">
+        <div class="max-w-7xl mx-auto px-6 lg:px-8 w-full">
             <div class="text-center mb-16">
-                <h2 class="text-3xl lg:text-4xl font-bold text-gray-900 mb-4">Layanan Kami</h2>
-                <p class="text-xl text-gray-600">Solusi lengkap untuk segala masalah AC Anda</p>
+                <h2 class="text-4xl lg:text-5xl font-extrabold text-gray-900 mb-4">Layanan Unggulan Kami</h2>
+                <p class="text-xl text-gray-600">Solusi lengkap untuk semua masalah AC Anda</p>
             </div>
-            <div class="grid md:grid-cols-3 gap-8">
-                <div class="bg-wa-50 rounded-2xl p-8 text-center hover:shadow-xl transition">
-                    <div class="w-20 h-20 bg-gradient-wa rounded-full flex items-center justify-center mx-auto mb-6">
-                        <svg class="w-12 h-12 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h-4m-6 0H5" />
+
+            <div class="grid md:grid-cols-3 gap-10 max-w-6xl mx-auto">
+                <!-- Card 1 -->
+                <div class="group bg-wa-50 rounded-3xl p-10 text-center hover:shadow-2xl hover:-translate-y-3 transition-all duration-300">
+                    <div class="w-24 h-24 bg-gradient-wa rounded-full flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition">
+                        <svg class="w-14 h-14 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h-4m-6 0H5"/>
                         </svg>
                     </div>
-                    <h3 class="text-2xl font-bold mb-4">Cuci AC</h3>
-                    <p class="text-gray-600">Pembersihan menyeluruh indoor & outdoor, bebas debu & bakteri</p>
+                    <h3 class="text-2xl font-bold text-gray-800 mb-4">Cuci AC</h3>
+                    <p class="text-gray-600 leading-relaxed">Pembersihan menyeluruh indoor & outdoor unit, bebas debu, jamur & bakteri</p>
                 </div>
-                <div class="bg-wa-50 rounded-2xl p-8 text-center hover:shadow-xl transition">
-                    <div class="w-20 h-20 bg-gradient-wa rounded-full flex items-center justify-center mx-auto mb-6">
-                        <svg class="w-12 h-12 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+
+                <!-- Card 2 -->
+                <div class="group bg-wa-50 rounded-3xl p-10 text-center hover:shadow-2xl hover:-translate-y-3 transition-all duration-300">
+                    <div class="w-24 h-24 bg-gradient-wa rounded-full flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition">
+                        <svg class="w-14 h-14 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/>
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
                         </svg>
                     </div>
-                    <h3 class="text-2xl font-bold mb-4">Isi Freon</h3>
-                    <p class="text-gray-600">Pengisian freon R32/R410A/R22 dengan takaran presisi</p>
+                    <h3 class="text-2xl font-bold text-gray-800 mb-4">Isi Freon</h3>
+                    <p class="text-gray-600 leading-relaxed">Pengisian freon R32, R410A, R22 dengan takaran digital presisi</p>
                 </div>
-                <div class="bg-wa-50 rounded-2xl p-8 text-center hover:shadow-xl transition">
-                    <div class="w-20 h-20 bg-gradient-wa rounded-full flex items-center justify-center mx-auto mb-6">
-                        <svg class="w-12 h-12 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m-2 4l-1.5-1.5m5 1.5L15 6.5m-3 7v7m-3-7h6m-6-4h6m-9 8h12a1 1 0 001-1v-2a1 1 0 00-1-1H5a1 1 0 00-1 1v2a101 1 0 001 1z" />
+
+                <!-- Card 3 -->
+                <div class="group bg-wa-50 rounded-3xl p-10 text-center hover:shadow-2xl hover:-translate-y-3 transition-all duration-300">
+                    <div class="w-24 h-24 bg-gradient-wa rounded-full flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition">
+                        <svg class="w-14 h-14 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h-4m-6 0H5"/>
                         </svg>
                     </div>
-                    <h3 class="text-2xl font-bold mb-4">Bongkar Pasang</h3>
-                    <p class="text-gray-600">Pindah lokasi AC atau pasang baru dengan rapi & aman</p>
+                    <h3 class="text-2xl font-bold text-gray-800 mb-4">Bongkar Pasang AC</h3>
+                    <p class="text-gray-600 leading-relaxed">Pindah lokasi atau pasang AC baru, rapi, aman, dan bergaransi</p>
                 </div>
             </div>
         </div>
@@ -229,8 +229,10 @@
     <!-- Footer -->
     <footer class="bg-gray-900 text-white py-12">
         <div class="max-w-7xl mx-auto px-6 lg:px-8 text-center">
-            <p>&copy; 2025 CoolService AC. Semua hak cipta dilindungi.</p>
+            <p class="text-lg">&copy; {{ date('Y') }} Mega AC Jaya. Semua hak cipta dilindungi.</p>
+            <p class="text-sm text-gray-400 mt-2">Professional AC Service • Bersih • Dingin • Hemat</p>
         </div>
     </footer>
+
 </body>
 </html>
