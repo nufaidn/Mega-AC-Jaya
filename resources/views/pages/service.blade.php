@@ -203,22 +203,34 @@
             </div>
             <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
                 @foreach ($services as $service)
-                <div class="bg-wa-50 rounded-2xl p-8 hover:shadow-xl transition group">
-                    <div class="w-20 h-20 bg-gradient-wa rounded-full flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition">
+                <div class="bg-white rounded-2xl hover:shadow-xl transition-all duration-300 group overflow-hidden border border-gray-100 flex flex-col h-full">
+                    <div class="relative w-full h-56 overflow-hidden">
                         @if($service->image)
-                        <img src="{{ asset('storage/' . $service->image) }}" alt="{{ $service->name }}" class="w-full h-full object-cover rounded-full">
+                        <img src="{{ asset('images/' . $service->image) }}" alt="{{ $service->name }}" class="w-full h-full object-cover transform group-hover:scale-110 transition duration-500">
                         @else
-                        <svg class="w-12 h-12 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
-                        </svg>
+                        <div class="w-full h-full bg-gradient-wa flex items-center justify-center">
+                            <svg class="w-20 h-20 text-white opacity-75" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                            </svg>
+                        </div>
                         @endif
+                        <div class="absolute inset-0 bg-black bg-opacity-10 group-hover:bg-opacity-0 transition duration-300"></div>
                     </div>
-                    <h3 class="text-2xl font-bold mb-4 text-center">{{ $service->name }}</h3>
-                    <p class="text-gray-600 mb-4">{{ $service->description }}</p>
-                    <p class="text-wa-600 font-semibold mb-4 text-center">Rp {{ number_format($service->price, 0, ',', '.') }}</p>
-                    <a href="{{ route('bookings.create', ['service' => $service->name]) }}" class="block w-full text-center bg-wa-600 text-white py-2 rounded-lg hover:bg-wa-700 transition">
-                        Book Now
-                    </a>
+
+                    <div class="p-6 flex flex-col flex-grow">
+                        <h3 class="text-2xl font-bold mb-3 text-gray-900 group-hover:text-wa-600 transition">{{ $service->name }}</h3>
+                        <p class="text-gray-600 mb-6 flex-grow leading-relaxed">{{ $service->description }}</p>
+
+                        <div class="mt-auto pt-4 border-t border-gray-100">
+                            <div class="flex items-center justify-between mb-4">
+                                <span class="text-gray-500 text-sm">Mulai dari</span>
+                                <span class="text-2xl font-bold text-wa-600">Rp {{ number_format($service->price, 0, ',', '.') }}</span>
+                            </div>
+                            <a href="{{ route('bookings.create', ['service' => $service->name]) }}" class="block w-full text-center bg-wa-600 text-white py-3 rounded-xl font-semibold hover:bg-wa-700 hover:shadow-lg transition transform active:scale-95">
+                                Pesan Sekarang
+                            </a>
+                        </div>
+                    </div>
                 </div>
                 @endforeach
             </div>
