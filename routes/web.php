@@ -23,7 +23,10 @@ Route::get('service', function () {
     $services = Service::all();
     return view('pages.service', compact('services'));
 })->name('service');
-Route::view('product', 'pages.product')->name('product');
+Route::get('product', function () {
+    $products = \App\Models\Product::all();
+    return view('pages.product', compact('products'));
+})->name('product');
 Route::view('contact', 'pages.contact')->name('contact');
 
 
