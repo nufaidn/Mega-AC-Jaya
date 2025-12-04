@@ -44,31 +44,21 @@
                         </div>
                     </div>
 
-                    <div class="mt-6 grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <div>
-                            <h3 class="text-lg font-medium text-gray-900 mb-4">Delivery Information</h3>
-                            <div class="bg-gray-50 p-4 rounded-lg">
-                                <p class="mb-2"><span class="font-bold">Delivery Date:</span> {{ $productOrder->delivery_date->format('d F Y') }}</p>
-                                <p class="mb-2"><span class="font-bold">Delivery Time:</span> {{ $productOrder->delivery_time }}</p>
-                                <p class="mb-2">
-                                    <span class="font-bold">Status:</span>
-                                    <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full 
-                                        {{ $productOrder->status === 'completed' ? 'bg-green-100 text-green-800' : 
-                                           ($productOrder->status === 'cancelled' ? 'bg-red-100 text-red-800' : 
-                                           ($productOrder->status === 'confirmed' ? 'bg-blue-100 text-blue-800' :
-                                           ($productOrder->status === 'processing' ? 'bg-purple-100 text-purple-800' : 'bg-yellow-100 text-yellow-800'))) }}">
-                                        {{ ucfirst($productOrder->status) }}
-                                    </span>
-                                </p>
-                            </div>
-                        </div>
-
-                        <div>
-                            <h3 class="text-lg font-medium text-gray-900 mb-4">Order Information</h3>
-                            <div class="bg-gray-50 p-4 rounded-lg">
-                                <p class="mb-2"><span class="font-bold">Order Date:</span> {{ $productOrder->created_at->format('d F Y H:i') }}</p>
-                                <p class="mb-2"><span class="font-bold">Last Updated:</span> {{ $productOrder->updated_at->format('d F Y H:i') }}</p>
-                            </div>
+                    <div class="mt-6">
+                        <h3 class="text-lg font-medium text-gray-900 mb-4">Order Information</h3>
+                        <div class="bg-gray-50 p-4 rounded-lg">
+                            <p class="mb-2">
+                                <span class="font-bold">Status:</span>
+                                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full 
+                                    {{ $productOrder->status === 'completed' ? 'bg-green-100 text-green-800' : 
+                                       ($productOrder->status === 'cancelled' ? 'bg-red-100 text-red-800' : 
+                                       ($productOrder->status === 'confirmed' ? 'bg-blue-100 text-blue-800' :
+                                       ($productOrder->status === 'processing' ? 'bg-purple-100 text-purple-800' : 'bg-yellow-100 text-yellow-800'))) }}">
+                                    {{ ucfirst($productOrder->status) }}
+                                </span>
+                            </p>
+                            <p class="mb-2"><span class="font-bold">Order Date:</span> {{ $productOrder->created_at->format('d F Y H:i') }}</p>
+                            <p class="mb-2"><span class="font-bold">Last Updated:</span> {{ $productOrder->updated_at->format('d F Y H:i') }}</p>
                         </div>
                     </div>
 
