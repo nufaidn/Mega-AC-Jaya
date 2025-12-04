@@ -6,7 +6,9 @@ use Livewire\Volt\Volt;
 use App\Http\Controllers\Admin\ServiceController;
 use App\Http\Controllers\BookingController;
 use App\Models\Service;
-use App\Http\Controllers\Admin\ProductController;
+use App\Http\Controllers\Admin\ProductController as AdminProductController;
+use App\Http\Controllers\ProductController;
+use App\Http\Controllers\ProductOrderController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -21,7 +23,7 @@ Route::get('service', function () {
     $services = Service::all();
     return view('pages.service', compact('services'));
 })->name('service');
-Route::view('product', 'pages.product')->name('product');
+Route::get('product', [ProductController::class, 'index'])->name('product');
 Route::view('contact', 'pages.contact')->name('contact');
 
 
@@ -34,11 +36,18 @@ Route::view('dashboard', 'dashboard')
 Route::get('bookings/create', [BookingController::class, 'create'])->name('bookings.create');
 Route::post('bookings', [BookingController::class, 'store'])->name('bookings.store');
 
+Route::get('product-orders/create', [ProductOrderController::class, 'create'])->name('product-orders.create');
+Route::post('product-orders', [ProductOrderController::class, 'store'])->name('product-orders.store');
+
 Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
     Route::resource('services', ServiceController::class);
-    Route::resource('products', ProductController::class);
+    Route::resource('products', AdminProductController::class);
     Route::resource('bookings', BookingController::class)->except(['create', 'store']);
+<<<<<<< Updated upstream
     Route::get('galleries', \App\Livewire\Admin\GalleryManager::class)->name('galleries.index');
+=======
+    Route::resource('product-orders', \App\Http\Controllers\Admin\ProductOrderController::class)->except(['create', 'store']);
+>>>>>>> Stashed changes
 });
 
 Route::middleware(['auth'])->group(function () {

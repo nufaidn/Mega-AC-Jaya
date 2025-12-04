@@ -5,9 +5,23 @@
     @include('partials.head')
 </head>
 
+<<<<<<< Updated upstream
 <body class="min-h-screen bg-white dark:bg-zinc-800">
     <flux:sidebar sticky stashable class="border-r border-zinc-200 bg-zinc-50 dark:border-zinc-700 dark:bg-zinc-900">
         <flux:sidebar.toggle class="lg:hidden" icon="x-mark" />
+=======
+            <flux:navlist variant="outline">
+                <flux:navlist.group :heading="__('Platform')" class="grid">
+                    <flux:navlist.item icon="home" :href="route('dashboard')" :current="request()->routeIs('dashboard')" wire:navigate>{{ __('Dashboard') }}</flux:navlist.item>
+                    @if(auth()->check() && auth()->user()->usertype == 'admin')
+                    <flux:navlist.item icon="wrench-screwdriver" :href="route('admin.services.index')" :current="request()->routeIs('admin.services.*')" wire:navigate>{{ __('Services') }}</flux:navlist.item>
+                    <flux:navlist.item icon="layout-grid" :href="route('admin.products.index')" :current="request()->routeIs('admin.products.*')" wire:navigate>{{ __('Products') }}</flux:navlist.item>
+                    <flux:navlist.item icon="calendar" :href="route('admin.bookings.index')" :current="request()->routeIs('admin.bookings.*')" wire:navigate>{{ __('Service Bookings') }}</flux:navlist.item>
+                    <flux:navlist.item icon="shopping-cart" :href="route('admin.product-orders.index')" :current="request()->routeIs('admin.product-orders.*')" wire:navigate>{{ __('Product Orders') }}</flux:navlist.item>
+                    @endif
+                </flux:navlist.group>
+            </flux:navlist>
+>>>>>>> Stashed changes
 
         <a href="{{ route('dashboard') }}" class="me-5 flex items-center space-x-2 rtl:space-x-reverse" wire:navigate>
             <x-app-logo />
