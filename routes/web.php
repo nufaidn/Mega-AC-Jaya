@@ -43,11 +43,8 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::resource('services', ServiceController::class);
     Route::resource('products', AdminProductController::class);
     Route::resource('bookings', BookingController::class)->except(['create', 'store']);
-<<<<<<< Updated upstream
     Route::get('galleries', \App\Livewire\Admin\GalleryManager::class)->name('galleries.index');
-=======
     Route::resource('product-orders', \App\Http\Controllers\Admin\ProductOrderController::class)->except(['create', 'store']);
->>>>>>> Stashed changes
 });
 
 Route::middleware(['auth'])->group(function () {
