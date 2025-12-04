@@ -62,6 +62,18 @@
     .mobile-menu-enter {
       animation: slideDown 0.3s ease-out;
     }
+
+    .zoomed {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) scale(2);
+      z-index: 1000;
+      max-width: 90vw;
+      max-height: 90vh;
+      object-fit: contain;
+      cursor: zoom-out;
+    }
   </style>
 </head>
 
@@ -169,6 +181,12 @@
     });
   </script>
 
+  <script>
+    function toggleZoom(img) {
+      img.classList.toggle('zoomed');
+    }
+  </script>
+
   <!-- HERO -->
   <section class="hero-bg h-screen flex items-center justify-center">
     <div class="max-w-7xl mx-auto px-6 lg:px-8 text-center">
@@ -189,7 +207,7 @@
       <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
         @forelse($galleries as $gallery)
         <div class="group relative overflow-hidden rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300">
-          <img src="{{ Storage::url($gallery->image_path) }}" alt="{{ $gallery->title }}" class="w-full h-64 object-cover group-hover:scale-110 transition duration-500">
+          <img src="{{ Storage::url($gallery->image_path) }}" alt="{{ $gallery->title }}" class="w-full h-64 object-cover group-hover:scale-110 transition duration-500 cursor-pointer" onclick="toggleZoom(this)">
           <div class="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-60 transition flex items-center justify-center">
             <h3 class="text-white text-2xl font-bold opacity-0 group-hover:opacity-100 transition px-4 text-center">{{ $gallery->title }}</h3>
           </div>
