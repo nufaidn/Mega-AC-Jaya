@@ -6,7 +6,7 @@
 </head>
 
 <body class="min-h-screen bg-white dark:bg-zinc-800">
-    <flux:sidebar sticky stashable class="border-e border-zinc-200 bg-zinc-50 dark:border-zinc-700 dark:bg-zinc-900">
+    <flux:sidebar sticky stashable class="border-r border-zinc-200 bg-zinc-50 dark:border-zinc-700 dark:bg-zinc-900">
         <flux:sidebar.toggle class="lg:hidden" icon="x-mark" />
 
         <a href="{{ route('dashboard') }}" class="me-5 flex items-center space-x-2 rtl:space-x-reverse" wire:navigate>
@@ -19,6 +19,7 @@
                 @if(auth()->check() && auth()->user()->usertype == 'admin')
                 <flux:navlist.item icon="wrench-screwdriver" :href="route('admin.services.index')" :current="request()->routeIs('admin.services.*')" wire:navigate>{{ __('Services') }}</flux:navlist.item>
                 <flux:navlist.item icon="layout-grid" :href="route('admin.products.index')" :current="request()->routeIs('admin.products.*')" wire:navigate>{{ __('Products') }}</flux:navlist.item>
+                <flux:navlist.item icon="calendar" :href="route('admin.bookings.index')" :current="request()->routeIs('admin.bookings.*')" wire:navigate>{{ __('Booking') }}</flux:navlist.item>
                 <flux:navlist.item icon="photo" :href="route('admin.galleries.index')" :current="request()->routeIs('admin.galleries.*')" wire:navigate>{{ __('Galleries') }}</flux:navlist.item>
                 @endif
             </flux:navlist.group>
@@ -41,7 +42,7 @@
             <flux:profile
                 :name="auth()->user()->name"
                 :initials="auth()->user()->initials()"
-                icon:trailing="chevrons-up-down"
+                icon-trailing="chevrons-up-down"
                 data-test="sidebar-menu-button" />
 
             <flux:menu class="w-[220px]">
