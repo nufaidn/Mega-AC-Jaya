@@ -5,7 +5,7 @@
     @include('partials.head')
 </head>
 
-<body class="min-h-screen bg-white dark:bg-zinc-800">
+<body class="min-h-screen bg-white dark:bg-zinc-800 pb-24 md:pb-0">
     <flux:sidebar sticky stashable class="border-r border-zinc-200 bg-zinc-50 dark:border-zinc-700 dark:bg-zinc-900">
         <flux:sidebar.toggle class="lg:hidden" icon="x-mark" />
 
@@ -133,7 +133,59 @@
 
     {{ $slot }}
 
+    @if(auth()->check() && auth()->user()->usertype == 'admin')
+    @php
+    $navTotalServices = isset($totalServices) ? $totalServices : \App\Models\Service::count();
+    $navTotalGalleries = isset($totalGalleries) ? $totalGalleries : \App\Models\Gallery::count();
+    $navTotalProducts = isset($totalProducts) ? $totalProducts : \App\Models\Product::count();
+    @endphp
+
+    <!-- Mobile Bottom Navigation for Stats -->
+    <div class="fixed bottom-0 left-0 right-0 z-50 bg-white dark:bg-neutral-800 border-t border-gray-200 dark:border-neutral-700 md:hidden">
+        <div class="grid grid-cols-3 h-16">
+            <!-- Services -->
+            <a href="{{ route('admin.services.index') }}" class="flex flex-col items-center justify-center gap-1 text-gray-500 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-gray-50 dark:hover:bg-neutral-700/50 transition-colors relative group {{ request()->routeIs('admin.services.*') ? 'text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/10' : '' }}">
+                <div class="relative">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                    </svg>
+                    <span class="absolute -top-2 -right-2 min-w-[1.25rem] h-5 flex items-center justify-center text-[10px] font-bold text-white bg-blue-600 rounded-full px-1 border-2 border-white dark:border-neutral-800">
+                        {{ $navTotalServices }}
+                    </span>
+                </div>
+                <span class="text-xs font-medium">Services</span>
+            </a>
+
+            <!-- Galleries -->
+            <a href="{{ route('admin.galleries.index') }}" class="flex flex-col items-center justify-center gap-1 text-gray-500 dark:text-gray-400 hover:text-green-600 dark:hover:text-green-400 hover:bg-gray-50 dark:hover:bg-neutral-700/50 transition-colors relative group {{ request()->routeIs('admin.galleries.*') ? 'text-green-600 dark:text-green-400 bg-green-50 dark:bg-green-900/10' : '' }}">
+                <div class="relative">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                    </svg>
+                    <span class="absolute -top-2 -right-2 min-w-[1.25rem] h-5 flex items-center justify-center text-[10px] font-bold text-white bg-green-600 rounded-full px-1 border-2 border-white dark:border-neutral-800">
+                        {{ $navTotalGalleries }}
+                    </span>
+                </div>
+                <span class="text-xs font-medium">Galleries</span>
+            </a>
+
+            <!-- Products -->
+            <a href="{{ route('admin.products.index') }}" class="flex flex-col items-center justify-center gap-1 text-gray-500 dark:text-gray-400 hover:text-purple-600 dark:hover:text-purple-400 hover:bg-gray-50 dark:hover:bg-neutral-700/50 transition-colors relative group {{ request()->routeIs('admin.products.*') ? 'text-purple-600 dark:text-purple-400 bg-purple-50 dark:bg-purple-900/10' : '' }}">
+                <div class="relative">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
+                    </svg>
+                    <span class="absolute -top-2 -right-2 min-w-[1.25rem] h-5 flex items-center justify-center text-[10px] font-bold text-white bg-purple-600 rounded-full px-1 border-2 border-white dark:border-neutral-800">
+                        {{ $navTotalProducts }}
+                    </span>
+                </div>
+                <span class="text-xs font-medium">Products</span>
+            </a>
+        </div>
+    </div>
+    @endif
+
     @fluxScripts
 </body>
 
-</html>• 
+</html>•
