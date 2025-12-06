@@ -17,7 +17,7 @@
                     Back to Dashboard
                 </a>
                 <a href="{{ route('admin.products.create') }}"
-                    class="inline-flex items-center gap-2 px-4 py-3 bg-gradient-to-r from-blue-500 to-blue-600 text-white rounded-xl hover:from-blue-600 hover:to-blue-700 transition-all duration-300 hover:shadow-lg font-medium group">
+                    class="inline-flex items-center gap-2 px-4 py-3 bg-gradient-wa text-white rounded-xl hover:shadow-lg font-medium group">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
                     </svg>
@@ -78,7 +78,7 @@
                         <tr>
                             <th scope="col" class="px-6 py-4 text-left text-xs font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wider">
                                 <div class="flex items-center gap-2">
-                                    <span>#</span>
+                                    <span>No.</span>
                                 </div>
                             </th>
                             <th scope="col" class="px-6 py-4 text-left text-xs font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wider">

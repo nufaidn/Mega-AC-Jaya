@@ -23,6 +23,12 @@
     --color-zinc-900: #171717;
     --color-zinc-950: #0a0a0a;
 
+    --color-wa-50: #e8fdf2;
+    --color-wa-100: #d1fae5;
+    --color-wa-500: #00d95f;
+    --color-wa-600: #00ba54;
+    --color-wa-700: #009944;
+
     --color-accent: var(--color-neutral-800);
     --color-accent-content: var(--color-neutral-800);
     --color-accent-foreground: var(--color-white);
@@ -59,6 +65,10 @@ input:focus[data-flux-control],
 textarea:focus[data-flux-control],
 select:focus[data-flux-control] {
     @apply outline-hidden ring-2 ring-accent ring-offset-2 ring-offset-accent-foreground;
+}
+
+.bg-gradient-wa {
+    background: linear-gradient(135deg, #00d95f 0%, #00ba54 100%);
 }
 
 /* \[:where(&)\]:size-4 {

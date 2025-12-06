@@ -22,6 +22,9 @@
                 <flux:navlist.item icon="shopping-cart" :href="route('admin.product-orders.index')" :current="request()->routeIs('admin.product-orders.*')" wire:navigate>{{ __('Product Orders') }}</flux:navlist.item>
                 <flux:navlist.item icon="calendar" :href="route('admin.bookings.index')" :current="request()->routeIs('admin.bookings.*')" wire:navigate>{{ __('Booking') }}</flux:navlist.item>
                 <flux:navlist.item icon="photo" :href="route('admin.galleries.index')" :current="request()->routeIs('admin.galleries.*')" wire:navigate>{{ __('Galleries') }}</flux:navlist.item>
+                @else
+                <flux:navlist.item icon="calendar" :href="route('bookings.index')" :current="request()->routeIs('bookings.index')" wire:navigate>{{ __('My Bookings') }}</flux:navlist.item>
+                <flux:navlist.item icon="shopping-cart" :href="route('product-orders.index')" :current="request()->routeIs('product-orders.index')" wire:navigate>{{ __('My Orders') }}</flux:navlist.item>
                 @endif
             </flux:navlist.group>
         </flux:navlist>

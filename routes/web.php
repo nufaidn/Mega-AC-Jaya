@@ -34,14 +34,24 @@ Route::view('contact', 'pages.contact')->name('contact');
 
 
 Route::get('dashboard', function () {
-    $data = [];
     if (Auth::check() && Auth::user()->usertype == 'admin') {
+        $data = [];
         $data['totalServices'] = \App\Models\Service::count();
         $data['totalGalleries'] = \App\Models\Gallery::count();
         $data['totalProducts'] = \App\Models\Product::count();
         $data['products'] = \App\Models\Product::latest()->take(6)->get(); // Get latest 6 products
+        return view('dashboard', $data);
+    } else {
+        // User dashboard data
+        $user = Auth::user();
+        $data = [];
+        $data['totalBookings'] = \App\Models\Booking::where('user_id', $user->id)->count();
+        $data['totalOrders'] = \App\Models\ProductOrder::where('user_id', $user->id)->count();
+        $data['pendingOrders'] = \App\Models\ProductOrder::where('user_id', $user->id)->where('status', 'pending')->count();
+        $data['completedOrders'] = \App\Models\ProductOrder::where('user_id', $user->id)->where('status', 'completed')->count();
+        $data['recentOrders'] = \App\Models\ProductOrder::with('product')->where('user_id', $user->id)->latest()->take(5)->get();
+        return view('user.dashboard', $data);
     }
-    return view('dashboard', $data);
 })
     ->middleware(['auth', 'verified'])
     ->name('dashboard');
