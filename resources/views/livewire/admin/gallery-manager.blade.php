@@ -2,7 +2,13 @@
     <div class="max-w-7xl mx-auto">
         <div class="mb-8 flex justify-between items-center">
             <h2 class="text-2xl font-bold text-gray-800 dark:text-gray-200">Gallery Management</h2>
+            <div>
+                <a href="{{ route('dashboard') }}" class="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600">Back</a>
+            </div>
         </div>
+
+        
+        
 
         <!-- Upload Form -->
         <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-6 mb-8">

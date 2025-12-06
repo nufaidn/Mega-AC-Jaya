@@ -58,18 +58,6 @@
                             </div>
 
                             <div>
-                                <label for="delivery_date" class="block font-medium text-sm text-gray-700">Delivery Date</label>
-                                <input type="date" name="delivery_date" id="delivery_date" value="{{ old('delivery_date', $productOrder->delivery_date->format('Y-m-d')) }}" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
-                                @error('delivery_date') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
-                            </div>
-
-                            <div>
-                                <label for="delivery_time" class="block font-medium text-sm text-gray-700">Delivery Time</label>
-                                <input type="time" name="delivery_time" id="delivery_time" value="{{ old('delivery_time', $productOrder->delivery_time) }}" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
-                                @error('delivery_time') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
-                            </div>
-
-                            <div>
                                 <label for="status" class="block font-medium text-sm text-gray-700">Status</label>
                                 <select name="status" id="status" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
                                     <option value="pending" {{ $productOrder->status == 'pending' ? 'selected' : '' }}>Pending</option>

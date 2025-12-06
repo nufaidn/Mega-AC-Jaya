@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Auth;
 use Laravel\Fortify\Features;
 use Livewire\Volt\Volt;
 use App\Http\Controllers\Admin\ServiceController;
@@ -32,7 +33,16 @@ Route::view('contact', 'pages.contact')->name('contact');
 
 
 
-Route::view('dashboard', 'dashboard')
+Route::get('dashboard', function () {
+    $data = [];
+    if (Auth::check() && Auth::user()->usertype == 'admin') {
+        $data['totalServices'] = \App\Models\Service::count();
+        $data['totalGalleries'] = \App\Models\Gallery::count();
+        $data['totalProducts'] = \App\Models\Product::count();
+        $data['products'] = \App\Models\Product::latest()->take(6)->get(); // Get latest 6 products
+    }
+    return view('dashboard', $data);
+})
     ->middleware(['auth', 'verified'])
     ->name('dashboard');
 
@@ -53,6 +63,9 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
 });
 
 Route::middleware(['auth'])->group(function () {
+    Route::get('bookings', [BookingController::class, 'userIndex'])->name('bookings.index');
+    Route::get('product-orders', [ProductOrderController::class, 'userIndex'])->name('product-orders.index');
+
     Route::redirect('settings', 'settings/profile');
 
     Volt::route('settings/profile', 'settings.profile')->name('profile.edit');

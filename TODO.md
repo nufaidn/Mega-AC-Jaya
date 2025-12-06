@@ -1,2 +1,3 @@
-- [x] Update logo size in public pages (welcome.blade.php, about.blade.php, gallery.blade.php, service.blade.php, contact.blade.php): change w-10 h-10 to w-12 h-12
-- [x] Update logo size in dashboard pages (app-logo.blade.php): change size-8 to size-10 and size-5 to size-7
+# TODO: Update User Dashboard with 3 Cards
+
+- [x] Edit resources/views/dashboard.blade.php to replace the existing admin stats grid with 3 user-focused cards: Riwayat Booking, Riwayat Pemesanan, and Lihat Galeri.

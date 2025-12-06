@@ -29,8 +29,6 @@ class ProductOrderController extends Controller
             'phone_number' => 'required|string|max:20',
             'address' => 'required|string',
             'quantity' => 'required|integer|min:1',
-            'delivery_date' => 'required|date',
-            'delivery_time' => 'required',
             'notes' => 'nullable|string',
         ]);
 
@@ -44,13 +42,20 @@ class ProductOrderController extends Controller
             'phone_number' => $request->phone_number,
             'address' => $request->address,
             'quantity' => $request->quantity,
-            'delivery_date' => $request->delivery_date,
-            'delivery_time' => $request->delivery_time,
             'notes' => $request->notes,
             'total_price' => $totalPrice,
             'status' => 'pending',
         ]);
 
         return redirect()->route('product')->with('success', 'Pesanan berhasil dibuat!');
+    }
+
+    /**
+     * Display a listing of the user's product orders.
+     */
+    public function userIndex()
+    {
+        $productOrders = ProductOrder::where('user_id', Auth::id())->get();
+        return view('product-orders.index', compact('productOrders'));
     }
 }

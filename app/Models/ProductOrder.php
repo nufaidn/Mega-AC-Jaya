@@ -15,15 +15,12 @@ class ProductOrder extends Model
         'phone_number',
         'address',
         'quantity',
-        'delivery_date',
-        'delivery_time',
         'notes',
         'total_price',
         'status',
     ];
 
     protected $casts = [
-        'delivery_date' => 'date',
         'total_price' => 'decimal:2',
     ];
 

@@ -19,8 +19,6 @@ return new class extends Migration
             $table->string('phone_number');
             $table->text('address');
             $table->integer('quantity')->default(1);
-            $table->date('delivery_date');
-            $table->time('delivery_time');
             $table->text('notes')->nullable();
             $table->decimal('total_price', 12, 2);
             $table->enum('status', ['pending', 'confirmed', 'processing', 'completed', 'cancelled'])->default('pending');

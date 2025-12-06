@@ -19,6 +19,15 @@ class BookingController extends Controller
     }
 
     /**
+     * Display a listing of the user's bookings.
+     */
+    public function userIndex()
+    {
+        $bookings = Booking::where('user_id', Auth::id())->get();
+        return view('bookings.index', compact('bookings'));
+    }
+
+    /**
      * Show the form for creating a new resource.
      */
     public function create(Request $request)

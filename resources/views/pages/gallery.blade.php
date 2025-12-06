@@ -239,6 +239,17 @@
       Service AC Profesional • Cepat • Terpercaya • Area Jabodetabek</p>
   </footer>
 
+  <!-- Back to Dashboard Button -->
+  @if (Route::has('login'))
+  @auth
+  <a href="{{ url('/dashboard') }}" class="fixed bottom-4 right-4 bg-wa-600 text-white px-4 py-2 rounded-full shadow-lg hover:shadow-xl transition flex items-center gap-2 z-50">
+      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+      </svg>
+      Kembali ke Dashboard
+  </a>
+  @endauth
+  @endif
 
 </body>
 

@@ -4,7 +4,10 @@
             <h2 class="text-xl font-semibold leading-tight text-gray-800 dark:text-gray-200">
                 {{ __('Manage Services') }}
             </h2>
-            <a href="{{ route('admin.services.create') }}" class="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600">Create New Service</a>
+            <div class="flex gap-2">
+                <a href="{{ route('admin.services.create') }}" class="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600">Create New Service</a>
+                <a href="{{ route('dashboard') }}" class="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600">Back</a>
+            </div>
         </div>
 
         @if ($message = Session::get('success'))

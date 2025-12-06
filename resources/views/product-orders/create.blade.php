@@ -143,30 +143,6 @@
                             @enderror
                         </div>
 
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                            <div>
-                                <label for="delivery_date" class="block font-medium text-sm text-gray-700">{{ __('Tanggal Pengiriman') }}</label>
-                                <input id="delivery_date" class="block mt-1 w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm" type="date" name="delivery_date" value="{{ old('delivery_date') }}" required />
-                                @error('delivery_date')
-                                <p class="text-sm text-red-600 space-y-1 mt-2">{{ $message }}</p>
-                                @enderror
-                            </div>
-
-                            <div>
-                                <label for="delivery_time" class="block font-medium text-sm text-gray-700">{{ __('Waktu Pengiriman') }}</label>
-                                <select id="delivery_time" name="delivery_time" class="block mt-1 w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm" required>
-                                    <option value="">-- Pilih Jam --</option>
-                                    @foreach (range(8, 17) as $hour)
-                                    @php $time = sprintf('%02d:00', $hour); @endphp
-                                    <option value="{{ $time }}" {{ old('delivery_time') == $time ? 'selected' : '' }}>{{ $time }}</option>
-                                    @endforeach
-                                </select>
-                                @error('delivery_time')
-                                <p class="text-sm text-red-600 space-y-1 mt-2">{{ $message }}</p>
-                                @enderror
-                            </div>
-                        </div>
-
                         <div>
                             <label for="notes" class="block font-medium text-sm text-gray-700">{{ __('Catatan (Opsional)') }}</label>
                             <textarea id="notes" name="notes" class="block mt-1 w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm" rows="3">{{ old('notes') }}</textarea>

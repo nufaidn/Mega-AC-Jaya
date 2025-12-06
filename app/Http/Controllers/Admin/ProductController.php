@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Product;
+use Illuminate\Support\Facades\Log;
 
 class ProductController extends Controller
 {
@@ -14,6 +15,11 @@ class ProductController extends Controller
     public function index()
     {
         $products = Product::all();
+        // Debug: Check if products exist
+        Log::info('Products count: ' . $products->count());
+        if ($products->count() > 0) {
+            Log::info('First product image: ' . $products->first()->image);
+        }
         return view('admin.products.index', compact('products'));
     }
 
