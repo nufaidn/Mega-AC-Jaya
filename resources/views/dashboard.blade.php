@@ -152,10 +152,10 @@
                     </a>
                 </div>
                 @else
-                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 md:gap-6">
+                <div class="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-6">
                     @foreach($products as $product)
                     <div class="group relative bg-white dark:bg-neutral-800 rounded-xl border border-neutral-200 dark:border-neutral-700 overflow-hidden shadow-sm hover:shadow-2xl transition-all duration-300 hover:-translate-y-1">
-                        <div class="relative overflow-hidden h-48 md:h-56">
+                        <div class="relative overflow-hidden aspect-square">
                             @if($product->image)
                             <img src="{{ asset('images/' . $product->image) }}" alt="{{ $product->name }}"
                                 class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105">
@@ -183,14 +183,14 @@
                             </div>
                         </div>
                         <div class="p-4 md:p-5">
-                            <h4 class="text-lg font-bold text-gray-900 dark:text-white mb-2 line-clamp-1">{{ $product->name }}</h4>
-                            <p class="text-gray-600 dark:text-gray-300 text-sm mb-4 line-clamp-2">{{ Str::limit($product->description, 100) }}</p>
+                            <h4 class="text-sm md:text-base font-bold text-gray-900 dark:text-white mb-2 line-clamp-1">{{ $product->name }}</h4>
+                            <p class="text-gray-600 dark:text-gray-300 text-xs mb-4 line-clamp-2">{{ Str::limit($product->description, 100) }}</p>
                             <div class="flex items-center justify-between pt-4 border-t border-neutral-100 dark:border-neutral-700">
                                 <div>
                                     @if($product->original_price)
-                                    <p class="text-xs text-gray-500 dark:text-gray-400 line-through mb-1">Rp {{ number_format($product->original_price, 0, ',', '.') }}</p>
+                                    <p class="text-[10px] text-gray-500 dark:text-gray-400 line-through mb-1">Rp {{ number_format($product->original_price, 0, ',', '.') }}</p>
                                     @endif
-                                    <p class="text-xl font-bold text-green-600 dark:text-green-400">Rp {{ number_format($product->price, 0, ',', '.') }}</p>
+                                    <p class="text-sm md:text-base font-bold text-green-600 dark:text-green-400">Rp {{ number_format($product->price, 0, ',', '.') }}</p>
                                 </div>
                             </div>
                         </div>
