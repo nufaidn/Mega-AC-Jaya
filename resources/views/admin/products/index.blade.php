@@ -59,15 +59,15 @@
                         <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Product List</h3>
                         <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">Total Product: {{ count($products) }}</p>
                     </div>
-                    <div class="flex items-center gap-3">
-                        <div class="relative">
-                            <input type="text" placeholder="Search products..."
-                                class="pl-10 pr-4 py-2 bg-gray-50 dark:bg-neutral-700 border border-gray-300 dark:border-neutral-600 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent w-full sm:w-64">
-                            <svg class="absolute left-3 top-2.5 w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                            </svg>
+                        <div class="flex items-center gap-3">
+                            <div class="relative">
+                                <input type="text" id="search-input" placeholder="Search products..."
+                                    class="pl-10 pr-4 py-2 bg-gray-50 dark:bg-neutral-700 border border-gray-300 dark:border-neutral-600 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent w-full sm:w-64">
+                                <svg class="absolute left-3 top-2.5 w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                                </svg>
+                            </div>
                         </div>
-                    </div>
                 </div>
             </div>
 
@@ -266,4 +266,26 @@
             @endif
         </div>
     </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.getElementById('search-input');
+            const tableRows = document.querySelectorAll('tbody tr');
+
+            searchInput.addEventListener('input', function() {
+                const searchTerm = this.value.toLowerCase().trim();
+
+                tableRows.forEach(row => {
+                    const productName = row.querySelector('td:nth-child(2) .text-sm.font-semibold').textContent.toLowerCase();
+                    const productDescription = row.querySelector('td:nth-child(3) .text-sm')?.textContent.toLowerCase() || '';
+
+                    if (productName.includes(searchTerm) || productDescription.includes(searchTerm)) {
+                        row.style.display = '';
+                    } else {
+                        row.style.display = 'none';
+                    }
+                });
+            });
+        });
+    </script>
 </x-layouts.app>
