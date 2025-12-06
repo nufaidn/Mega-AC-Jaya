@@ -9,15 +9,15 @@
                 <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">Manage all your products in one place</p>
             </div>
             <div class="flex flex-wrap gap-3">
-                <a href="{{ route('dashboard') }}" 
-                   class="inline-flex items-center gap-2 px-4 py-3 bg-gradient-to-r from-gray-600 to-gray-700 text-white rounded-xl hover:from-gray-700 hover:to-gray-800 transition-all duration-300 hover:shadow-lg font-medium group">
+                <a href="{{ route('dashboard') }}"
+                    class="inline-flex items-center gap-2 px-4 py-3 bg-gradient-to-r from-gray-600 to-gray-700 text-white rounded-xl hover:from-gray-700 hover:to-gray-800 transition-all duration-300 hover:shadow-lg font-medium group">
                     <svg class="w-4 h-4 transform group-hover:-translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
                     </svg>
                     Back to Dashboard
                 </a>
-                <a href="{{ route('admin.products.create') }}" 
-                   class="inline-flex items-center gap-2 px-4 py-3 bg-gradient-to-r from-blue-500 to-blue-600 text-white rounded-xl hover:from-blue-600 hover:to-blue-700 transition-all duration-300 hover:shadow-lg font-medium group">
+                <a href="{{ route('admin.products.create') }}"
+                    class="inline-flex items-center gap-2 px-4 py-3 bg-gradient-to-r from-blue-500 to-blue-600 text-white rounded-xl hover:from-blue-600 hover:to-blue-700 transition-all duration-300 hover:shadow-lg font-medium group">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
                     </svg>
@@ -25,7 +25,7 @@
                 </a>
             </div>
         </div>
-    
+
         <!-- Success Alert -->
         @if ($message = Session::get('success'))
         <div class="mb-6 p-4 rounded-xl border border-green-200 dark:border-green-800 bg-gradient-to-r from-green-50 to-emerald-50 dark:from-green-900/20 dark:to-emerald-900/20 shadow-sm" role="alert">
@@ -49,7 +49,7 @@
             </div>
         </div>
         @endif
-    
+
         <!-- Products Table -->
         <div class="bg-white dark:bg-neutral-800 rounded-2xl border border-neutral-200 dark:border-neutral-700 shadow-sm overflow-hidden">
             <!-- Table Header -->
@@ -57,12 +57,12 @@
                 <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                     <div>
                         <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Product List</h3>
-                        <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">Total Product:    {{ count($products) }}</p>
+                        <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">Total Product: {{ count($products) }}</p>
                     </div>
                     <div class="flex items-center gap-3">
                         <div class="relative">
-                            <input type="text" placeholder="Search products..." 
-                                   class="pl-10 pr-4 py-2 bg-gray-50 dark:bg-neutral-700 border border-gray-300 dark:border-neutral-600 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent w-full sm:w-64">
+                            <input type="text" placeholder="Search products..."
+                                class="pl-10 pr-4 py-2 bg-gray-50 dark:bg-neutral-700 border border-gray-300 dark:border-neutral-600 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent w-full sm:w-64">
                             <svg class="absolute left-3 top-2.5 w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                             </svg>
@@ -70,7 +70,7 @@
                     </div>
                 </div>
             </div>
-    
+
             <!-- Table Container -->
             <div class="overflow-x-auto">
                 <table class="w-full">
@@ -112,7 +112,7 @@
                                     <span class="text-sm font-medium text-gray-900 dark:text-white">{{ $loop->iteration }}</span>
                                 </div>
                             </td>
-                            
+
                             <!-- Name -->
                             <td class="px-6 py-4">
                                 <div class="text-sm font-semibold text-gray-900 dark:text-white">{{ $product->name }}</div>
@@ -120,20 +120,19 @@
                                     {{ Str::limit($product->description, 30) }}
                                 </div>
                             </td>
-                            
+
                             <!-- Description (Hidden on mobile) -->
                             <td class="px-6 py-4 hidden md:table-cell">
                                 <div class="text-sm text-gray-600 dark:text-gray-300 max-w-xs truncate">{{ $product->description }}</div>
                             </td>
-                            
+
                             <!-- Image -->
                             <td class="px-6 py-4">
                                 @if($product->image)
                                 <div class="relative group">
-                                    <img src="{{ Storage::url($product->image) }}"
-                                         alt="{{ $product->name }}"
-                                         class="w-16 h-16 rounded-lg object-cover border border-gray-200 dark:border-neutral-600 shadow-sm group-hover:scale-105 transition-transform duration-200">
-                                    <div class="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-10 rounded-lg transition-opacity duration-200"></div>
+                                    <img src="{{ asset('images/' . $product->image) }}"
+                                        alt="{{ $product->name }}"
+                                        class="w-16 h-16 rounded-lg object-cover border border-gray-200 dark:border-neutral-600 shadow-sm group-hover:scale-105 transition-transform duration-200">
                                 </div>
                                 @else
                                 <div class="w-16 h-16 rounded-lg bg-gray-100 dark:bg-neutral-700 border border-dashed border-gray-300 dark:border-neutral-600 flex items-center justify-center">
@@ -143,7 +142,7 @@
                                 </div>
                                 @endif
                             </td>
-                            
+
                             <!-- Price -->
                             <td class="px-6 py-4">
                                 <div class="text-sm font-bold text-green-600 dark:text-green-400">
@@ -155,7 +154,7 @@
                                 </div>
                                 @endif
                             </td>
-                            
+
                             <!-- Label -->
                             <td class="px-6 py-4">
                                 @if($product->label)
@@ -168,14 +167,14 @@
                                 </span>
                                 @endif
                             </td>
-                            
+
                             <!-- Actions -->
                             <td class="px-6 py-4">
                                 <div class="flex items-center gap-2">
                                     <!-- Show Action -->
-                                    <a href="{{ route('admin.products.show',$product->id) }}" 
-                                       class="p-2 text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 hover:bg-blue-50 dark:hover:bg-blue-900/20 rounded-lg transition-colors duration-200 group relative"
-                                       title="View Details">
+                                    <a href="{{ route('admin.products.show',$product->id) }}"
+                                        class="p-2 text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 hover:bg-blue-50 dark:hover:bg-blue-900/20 rounded-lg transition-colors duration-200 group relative"
+                                        title="View Details">
                                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
@@ -184,11 +183,11 @@
                                             View
                                         </span>
                                     </a>
-                                    
+
                                     <!-- Edit Action -->
-                                    <a href="{{ route('admin.products.edit',$product->id) }}" 
-                                       class="p-2 text-yellow-600 dark:text-yellow-400 hover:text-yellow-800 dark:hover:text-yellow-300 hover:bg-yellow-50 dark:hover:bg-yellow-900/20 rounded-lg transition-colors duration-200 group relative"
-                                       title="Edit Product">
+                                    <a href="{{ route('admin.products.edit',$product->id) }}"
+                                        class="p-2 text-yellow-600 dark:text-yellow-400 hover:text-yellow-800 dark:hover:text-yellow-300 hover:bg-yellow-50 dark:hover:bg-yellow-900/20 rounded-lg transition-colors duration-200 group relative"
+                                        title="Edit Product">
                                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
                                         </svg>
@@ -196,16 +195,16 @@
                                             Edit
                                         </span>
                                     </a>
-                                    
+
                                     <!-- Delete Action -->
-                                    <form action="{{ route('admin.products.destroy',$product->id) }}" method="POST" 
-                                          onsubmit="return confirm('Are you sure you want to delete this product? This action cannot be undone.')" 
-                                          class="inline">
+                                    <form action="{{ route('admin.products.destroy',$product->id) }}" method="POST"
+                                        onsubmit="return confirm('Are you sure you want to delete this product? This action cannot be undone.')"
+                                        class="inline">
                                         @csrf
                                         @method('DELETE')
-                                        <button type="submit" 
-                                                class="p-2 text-red-600 dark:text-red-400 hover:text-red-800 dark:hover:text-red-300 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg transition-colors duration-200 group relative"
-                                                title="Delete Product">
+                                        <button type="submit"
+                                            class="p-2 text-red-600 dark:text-red-400 hover:text-red-800 dark:hover:text-red-300 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg transition-colors duration-200 group relative"
+                                            title="Delete Product">
                                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
                                             </svg>
@@ -221,7 +220,7 @@
                     </tbody>
                 </table>
             </div>
-    
+
             <!-- Empty State -->
             @if(count($products) === 0)
             <div class="text-center py-12">
@@ -232,8 +231,8 @@
                 </div>
                 <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-2">No products found</h3>
                 <p class="text-gray-500 dark:text-gray-400 mb-6 max-w-md mx-auto">Start by adding your first product to showcase in your store.</p>
-                <a href="{{ route('admin.products.create') }}" 
-                   class="inline-flex items-center gap-2 px-5 py-3 bg-gradient-to-r from-blue-500 to-blue-600 text-white rounded-xl hover:from-blue-600 hover:to-blue-700 transition-all duration-300 font-medium">
+                <a href="{{ route('admin.products.create') }}"
+                    class="inline-flex items-center gap-2 px-5 py-3 bg-gradient-to-r from-blue-500 to-blue-600 text-white rounded-xl hover:from-blue-600 hover:to-blue-700 transition-all duration-300 font-medium">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
                     </svg>
@@ -241,14 +240,14 @@
                 </a>
             </div>
             @endif
-    
+
             <!-- Table Footer -->
             @if(count($products) > 0)
             <div class="px-6 py-4 border-t border-gray-200 dark:border-neutral-700 bg-gray-50 dark:bg-neutral-700/30">
                 <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                     <div class="text-sm text-gray-500 dark:text-gray-400">
-                        Showing <span class="font-semibold text-gray-700 dark:text-gray-300">1</span> to 
-                        <span class="font-semibold text-gray-700 dark:text-gray-300">{{ count($products) }}</span> of 
+                        Showing <span class="font-semibold text-gray-700 dark:text-gray-300">1</span> to
+                        <span class="font-semibold text-gray-700 dark:text-gray-300">{{ count($products) }}</span> of
                         <span class="font-semibold text-gray-700 dark:text-gray-300">{{ count($products) }}</span> products
                     </div>
                     <div class="flex items-center gap-2">
