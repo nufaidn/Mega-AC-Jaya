@@ -70,6 +70,7 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::resource('product-orders', \App\Http\Controllers\Admin\ProductOrderController::class)->except(['create', 'store']);
     Route::resource('product-orders', AdminProductOrderController::class);
     Route::get('galleries', \App\Livewire\Admin\GalleryManager::class)->name('galleries.index');
+    Route::redirect('settings', '/settings/profile')->name('settings');
 });
 
 Route::middleware(['auth'])->group(function () {
