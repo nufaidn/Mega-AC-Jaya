@@ -18,6 +18,9 @@ class ProductOrder extends Model
         'notes',
         'total_price',
         'status',
+        'payment_id',
+        'payment_status',
+        'payment_url',
     ];
 
     protected $casts = [

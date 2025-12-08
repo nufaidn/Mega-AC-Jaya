@@ -19,12 +19,18 @@
                         <h3 class="text-xl md:text-2xl font-bold text-gray-900 dark:text-white">Your Bookings</h3>
                         <p class="text-sm text-gray-500 dark:text-neutral-400 mt-1">All your service bookings in one place</p>
                     </div>
-                    <a href="{{ route('bookings.create') }}" class="px-4 py-2.5 bg-gradient-to-r from-blue-500 to-blue-600 text-white rounded-xl hover:from-blue-600 hover:to-blue-700 transition-all duration-300 hover:shadow-lg flex items-center gap-2 font-medium">
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
-                        </svg>
-                        New Booking
-                    </a>
+                    <div class="flex flex-wrap gap-3">
+                        <a href="{{ route('dashboard') }}"
+                            class="inline-flex items-center gap-2 px-4 py-3 bg-gradient-to-r from-gray-600 to-gray-700 text-white rounded-xl hover:from-gray-700 hover:to-gray-800 transition-all duration-300 hover:shadow-lg font-medium group">
+                            Back
+                        </a>
+                        <a href="{{ route('service') }}" class="px-4 py-2.5 bg-gradient-to-r from-blue-500 to-blue-600 text-white rounded-xl hover:from-blue-600 hover:to-blue-700 transition-all duration-300 hover:shadow-lg flex items-center gap-2 font-medium">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+                            </svg>
+                            New Booking
+                        </a>
+                    </div>
                 </div>
             </div>
 
@@ -38,7 +44,7 @@
                     </div>
                     <h4 class="text-lg font-semibold text-gray-900 dark:text-white mb-2">No bookings yet</h4>
                     <p class="text-gray-500 dark:text-gray-400 mb-6 max-w-md mx-auto">Start by booking your first service to see it here.</p>
-                    <a href="{{ route('bookings.create') }}" class="inline-flex items-center gap-2 px-5 py-3 bg-gradient-to-r from-blue-500 to-blue-600 text-white rounded-xl hover:from-blue-600 hover:to-blue-700 transition-all duration-300 hover:shadow-lg font-medium">
+                    <a href="{{ route('service') }}" class="inline-flex items-center gap-2 px-5 py-3 bg-gradient-to-r from-blue-500 to-blue-600 text-white rounded-xl hover:from-blue-600 hover:to-blue-700 transition-all duration-300 hover:shadow-lg font-medium">
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
                         </svg>
@@ -61,10 +67,23 @@
                                 <p class="text-sm text-gray-500 dark:text-neutral-400">{{ $booking->full_name }} • {{ $booking->phone_number }}</p>
                             </div>
                         </div>
-                        <div class="text-right">
-                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium {{ $booking->status === 'completed' ? 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400' : ($booking->status === 'pending' ? 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-400' : 'bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400') }}">
+                        <div class="text-right flex flex-col items-end gap-2">
+                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium {{ $booking->status === 'confirmed' ? 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400' : ($booking->status === 'pending' ? 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-400' : 'bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400') }}">
                                 {{ ucfirst($booking->status) }}
                             </span>
+                            @if($booking->payment_status)
+                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium {{ $booking->payment_status === 'paid' ? 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400' : ($booking->payment_status === 'pending' ? 'bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-400' : 'bg-gray-100 text-gray-800 dark:bg-gray-900/30 dark:text-gray-400') }}">
+                                Payment: {{ ucfirst($booking->payment_status) }}
+                            </span>
+                            @endif
+                            @if($booking->payment_status === 'pending' && $booking->payment_url)
+                            <a href="{{ $booking->payment_url }}" target="_blank" class="inline-flex items-center gap-1 px-3 py-1 bg-wa-600 text-white text-xs rounded-lg hover:bg-wa-700 transition-colors">
+                                <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2z" />
+                                </svg>
+                                Bayar Sekarang
+                            </a>
+                            @endif
                         </div>
                     </div>
                     @endforeach

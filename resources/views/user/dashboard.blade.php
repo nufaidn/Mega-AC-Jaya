@@ -6,7 +6,7 @@
                 <div class="relative z-10">
                     <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
                         <div>
-                            <h1 class="text-2xl md:text-3xl font-bold mb-2">Welcome back, {{ Auth::user()->name }}! 👋</h1>
+                            <h1 class="text-2xl md:text-3xl font-bold mb-2">Welcome back, {{ Auth::user()->name }}!</h1>
                             <p class="text-wa-light/90 text-lg">Here's what's happening with your account today.</p>
                         </div>
                         <div class="flex items-center gap-2">
@@ -98,6 +98,135 @@
                 </div>
             </div>
     
+            <!-- Unpaid Items Section -->
+            @php
+                $unpaidBookings = \App\Models\Booking::where('user_id', Auth::id())
+                    ->where('payment_status', 'pending')
+                    ->where('status', 'pending')
+                    ->get();
+                $unpaidOrders = \App\Models\ProductOrder::where('user_id', Auth::id())
+                    ->where('payment_status', 'pending')
+                    ->where('status', 'pending')
+                    ->get();
+            @endphp
+            @if($unpaidBookings->count() > 0 || $unpaidOrders->count() > 0)
+            <div class="rounded-2xl border border-red-200 dark:border-red-700 bg-red-50 dark:bg-red-900/20 overflow-hidden transition-all duration-300 hover:shadow-lg backdrop-blur-sm">
+                <div class="p-5 md:p-6 border-b border-red-100 dark:border-red-700">
+                    <div class="flex items-center gap-3">
+                        <div class="p-2 rounded-lg bg-gradient-to-r from-red-500/10 to-red-600/10">
+                            <svg class="w-5 h-5 text-red-600 dark:text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                        </div>
+                        <div>
+                            <h3 class="text-xl md:text-2xl font-bold text-red-900 dark:text-red-100">Menunggu Pembayaran</h3>
+                            <p class="text-sm text-red-700 dark:text-red-300 mt-1">Item yang perlu dibayar</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="p-5 md:p-6">
+                    <div class="space-y-4">
+                        @foreach($unpaidBookings as $booking)
+                        <div class="flex items-center justify-between p-4 bg-white dark:bg-neutral-800 rounded-xl border border-red-200 dark:border-red-700">
+                            <div class="flex items-center gap-4">
+                                <div class="w-12 h-12 rounded-lg bg-red-100 dark:bg-red-900/30 flex items-center justify-center">
+                                    <svg class="w-6 h-6 text-red-600 dark:text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                                    </svg>
+                                </div>
+                                <div>
+                                    <h4 class="font-semibold text-gray-900 dark:text-white">Booking {{ $booking->service }}</h4>
+                                    <p class="text-sm text-gray-500 dark:text-neutral-400">{{ $booking->created_at->format('M d, Y') }}</p>
+                                    <p class="text-sm text-gray-500 dark:text-neutral-400">Rp {{ number_format($booking->total_price, 0, ',', '.') }}</p>
+                                </div>
+                            </div>
+                            <div class="flex gap-2">
+                                @if($booking->payment_url)
+                                <a href="{{ $booking->payment_url }}" target="_blank" class="inline-flex items-center gap-2 px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors font-medium">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2z" />
+                                    </svg>
+                                    Bayar Sekarang
+                                </a>
+                                <form action="{{ route('bookings.check-payment', $booking->id) }}" method="POST" class="inline">
+                                    @csrf
+                                    <button type="submit" class="inline-flex items-center gap-2 px-3 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors font-medium">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                                        </svg>
+                                        Cek Status
+                                    </button>
+                                </form>
+                                @else
+                                <form action="{{ route('bookings.generate-payment', $booking->id) }}" method="POST" class="inline">
+                                    @csrf
+                                    <button type="submit" class="inline-flex items-center gap-2 px-4 py-2 bg-orange-600 text-white rounded-lg hover:bg-orange-700 transition-colors font-medium">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+                                        </svg>
+                                        Generate Payment
+                                    </button>
+                                </form>
+                                @endif
+                            </div>
+                        </div>
+                        @endforeach
+
+                        @foreach($unpaidOrders as $order)
+                        <div class="flex items-center justify-between p-4 bg-white dark:bg-neutral-800 rounded-xl border border-red-200 dark:border-red-700">
+                            <div class="flex items-center gap-4">
+                                @if($order->product->image)
+                                <img src="{{ asset('images/' . $order->product->image) }}" alt="{{ $order->product->name }}" class="w-12 h-12 rounded-lg object-cover">
+                                @else
+                                <div class="w-12 h-12 rounded-lg bg-red-100 dark:bg-red-900/30 flex items-center justify-center">
+                                    <svg class="w-6 h-6 text-red-600 dark:text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                                    </svg>
+                                </div>
+                                @endif
+                                <div>
+                                    <h4 class="font-semibold text-gray-900 dark:text-white">{{ $order->product->name }}</h4>
+                                    <p class="text-sm text-gray-500 dark:text-neutral-400">{{ $order->created_at->format('M d, Y') }}</p>
+                                    <p class="text-sm text-gray-500 dark:text-neutral-400">Rp {{ number_format($order->total_price, 0, ',', '.') }}</p>
+                                </div>
+                            </div>
+                            <div class="flex gap-2">
+                                @if($order->payment_url)
+                                <a href="{{ $order->payment_url }}" target="_blank" class="inline-flex items-center gap-2 px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors font-medium">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2z" />
+                                    </svg>
+                                    Bayar Sekarang
+                                </a>
+                                <form action="{{ route('product-orders.check-payment', $order->id) }}" method="POST" class="inline">
+                                    @csrf
+                                    <button type="submit" class="inline-flex items-center gap-2 px-3 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors font-medium">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                                        </svg>
+                                        Cek Status
+                                    </button>
+                                </form>
+                                @else
+                                <form action="{{ route('product-orders.generate-payment', $order->id) }}" method="POST" class="inline">
+                                    @csrf
+                                    <button type="submit" class="inline-flex items-center gap-2 px-4 py-2 bg-orange-600 text-white rounded-lg hover:bg-orange-700 transition-colors font-medium">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+                                        </svg>
+                                        Generate Payment
+                                    </button>
+                                </form>
+                                @endif
+                            </div>
+                        </div>
+                        @endforeach
+                    </div>
+                </div>
+            </div>
+            @endif
+
             <!-- Recent Orders Section -->
             @isset($recentOrders)
             <div class="rounded-2xl border border-neutral-200 dark:border-neutral-700 bg-white dark:bg-neutral-800 overflow-hidden transition-all duration-300 hover:shadow-lg backdrop-blur-sm bg-white/95 dark:bg-neutral-800/95">
@@ -192,7 +321,7 @@
                 </div>
             </div>
             @endisset
-    
+
             <!-- Quick Actions Section -->
             <div class="rounded-2xl border border-neutral-200 dark:border-neutral-700 bg-white dark:bg-neutral-800 overflow-hidden transition-all duration-300 hover:shadow-lg backdrop-blur-sm bg-white/95 dark:bg-neutral-800/95">
                 <div class="p-5 md:p-6 border-b border-neutral-100 dark:border-neutral-700">
@@ -211,7 +340,7 @@
                 <div class="p-5 md:p-6">
                     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                         <!-- Book Service -->
-                        <a href="{{ route('service') }}" class="group p-4 bg-gradient-to-br from-wa-light/5 to-wa-dark/5 dark:from-wa-dark/10 dark:to-wa-darker/10 rounded-xl border border-wa-light/20 dark:border-wa-dark/20 hover:shadow-lg hover:-translate-y-1 transition-all duration-300 hover:border-wa-light/40 dark:hover:border-wa-dark/40">
+                        <a href="{{ route('bookings.create') }}" class="group p-4 bg-gradient-to-br from-wa-light/5 to-wa-dark/5 dark:from-wa-dark/10 dark:to-wa-darker/10 rounded-xl border border-wa-light/20 dark:border-wa-dark/20 hover:shadow-lg hover:-translate-y-1 transition-all duration-300 hover:border-wa-light/40 dark:hover:border-wa-dark/40">
                             <div class="flex items-center gap-3 mb-3">
                                 <div class="p-2 bg-gradient-to-r from-wa-light to-wa-dark rounded-lg group-hover:from-wa-light/90 group-hover:to-wa-dark/90 transition-all duration-300">
                                     <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -310,50 +439,50 @@
                 </div>
             </div>
         </div>
-
-        <style>
-            /* WhatsApp Green Colors (P3 color space) */
-            :root {
-                --wa-light: #25D366; /* WhatsApp green light */
-                --wa-dark: #128C7E;  /* WhatsApp green dark */
-                --wa-darker: #075E54; /* WhatsApp green darker */
-            }
-            
-            .dark {
-                --wa-light: #25D366;
-                --wa-dark: #128C7E;
-                --wa-darker: #075E54;
-            }
-            
-            /* Apply colors to utility classes */
-            .bg-wa-light { background-color: var(--wa-light); }
-            .bg-wa-dark { background-color: var(--wa-dark); }
-            .bg-wa-darker { background-color: var(--wa-darker); }
-            
-            .text-wa-light { color: var(--wa-light); }
-            .text-wa-dark { color: var(--wa-dark); }
-            .text-wa-darker { color: var(--wa-darker); }
-            
-            .border-wa-light { border-color: var(--wa-light); }
-            .border-wa-dark { border-color: var(--wa-dark); }
-            .border-wa-darker { border-color: var(--wa-darker); }
-            
-            .from-wa-light { --tw-gradient-from: var(--wa-light); }
-            .to-wa-dark { --tw-gradient-to: var(--wa-dark); }
-            .to-wa-darker { --tw-gradient-to: var(--wa-darker); }
-            
-            .hover\:from-wa-light:hover { --tw-gradient-from: var(--wa-light); }
-            .hover\:to-wa-dark:hover { --tw-gradient-to: var(--wa-dark); }
-            .hover\:to-wa-darker:hover { --tw-gradient-to: var(--wa-darker); }
-            
-            /* Custom animations */
-            @keyframes float {
-                0%, 100% { transform: translateY(0px); }
-                50% { transform: translateY(-10px); }
-            }
-            
-            .animate-float {
-                animation: float 3s ease-in-out infinite;
-            }
-            </style>
+    
+    <style>
+    /* WhatsApp Green Colors (P3 color space) */
+    :root {
+        --wa-light: #25D366; /* WhatsApp green light */
+        --wa-dark: #128C7E;  /* WhatsApp green dark */
+        --wa-darker: #075E54; /* WhatsApp green darker */
+    }
+    
+    .dark {
+        --wa-light: #25D366;
+        --wa-dark: #128C7E;
+        --wa-darker: #075E54;
+    }
+    
+    /* Apply colors to utility classes */
+    .bg-wa-light { background-color: var(--wa-light); }
+    .bg-wa-dark { background-color: var(--wa-dark); }
+    .bg-wa-darker { background-color: var(--wa-darker); }
+    
+    .text-wa-light { color: var(--wa-light); }
+    .text-wa-dark { color: var(--wa-dark); }
+    .text-wa-darker { color: var(--wa-darker); }
+    
+    .border-wa-light { border-color: var(--wa-light); }
+    .border-wa-dark { border-color: var(--wa-dark); }
+    .border-wa-darker { border-color: var(--wa-darker); }
+    
+    .from-wa-light { --tw-gradient-from: var(--wa-light); }
+    .to-wa-dark { --tw-gradient-to: var(--wa-dark); }
+    .to-wa-darker { --tw-gradient-to: var(--wa-darker); }
+    
+    .hover\:from-wa-light:hover { --tw-gradient-from: var(--wa-light); }
+    .hover\:to-wa-dark:hover { --tw-gradient-to: var(--wa-dark); }
+    .hover\:to-wa-darker:hover { --tw-gradient-to: var(--wa-darker); }
+    
+    /* Custom animations */
+    @keyframes float {
+        0%, 100% { transform: translateY(0px); }
+        50% { transform: translateY(-10px); }
+    }
+    
+    .animate-float {
+        animation: float 3s ease-in-out infinite;
+    }
+    </style>
     </x-layouts.app>

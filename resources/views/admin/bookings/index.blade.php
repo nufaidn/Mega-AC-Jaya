@@ -1,12 +1,42 @@
 <x-layouts.app>
-    <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Manage Bookings') }}
-        </h2>
-    </x-slot>
+    <div class="flex h-full w-full flex-1 flex-col gap-6 p-4 md:p-6">
+        <!-- Header Section -->
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
+            <div>
+                <h2 class="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white leading-tight">
+                    {{ __('Manage Bookings User') }}
+                </h2>
+                <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">Manage all bookings user in one place</p>
+            </div>
+            <div class="flex flex-wrap gap-3">
+                <a href="{{ route('dashboard') }}"
+                    class="inline-flex items-center gap-2 px-4 py-3 bg-gradient-to-r from-gray-600 to-gray-700 text-white rounded-xl hover:from-gray-700 hover:to-gray-800 transition-all duration-300 hover:shadow-lg font-medium group">
+                    Back
+                </a>
+            </div>
+        </div>
 
-    <div class="py-12">
+    <div>
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+            <!-- Flash Messages -->
+            @if(session('success'))
+            <div class="mb-4 p-4 bg-green-100 border border-green-400 text-green-700 rounded-lg">
+                {{ session('success') }}
+            </div>
+            @endif
+            
+            @if(session('error'))
+            <div class="mb-4 p-4 bg-red-100 border border-red-400 text-red-700 rounded-lg">
+                {{ session('error') }}
+            </div>
+            @endif
+            
+            @if(session('info'))
+            <div class="mb-4 p-4 bg-blue-100 border border-blue-400 text-blue-700 rounded-lg">
+                {{ session('info') }}
+            </div>
+            @endif
+            
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900">
                     <div class="overflow-x-auto">
@@ -35,11 +65,34 @@
                                         <div class="text-sm text-gray-500">{{ $booking->time }}</div>
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap">
-                                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full 
-                                            {{ $booking->status === 'completed' ? 'bg-green-100 text-green-800' : 
+                                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full
+                                            {{ $booking->status === 'confirmed' ? 'bg-green-100 text-green-800' :
                                                ($booking->status === 'cancelled' ? 'bg-red-100 text-red-800' : 'bg-yellow-100 text-yellow-800') }}">
                                             {{ ucfirst($booking->status) }}
                                         </span>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="flex flex-col gap-1">
+                                            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full
+                                                {{ $booking->payment_status === 'paid' ? 'bg-green-100 text-green-800' :
+                                                   ($booking->payment_status === 'pending' ? 'bg-blue-100 text-blue-800' : 'bg-gray-100 text-gray-800') }}">
+                                                {{ ucfirst($booking->payment_status ?? 'N/A') }}
+                                            </span>
+                                            @if($booking->payment_status === 'pending')
+                                            <form action="{{ route('admin.bookings.verify-payment', $booking->id) }}" method="POST" class="inline-block">
+                                                @csrf
+                                                @method('PATCH')
+                                                <button type="submit" class="text-xs bg-wa-600 text-white px-2 py-1 rounded hover:bg-wa-700 transition-colors">
+                                                    Verify Payment
+                                                </button>
+                                            </form>
+                                            @endif
+                                            @if($booking->payment_url)
+                                            <a href="{{ $booking->payment_url }}" target="_blank" class="text-xs text-blue-600 hover:text-blue-800 underline">
+                                                View Invoice
+                                            </a>
+                                            @endif
+                                        </div>
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
                                         <a href="{{ route('admin.bookings.show', $booking->id) }}" class="text-indigo-600 hover:text-indigo-900 mr-3">View</a>

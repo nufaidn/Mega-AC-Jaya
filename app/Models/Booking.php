@@ -8,6 +8,7 @@ class Booking extends Model
 {
     protected $table = 'bookings';
     protected $fillable = [
+        'user_id',
         'service',
         'full_name',
         'phone_number',
@@ -16,6 +17,10 @@ class Booking extends Model
         'time',
         'notes',
         'status',
+        'payment_id',
+        'payment_status',
+        'payment_url',
+        'total_price',
     ];
 
     public function service()

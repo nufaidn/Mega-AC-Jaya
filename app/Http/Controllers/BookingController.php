@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Models\Booking;
 use App\Models\Service;
 use Illuminate\Support\Facades\Auth;
+use Xendit\Configuration;
+use Xendit\Invoice\InvoiceApi;
 
 class BookingController extends Controller
 {
@@ -52,18 +54,52 @@ class BookingController extends Controller
             'notes' => 'nullable|string',
         ]);
 
-        Booking::create([
-            'service' => $request->service,
-            'full_name' => $request->full_name,
-            'phone_number' => $request->phone_number,
-            'address' => $request->address,
-            'date' => $request->date,
-            'time' => $request->time,
-            'notes' => $request->notes,
-            'status' => 'pending',
-        ]);
+        $service = Service::where('name', $request->service)->firstOrFail();
+        $totalPrice = $service->price;
+        $user = Auth::user();
 
-        return redirect()->route('service')->with('success', 'Booking created successfully.');
+        // Create Xendit invoice
+        Configuration::setXenditKey(config('services.xendit.secret_key'));
+
+        $invoiceApi = new InvoiceApi();
+        $create_invoice_request = [
+            'external_id' => 'booking-' . time() . '-' . $user->id,
+            'amount' => $totalPrice,
+            'description' => 'Booking ' . $service->name . ' pada ' . $request->date . ' ' . $request->time,
+            'invoice_duration' => 86400, // 24 hours
+            'currency' => 'IDR',
+            'customer' => [
+                'given_names' => $request->full_name,
+                'email' => $user->email,
+                'mobile_number' => $request->phone_number,
+            ],
+            'success_redirect_url' => route('bookings.index'),
+            'failure_redirect_url' => route('bookings.index'),
+        ];
+
+        try {
+            $invoice = $invoiceApi->createInvoice($create_invoice_request);
+
+            Booking::create([
+                'user_id' => $user->id,
+                'service' => $request->service,
+                'full_name' => $request->full_name,
+                'phone_number' => $request->phone_number,
+                'address' => $request->address,
+                'date' => $request->date,
+                'time' => $request->time,
+                'notes' => $request->notes,
+                'total_price' => $totalPrice,
+                'status' => 'pending',
+                'payment_id' => $invoice['id'],
+                'payment_status' => 'pending',
+                'payment_url' => $invoice['invoice_url'],
+            ]);
+
+            return redirect($invoice['invoice_url']);
+        } catch (\Exception $e) {
+            return redirect()->route('service')->with('error', 'Gagal membuat booking. Silakan coba lagi.');
+        }
     }
 
     /**
@@ -71,7 +107,21 @@ class BookingController extends Controller
      */
     public function show(Booking $booking)
     {
-        return view('admin.bookings.show', compact('booking'));
+        $invoiceData = null;
+        
+        // Fetch invoice data from Xendit if payment_id exists
+        if ($booking->payment_id) {
+            try {
+                Configuration::setXenditKey(config('services.xendit.secret_key'));
+                $invoiceApi = new InvoiceApi();
+                $invoiceData = $invoiceApi->getInvoiceById($booking->payment_id);
+            } catch (\Exception $e) {
+                // If error fetching invoice, just set to null
+                $invoiceData = null;
+            }
+        }
+        
+        return view('admin.bookings.show', compact('booking', 'invoiceData'));
     }
 
     /**
@@ -101,5 +151,180 @@ class BookingController extends Controller
         $booking = Booking::findOrFail($id);
         $booking->delete();
         return redirect()->route('admin.bookings.index')->with('success', 'Booking deleted successfully.');
+    }
+
+    /**
+     * Verify payment status (Admin only)
+     */
+    public function verifyPayment($id)
+    {
+        $booking = Booking::findOrFail($id);
+
+        // Check if booking has payment_id
+        if (!$booking->payment_id) {
+            return redirect()->back()->with('error', 'Booking ini belum memiliki payment ID.');
+        }
+
+        try {
+            Configuration::setXenditKey(config('services.xendit.secret_key'));
+            $invoiceApi = new InvoiceApi();
+            
+            // Get invoice from Xendit
+            $invoice = $invoiceApi->getInvoiceById($booking->payment_id);
+            
+            // Update booking based on invoice status
+            if ($invoice['status'] == 'PAID') {
+                $booking->update([
+                    'payment_status' => 'paid',
+                    'status' => 'completed',
+                ]);
+                return redirect()->back()->with('success', 'Payment verified! Booking status updated to completed.');
+            } elseif ($invoice['status'] == 'EXPIRED') {
+                $booking->update([
+                    'payment_status' => 'expired',
+                    'status' => 'cancelled',
+                ]);
+                return redirect()->back()->with('info', 'Invoice expired. Booking status updated to cancelled.');
+            } else {
+                return redirect()->back()->with('info', 'Payment still pending. Status: ' . $invoice['status']);
+            }
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Failed to verify payment: ' . $e->getMessage());
+        }
+    }
+
+    /**
+     * Check payment status from Xendit
+     */
+    public function checkPaymentStatus($id)
+    {
+        $booking = Booking::findOrFail($id);
+        
+        // Check if user owns this booking
+        if ($booking->user_id !== Auth::id()) {
+            abort(403, 'Unauthorized action.');
+        }
+
+        // Check if booking has payment_id
+        if (!$booking->payment_id) {
+            return redirect()->back()->with('error', 'Booking ini belum memiliki payment ID.');
+        }
+
+        try {
+            Configuration::setXenditKey(config('services.xendit.secret_key'));
+            $invoiceApi = new InvoiceApi();
+            
+            // Get invoice from Xendit
+            $invoice = $invoiceApi->getInvoiceById($booking->payment_id);
+            
+            // Update booking based on invoice status
+            if ($invoice['status'] == 'PAID') {
+                $booking->update([
+                    'payment_status' => 'paid',
+                    'status' => 'completed',
+                ]);
+                return redirect()->back()->with('success', 'Pembayaran berhasil! Status booking telah diupdate.');
+            } elseif ($invoice['status'] == 'EXPIRED') {
+                $booking->update([
+                    'payment_status' => 'expired',
+                    'status' => 'cancelled',
+                ]);
+                return redirect()->back()->with('info', 'Invoice sudah expired. Silakan buat pembayaran baru.');
+            } else {
+                return redirect()->back()->with('info', 'Pembayaran masih pending. Status: ' . $invoice['status']);
+            }
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Gagal mengecek status pembayaran: ' . $e->getMessage());
+        }
+    }
+
+    /**
+     * Generate payment URL for existing booking
+     */
+    public function generatePayment($id)
+    {
+        $booking = Booking::findOrFail($id);
+        
+        // Check if user owns this booking
+        if ($booking->user_id !== Auth::id()) {
+            abort(403, 'Unauthorized action.');
+        }
+
+        // Check if booking already has payment URL
+        if ($booking->payment_url && $booking->payment_status === 'pending') {
+            return redirect()->back()->with('info', 'Booking ini sudah memiliki link pembayaran.');
+        }
+
+        // Get service price
+        $service = Service::where('name', $booking->service)->first();
+        if (!$service) {
+            return redirect()->back()->with('error', 'Service tidak ditemukan.');
+        }
+
+        $totalPrice = $service->price;
+        $user = Auth::user();
+
+        // Create Xendit invoice
+        Configuration::setXenditKey(config('services.xendit.secret_key'));
+
+        $invoiceApi = new InvoiceApi();
+        $create_invoice_request = [
+            'external_id' => 'booking-' . $booking->id . '-' . time(),
+            'amount' => $totalPrice,
+            'description' => 'Booking ' . $booking->service . ' pada ' . $booking->date . ' ' . $booking->time,
+            'invoice_duration' => 86400, // 24 hours
+            'currency' => 'IDR',
+            'customer' => [
+                'given_names' => $booking->full_name,
+                'email' => $user->email,
+                'mobile_number' => $booking->phone_number,
+            ],
+            'success_redirect_url' => route('bookings.index'),
+            'failure_redirect_url' => route('bookings.index'),
+        ];
+
+        try {
+            $invoice = $invoiceApi->createInvoice($create_invoice_request);
+
+            $booking->update([
+                'payment_id' => $invoice['id'],
+                'payment_status' => 'pending',
+                'payment_url' => $invoice['invoice_url'],
+                'total_price' => $totalPrice,
+            ]);
+
+            return redirect($invoice['invoice_url']);
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Gagal membuat link pembayaran. Silakan coba lagi.');
+        }
+    }
+
+    /**
+     * Handle Xendit payment callback
+     */
+    public function paymentCallback(Request $request)
+    {
+        $data = $request->all();
+
+        // Verify the callback is from Xendit (you should implement proper verification)
+        if (isset($data['id']) && isset($data['status'])) {
+            $booking = Booking::where('payment_id', $data['id'])->first();
+
+            if ($booking) {
+                if ($data['status'] == 'PAID') {
+                    $booking->update([
+                        'payment_status' => 'paid',
+                        'status' => 'completed', // Update booking status to completed
+                    ]);
+                } elseif ($data['status'] == 'EXPIRED') {
+                    $booking->update([
+                        'payment_status' => 'expired',
+                        'status' => 'cancelled',
+                    ]);
+                }
+            }
+        }
+
+        return response()->json(['status' => 'ok']);
     }
 }

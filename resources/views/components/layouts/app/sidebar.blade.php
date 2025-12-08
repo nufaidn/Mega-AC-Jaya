@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" class="dark">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 
 <head>
     @include('partials.head')
 </head>
 
-<body class="min-h-screen bg-white dark:bg-zinc-800 pb-24 md:pb-0">
-    <flux:sidebar sticky stashable class="border-r border-zinc-200 bg-zinc-50 dark:border-zinc-700 dark:bg-zinc-900">
+<body class="min-h-screen bg-gray-50 pb-24 md:pb-0">
+    <flux:sidebar sticky stashable class="border-r border-gray-200 bg-white shadow-sm">
         <flux:sidebar.toggle class="lg:hidden" icon="x-mark" />
 
         <a href="{{ route('dashboard') }}" class="me-5 flex items-center space-x-2 rtl:space-x-reverse" wire:navigate>

@@ -25,9 +25,12 @@
 
     --color-wa-50: #e8fdf2;
     --color-wa-100: #d1fae5;
+    --color-wa-light: #00d95f;
     --color-wa-500: #00d95f;
     --color-wa-600: #00ba54;
+    --color-wa-dark: #00ba54;
     --color-wa-700: #009944;
+    --color-wa-darker: #009944;
 
     --color-accent: var(--color-neutral-800);
     --color-accent-content: var(--color-neutral-800);
@@ -69,6 +72,72 @@ select:focus[data-flux-control] {
 
 .bg-gradient-wa {
     background: linear-gradient(135deg, #00d95f 0%, #00ba54 100%);
+}
+
+/* Sidebar Styling */
+[data-flux-sidebar] {
+    background-color: white !important;
+    border-right: 1px solid #e5e7eb !important;
+}
+
+/* Logo Styling */
+[data-flux-sidebar] a[href*="dashboard"]:first-of-type {
+    margin-bottom: 1.5rem;
+    padding: 0.5rem;
+}
+
+[data-flux-sidebar] a[href*="dashboard"]:first-of-type .bg-accent-content {
+    background: linear-gradient(135deg, #00d95f 0%, #00ba54 100%) !important;
+}
+
+/* Navlist Group */
+[data-flux-navlist-group] {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 0.25rem !important;
+}
+
+[data-flux-navlist-group-heading] {
+    color: #9ca3af !important;
+    font-size: 0.75rem !important;
+    font-weight: 600 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.05em !important;
+    padding: 0.5rem 0.75rem !important;
+    margin-bottom: 0.5rem !important;
+}
+
+/* Navlist Items */
+[data-flux-navlist-item] {
+    display: flex !important;
+    align-items: center !important;
+    gap: 0.75rem !important;
+    padding: 0.625rem 0.75rem !important;
+    border-radius: 0.5rem !important;
+    color: #6b7280 !important;
+    font-size: 0.875rem !important;
+    font-weight: 500 !important;
+    transition: all 0.2s ease !important;
+    text-decoration: none !important;
+}
+
+[data-flux-navlist-item]:hover {
+    background-color: #f3f4f6 !important;
+    color: #00ba54 !important;
+}
+
+[data-flux-navlist-item][aria-current="page"],
+[data-flux-navlist-item][data-current="true"] {
+    background-color: #e8fdf2 !important;
+    color: #00ba54 !important;
+    font-weight: 600 !important;
+}
+
+/* Icons in navlist */
+[data-flux-navlist-item] svg {
+    width: 1.25rem !important;
+    height: 1.25rem !important;
+    flex-shrink: 0 !important;
 }
 
 /* \[:where(&)\]:size-4 {

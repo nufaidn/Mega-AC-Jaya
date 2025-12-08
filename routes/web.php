@@ -39,6 +39,7 @@ Route::get('dashboard', function () {
         $data['totalServices'] = \App\Models\Service::count();
         $data['totalGalleries'] = \App\Models\Gallery::count();
         $data['totalProducts'] = \App\Models\Product::count();
+        $data['totalBookings'] = \App\Models\Booking::count();
         $data['products'] = \App\Models\Product::latest()->take(6)->get(); // Get latest 6 products
         return view('dashboard', $data);
     } else {
@@ -56,26 +57,31 @@ Route::get('dashboard', function () {
     ->middleware(['auth', 'verified'])
     ->name('dashboard');
 
-Route::get('bookings/create', [BookingController::class, 'create'])->name('bookings.create');
-Route::post('bookings', [BookingController::class, 'store'])->name('bookings.store');
-
-Route::get('product-orders/create', [ProductOrderController::class, 'create'])->name('product-orders.create');
-Route::post('product-orders', [ProductOrderController::class, 'store'])->name('product-orders.store');
-
 Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
     Route::resource('services', ServiceController::class);
     Route::resource('products', ProductController::class);
     Route::resource('bookings', BookingController::class)->except(['create', 'store']);
+    Route::patch('bookings/{id}/verify-payment', [BookingController::class, 'verifyPayment'])->name('bookings.verify-payment');
     Route::get('galleries', \App\Livewire\Admin\GalleryManager::class)->name('galleries.index');
+    Route::get('galleries/create', \App\Livewire\Admin\GalleryManager::class)->name('galleries.create');
     Route::resource('product-orders', \App\Http\Controllers\Admin\ProductOrderController::class)->except(['create', 'store']);
     Route::resource('product-orders', AdminProductOrderController::class);
-    Route::get('galleries', \App\Livewire\Admin\GalleryManager::class)->name('galleries.index');
     Route::redirect('settings', '/settings/profile')->name('settings');
 });
 
 Route::middleware(['auth'])->group(function () {
     Route::get('bookings', [BookingController::class, 'userIndex'])->name('bookings.index');
+    Route::get('bookings/create', [BookingController::class, 'create'])->name('bookings.create');
+    Route::post('bookings', [BookingController::class, 'store'])->name('bookings.store');
+    Route::post('bookings/callback', [BookingController::class, 'paymentCallback'])->name('bookings.callback');
+    Route::post('bookings/{id}/generate-payment', [BookingController::class, 'generatePayment'])->name('bookings.generate-payment');
+    Route::post('bookings/{id}/check-payment', [BookingController::class, 'checkPaymentStatus'])->name('bookings.check-payment');
     Route::get('product-orders', [ProductOrderController::class, 'userIndex'])->name('product-orders.index');
+    Route::get('product-orders/create', [ProductOrderController::class, 'create'])->name('product-orders.create');
+    Route::post('product-orders', [ProductOrderController::class, 'store'])->name('product-orders.store');
+    Route::post('product-orders/callback', [ProductOrderController::class, 'paymentCallback'])->name('product-orders.callback');
+    Route::post('product-orders/{id}/generate-payment', [ProductOrderController::class, 'generatePayment'])->name('product-orders.generate-payment');
+    Route::post('product-orders/{id}/check-payment', [ProductOrderController::class, 'checkPaymentStatus'])->name('product-orders.check-payment');
 
     Route::redirect('settings', 'settings/profile');
 
