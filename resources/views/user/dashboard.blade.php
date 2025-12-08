@@ -1,7 +1,7 @@
 <x-layouts.app :title="__('Dashboard')">
         <div class="flex h-full w-full flex-1 flex-col gap-6 p-4 md:p-6 bg-gradient-to-br from-wa-light/5 to-wa-dark/5 dark:from-neutral-900/50 dark:to-neutral-900 min-h-screen">
             <!-- Welcome Section -->
-            <div class="rounded-2xl bg-gradient-to-r from-wa-dark to-wa-darker p-6 md:p-8 text-white relative overflow-hidden shadow-lg">
+            <div class="rounded-2xl bg-gradient-to-r from-wa-dark to-wa-darker p-6 md:p-8 relative overflow-hidden shadow-lg">
                 <div class="absolute inset-0 bg-gradient-to-br from-wa-light/20 to-transparent"></div>
                 <div class="relative z-10">
                     <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
@@ -23,8 +23,8 @@
                 <div class="absolute top-1/2 left-1/4 w-16 h-16 bg-wa-light/20 rounded-full blur-lg"></div>
             </div>
     
-            <!-- Stats Cards Section -->
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
+            <!-- Stats Cards Section - Hidden on mobile, visible on desktop -->
+            <div class="hidden md:grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
                 <!-- My Bookings -->
                 <div class="group relative overflow-hidden rounded-2xl border border-neutral-200 dark:border-neutral-700 bg-white dark:bg-neutral-800 p-5 md:p-6 flex flex-col justify-between transition-all duration-300 hover:shadow-xl hover:-translate-y-1 hover:border-wa-light/30 dark:hover:border-wa-dark hover:bg-gradient-to-br hover:from-white hover:to-wa-light/5 dark:hover:from-neutral-800 dark:hover:to-wa-dark/10">
                     <div class="absolute top-0 right-0 w-24 h-24 bg-wa-light/5 dark:bg-wa-dark/5 rounded-full -translate-y-8 translate-x-8 group-hover:scale-110 transition-transform duration-500"></div>

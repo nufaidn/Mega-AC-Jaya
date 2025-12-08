@@ -30,9 +30,6 @@ Route::get('product', function () {
 })->name('product');
 Route::view('contact', 'pages.contact')->name('contact');
 
-
-
-
 Route::get('dashboard', function () {
     if (Auth::check() && Auth::user()->usertype == 'admin') {
         $data = [];
