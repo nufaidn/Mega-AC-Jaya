@@ -42,6 +42,14 @@ Route::get('dashboard', function () {
     } else {
         // User dashboard data
         $user = Auth::user();
+        
+        // Auto-check payment status untuk semua pending payments
+        try {
+            \App\Helpers\PaymentHelper::autoCheckUserPayments($user->id);
+        } catch (\Exception $e) {
+            // Jika error, lanjutkan saja
+        }
+        
         $data = [];
         $data['totalBookings'] = \App\Models\Booking::where('user_id', $user->id)->count();
         $data['totalOrders'] = \App\Models\ProductOrder::where('user_id', $user->id)->count();
@@ -57,8 +65,9 @@ Route::get('dashboard', function () {
 Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
     Route::resource('services', ServiceController::class);
     Route::resource('products', ProductController::class);
-    Route::resource('bookings', BookingController::class)->except(['create', 'store']);
+    Route::delete('bookings/delete-all', [BookingController::class, 'deleteAll'])->name('bookings.deleteAll');
     Route::patch('bookings/{id}/verify-payment', [BookingController::class, 'verifyPayment'])->name('bookings.verify-payment');
+    Route::resource('bookings', BookingController::class)->except(['create', 'store']);
     Route::get('galleries', \App\Livewire\Admin\GalleryManager::class)->name('galleries.index');
     Route::get('galleries/create', \App\Livewire\Admin\GalleryManager::class)->name('galleries.create');
     Route::resource('product-orders', \App\Http\Controllers\Admin\ProductOrderController::class)->except(['create', 'store']);
@@ -67,13 +76,29 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
 });
 
 Route::middleware(['auth'])->group(function () {
-    Route::get('bookings', [BookingController::class, 'userIndex'])->name('bookings.index');
+    Route::get('bookings', function() {
+        // Auto-check payment status
+        try {
+            \App\Helpers\PaymentHelper::autoCheckUserPayments(Auth::id());
+        } catch (\Exception $e) {
+            // Jika error, lanjutkan saja
+        }
+        return app(BookingController::class)->userIndex();
+    })->name('bookings.index');
     Route::get('bookings/create', [BookingController::class, 'create'])->name('bookings.create');
     Route::post('bookings', [BookingController::class, 'store'])->name('bookings.store');
     Route::post('bookings/callback', [BookingController::class, 'paymentCallback'])->name('bookings.callback');
     Route::post('bookings/{id}/generate-payment', [BookingController::class, 'generatePayment'])->name('bookings.generate-payment');
     Route::post('bookings/{id}/check-payment', [BookingController::class, 'checkPaymentStatus'])->name('bookings.check-payment');
-    Route::get('product-orders', [ProductOrderController::class, 'userIndex'])->name('product-orders.index');
+    Route::get('product-orders', function() {
+        // Auto-check payment status
+        try {
+            \App\Helpers\PaymentHelper::autoCheckUserPayments(Auth::id());
+        } catch (\Exception $e) {
+            // Jika error, lanjutkan saja
+        }
+        return app(ProductOrderController::class)->userIndex();
+    })->name('product-orders.index');
     Route::get('product-orders/create', [ProductOrderController::class, 'create'])->name('product-orders.create');
     Route::post('product-orders', [ProductOrderController::class, 'store'])->name('product-orders.store');
     Route::post('product-orders/callback', [ProductOrderController::class, 'paymentCallback'])->name('product-orders.callback');

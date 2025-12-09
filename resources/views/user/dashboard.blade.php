@@ -1,97 +1,92 @@
 <x-layouts.app :title="__('Dashboard')">
-        <div class="flex h-full w-full flex-1 flex-col gap-6 p-4 md:p-6 bg-gradient-to-br from-wa-light/5 to-wa-dark/5 dark:from-neutral-900/50 dark:to-neutral-900 min-h-screen">
+        <div class="flex h-full w-full flex-1 flex-col gap-6 p-4 md:p-6 bg-gray-50 min-h-screen">
             <!-- Welcome Section -->
-            <div class="rounded-2xl bg-gradient-to-r from-wa-dark to-wa-darker p-6 md:p-8 relative overflow-hidden shadow-lg">
+            <div class="rounded-2xl bg-gradient-to-r from-wa-dark to-wa-darker p-6 md:p-8 text-white relative overflow-hidden shadow-lg">
                 <div class="absolute inset-0 bg-gradient-to-br from-wa-light/20 to-transparent"></div>
                 <div class="relative z-10">
                     <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
                         <div>
-                            <h1 class="text-2xl md:text-3xl font-bold mb-2">Welcome back, {{ Auth::user()->name }}!</h1>
-                            <p class="text-wa-light/90 text-lg">Here's what's happening with your account today.</p>
+                            <h1 class="text-2xl md:text-3xl font-bold mb-2">Selamat Datang, {{ Auth::user()->name }}! 👋</h1>
+                            <p class="text-white/90 text-lg">Kelola pesanan dan booking Anda dengan mudah dari dashboard ini</p>
                         </div>
                         <div class="flex items-center gap-2">
-                            <span class="text-sm text-wa-light/80">Today is</span>
+                            <span class="text-sm text-white/80">Hari ini</span>
                             <span class="px-3 py-1.5 bg-white/20 backdrop-blur-sm rounded-full text-sm font-medium">
-                                {{ now()->format('l, F j, Y') }}
+                                {{ now()->format('d M Y') }}
                             </span>
                         </div>
                     </div>
                 </div>
-                <!-- Decorative Elements -->
                 <div class="absolute -bottom-8 -right-8 w-40 h-40 bg-wa-light/10 rounded-full blur-xl"></div>
-                <div class="absolute -top-6 -left-6 w-32 h-32 bg-wa-dark/20 rounded-full blur-xl"></div>
-                <div class="absolute top-1/2 left-1/4 w-16 h-16 bg-wa-light/20 rounded-full blur-lg"></div>
+                <div class="absolute -top-6 -left-6 w-32 h-32 bg-white/10 rounded-full blur-xl"></div>
             </div>
     
-            <!-- Stats Cards Section - Hidden on mobile, visible on desktop -->
-            <div class="hidden md:grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
+            <!-- Stats Cards Section -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
                 <!-- My Bookings -->
-                <div class="group relative overflow-hidden rounded-2xl border border-neutral-200 dark:border-neutral-700 bg-white dark:bg-neutral-800 p-5 md:p-6 flex flex-col justify-between transition-all duration-300 hover:shadow-xl hover:-translate-y-1 hover:border-wa-light/30 dark:hover:border-wa-dark hover:bg-gradient-to-br hover:from-white hover:to-wa-light/5 dark:hover:from-neutral-800 dark:hover:to-wa-dark/10">
-                    <div class="absolute top-0 right-0 w-24 h-24 bg-wa-light/5 dark:bg-wa-dark/5 rounded-full -translate-y-8 translate-x-8 group-hover:scale-110 transition-transform duration-500"></div>
-                    <div class="flex items-center justify-between mb-4 relative z-10">
-                        <div class="p-3 rounded-xl bg-gradient-to-br from-wa-light/10 to-wa-dark/10 group-hover:from-wa-light/20 group-hover:to-wa-dark/20 transition-all duration-300">
-                            <svg class="w-6 h-6 text-wa-dark dark:text-wa-light" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <div class="group relative overflow-hidden rounded-2xl border border-gray-200 bg-white p-5 md:p-6 transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="p-3 rounded-xl bg-gradient-to-br from-wa-light/10 to-wa-dark/10">
+                            <svg class="w-6 h-6 text-wa-dark" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
                             </svg>
                         </div>
-                        <span class="text-xs font-medium px-3 py-1 rounded-full bg-wa-light/10 dark:bg-wa-dark/20 text-wa-dark dark:text-wa-light">Booking</span>
+                        <span class="text-xs font-medium px-3 py-1 rounded-full bg-wa-light/10 text-wa-dark">Booking</span>
                     </div>
-                    <div class="mb-4 relative z-10">
-                        <h3 class="text-sm font-medium text-gray-500 dark:text-neutral-400 mb-1">My Booking</h3>
-                        <p class="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white">{{ $totalBookings ?? 0 }}</p>
+                    <div class="mb-4">
+                        <h3 class="text-sm font-medium text-gray-500 mb-1">My Bookings</h3>
+                        <p class="text-3xl md:text-4xl font-bold text-gray-900">{{ $totalBookings ?? 0 }}</p>
                         <div class="mt-2 h-1 w-16 bg-gradient-to-r from-wa-light to-wa-dark rounded-full"></div>
                     </div>
-                    <a href="{{ route('bookings.index') }}" class="flex items-center justify-between text-sm font-medium text-wa-dark dark:text-wa-light hover:text-wa-darker dark:hover:text-wa-light/80 transition-colors group/link relative z-10">
-                        <span>View Bookings</span>
-                        <svg class="w-4 h-4 transform group-hover/link:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <a href="{{ route('bookings.index') }}" class="flex items-center justify-between text-sm font-medium text-wa-dark hover:text-wa-darker transition-colors">
+                        <span>Lihat Bookings</span>
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
                         </svg>
                     </a>
                 </div>
     
                 <!-- My Orders -->
-                <div class="group relative overflow-hidden rounded-2xl border border-neutral-200 dark:border-neutral-700 bg-white dark:bg-neutral-800 p-5 md:p-6 flex flex-col justify-between transition-all duration-300 hover:shadow-xl hover:-translate-y-1 hover:border-wa-light/30 dark:hover:border-wa-dark hover:bg-gradient-to-br hover:from-white hover:to-wa-light/5 dark:hover:from-neutral-800 dark:hover:to-wa-dark/10">
-                    <div class="absolute top-0 right-0 w-24 h-24 bg-wa-light/5 dark:bg-wa-dark/5 rounded-full -translate-y-8 translate-x-8 group-hover:scale-110 transition-transform duration-500"></div>
-                    <div class="flex items-center justify-between mb-4 relative z-10">
-                        <div class="p-3 rounded-xl bg-gradient-to-br from-wa-light/10 to-wa-dark/10 group-hover:from-wa-light/20 group-hover:to-wa-dark/20 transition-all duration-300">
-                            <svg class="w-6 h-6 text-wa-dark dark:text-wa-light" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <div class="group relative overflow-hidden rounded-2xl border border-gray-200 bg-white p-5 md:p-6 transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="p-3 rounded-xl bg-gradient-to-br from-wa-light/10 to-wa-dark/10">
+                            <svg class="w-6 h-6 text-wa-dark" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
                             </svg>
                         </div>
-                        <span class="text-xs font-medium px-3 py-1 rounded-full bg-wa-light/10 dark:bg-wa-dark/20 text-wa-dark dark:text-wa-light">Order</span>
+                        <span class="text-xs font-medium px-3 py-1 rounded-full bg-wa-light/10 text-wa-dark">Orders</span>
                     </div>
-                    <div class="mb-4 relative z-10">
-                        <h3 class="text-sm font-medium text-gray-500 dark:text-neutral-400 mb-1">My Order</h3>
-                        <p class="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white">{{ $totalOrders ?? 0 }}</p>
+                    <div class="mb-4">
+                        <h3 class="text-sm font-medium text-gray-500 mb-1">My Orders</h3>
+                        <p class="text-3xl md:text-4xl font-bold text-gray-900">{{ $totalOrders ?? 0 }}</p>
                         <div class="mt-2 h-1 w-16 bg-gradient-to-r from-wa-light to-wa-dark rounded-full"></div>
                     </div>
-                    <a href="{{ route('product-orders.index') }}" class="flex items-center justify-between text-sm font-medium text-wa-dark dark:text-wa-light hover:text-wa-darker dark:hover:text-wa-light/80 transition-colors group/link relative z-10">
-                        <span>View Pending</span>
-                        <svg class="w-4 h-4 transform group-hover/link:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <a href="{{ route('product-orders.index') }}" class="flex items-center justify-between text-sm font-medium text-wa-dark hover:text-wa-darker transition-colors">
+                        <span>Lihat Orders</span>
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
                         </svg>
                     </a>
                 </div>
     
-                <!-- My Expedition -->
-                <div class="group relative overflow-hidden rounded-2xl border border-neutral-200 dark:border-neutral-700 bg-white dark:bg-neutral-800 p-5 md:p-6 flex flex-col justify-between transition-all duration-300 hover:shadow-xl hover:-translate-y-1 hover:border-wa-light/30 dark:hover:border-wa-dark hover:bg-gradient-to-br hover:from-white hover:to-wa-light/5 dark:hover:from-neutral-800 dark:hover:to-wa-dark/10">
-                    <div class="absolute top-0 right-0 w-24 h-24 bg-wa-light/5 dark:bg-wa-dark/5 rounded-full -translate-y-8 translate-x-8 group-hover:scale-110 transition-transform duration-500"></div>
-                    <div class="flex items-center justify-between mb-4 relative z-10">
-                        <div class="p-3 rounded-xl bg-gradient-to-br from-wa-light/10 to-wa-dark/10 group-hover:from-wa-light/20 group-hover:to-wa-dark/20 transition-all duration-300">
-                            <svg class="w-6 h-6 text-wa-dark dark:text-wa-light" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <!-- Completed Orders -->
+                <div class="group relative overflow-hidden rounded-2xl border border-gray-200 bg-white p-5 md:p-6 transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="p-3 rounded-xl bg-gradient-to-br from-wa-light/10 to-wa-dark/10">
+                            <svg class="w-6 h-6 text-wa-dark" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                             </svg>
                         </div>
-                        <span class="text-xs font-medium px-3 py-1 rounded-full bg-wa-light/10 dark:bg-wa-dark/20 text-wa-dark dark:text-wa-light">Expedition</span>
+                        <span class="text-xs font-medium px-3 py-1 rounded-full bg-wa-light/10 text-wa-dark">Completed</span>
                     </div>
-                    <div class="mb-4 relative z-10">
-                        <h3 class="text-sm font-medium text-gray-500 dark:text-neutral-400 mb-1">My Expedition</h3>
-                        <p class="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white">{{ $completedOrders ?? 0 }}</p>
+                    <div class="mb-4">
+                        <h3 class="text-sm font-medium text-gray-500 mb-1">Completed Orders</h3>
+                        <p class="text-3xl md:text-4xl font-bold text-gray-900">{{ $completedOrders ?? 0 }}</p>
                         <div class="mt-2 h-1 w-16 bg-gradient-to-r from-wa-light to-wa-dark rounded-full"></div>
                     </div>
-                    <a href="{{ route('product-orders.index') }}" class="flex items-center justify-between text-sm font-medium text-wa-dark dark:text-wa-light hover:text-wa-darker dark:hover:text-wa-light/80 transition-colors group/link relative z-10">
-                        <span>View Completed</span>
-                        <svg class="w-4 h-4 transform group-hover/link:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <a href="{{ route('product-orders.index') }}" class="flex items-center justify-between text-sm font-medium text-wa-dark hover:text-wa-darker transition-colors">
+                        <span>Lihat Completed</span>
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
                         </svg>
                     </a>
@@ -100,27 +95,37 @@
     
             <!-- Unpaid Items Section -->
             @php
+                // Filter hanya yang belum bayar (bukan paid)
                 $unpaidBookings = \App\Models\Booking::where('user_id', Auth::id())
-                    ->where('payment_status', 'pending')
-                    ->where('status', 'pending')
+                    ->where('payment_status', '!=', 'paid')
+                    ->whereIn('status', ['pending'])
+                    ->whereNotNull('payment_url')
                     ->get();
                 $unpaidOrders = \App\Models\ProductOrder::where('user_id', Auth::id())
-                    ->where('payment_status', 'pending')
-                    ->where('status', 'pending')
+                    ->where('payment_status', '!=', 'paid')
+                    ->whereIn('status', ['pending'])
+                    ->whereNotNull('payment_url')
                     ->get();
             @endphp
             @if($unpaidBookings->count() > 0 || $unpaidOrders->count() > 0)
-            <div class="rounded-2xl border border-red-200 dark:border-red-700 bg-red-50 dark:bg-red-900/20 overflow-hidden transition-all duration-300 hover:shadow-lg backdrop-blur-sm">
-                <div class="p-5 md:p-6 border-b border-red-100 dark:border-red-700">
-                    <div class="flex items-center gap-3">
-                        <div class="p-2 rounded-lg bg-gradient-to-r from-red-500/10 to-red-600/10">
-                            <svg class="w-5 h-5 text-red-600 dark:text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                            </svg>
+            <div class="rounded-2xl border border-red-200 bg-white overflow-hidden shadow-lg">
+                <div class="bg-red-100 p-5 md:p-6 border-b border-red-200">
+                    <div class="flex flex-col gap-3">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 bg-red-600 rounded-lg flex items-center justify-center">
+                                <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                </svg>
+                            </div>
+                            <div>
+                                <h3 class="text-xl font-bold text-red-900">Menunggu Pembayaran</h3>
+                                <p class="text-sm text-red-700">Item yang perlu dibayar</p>
+                            </div>
                         </div>
-                        <div>
-                            <h3 class="text-xl md:text-2xl font-bold text-red-900 dark:text-red-100">Menunggu Pembayaran</h3>
-                            <p class="text-sm text-red-700 dark:text-red-300 mt-1">Item yang perlu dibayar</p>
+                        <div class="bg-yellow-50 border border-yellow-200 rounded-lg p-3">
+                            <p class="text-sm text-yellow-800">
+                                <strong>💡 Tips:</strong> Setelah melakukan pembayaran, klik tombol <strong>"Cek Status"</strong> untuk memperbarui status pembayaran Anda.
+                            </p>
                         </div>
                     </div>
                 </div>
@@ -128,22 +133,22 @@
                 <div class="p-5 md:p-6">
                     <div class="space-y-4">
                         @foreach($unpaidBookings as $booking)
-                        <div class="flex items-center justify-between p-4 bg-white dark:bg-neutral-800 rounded-xl border border-red-200 dark:border-red-700">
+                        <div class="flex flex-col md:flex-row md:items-center justify-between p-4 bg-gray-50 rounded-xl border border-gray-200 gap-4">
                             <div class="flex items-center gap-4">
-                                <div class="w-12 h-12 rounded-lg bg-red-100 dark:bg-red-900/30 flex items-center justify-center">
-                                    <svg class="w-6 h-6 text-red-600 dark:text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <div class="w-12 h-12 rounded-xl bg-red-100 flex items-center justify-center flex-shrink-0">
+                                    <svg class="w-6 h-6 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
                                     </svg>
                                 </div>
                                 <div>
-                                    <h4 class="font-semibold text-gray-900 dark:text-white">Booking {{ $booking->service }}</h4>
-                                    <p class="text-sm text-gray-500 dark:text-neutral-400">{{ $booking->created_at->format('M d, Y') }}</p>
-                                    <p class="text-sm text-gray-500 dark:text-neutral-400">Rp {{ number_format($booking->total_price, 0, ',', '.') }}</p>
+                                    <h4 class="font-semibold text-gray-900">Booking {{ $booking->service }}</h4>
+                                    <p class="text-sm text-gray-500">{{ $booking->created_at->format('M d, Y') }}</p>
+                                    <p class="text-sm font-medium text-gray-700">Rp {{ number_format($booking->total_price, 0, ',', '.') }}</p>
                                 </div>
                             </div>
-                            <div class="flex gap-2">
+                            <div class="flex flex-wrap gap-2">
                                 @if($booking->payment_url)
-                                <a href="{{ $booking->payment_url }}" target="_blank" class="inline-flex items-center gap-2 px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors font-medium">
+                                <a href="{{ $booking->payment_url }}" target="_blank" class="inline-flex items-center gap-2 px-4 py-2 bg-red-600 text-white rounded-xl hover:bg-red-700 transition font-medium text-sm">
                                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2z" />
                                     </svg>
@@ -151,7 +156,7 @@
                                 </a>
                                 <form action="{{ route('bookings.check-payment', $booking->id) }}" method="POST" class="inline">
                                     @csrf
-                                    <button type="submit" class="inline-flex items-center gap-2 px-3 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors font-medium">
+                                    <button type="submit" class="inline-flex items-center gap-2 px-3 py-2 bg-blue-600 text-white rounded-xl hover:bg-blue-700 transition font-medium text-sm">
                                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
                                         </svg>
@@ -161,7 +166,7 @@
                                 @else
                                 <form action="{{ route('bookings.generate-payment', $booking->id) }}" method="POST" class="inline">
                                     @csrf
-                                    <button type="submit" class="inline-flex items-center gap-2 px-4 py-2 bg-orange-600 text-white rounded-lg hover:bg-orange-700 transition-colors font-medium">
+                                    <button type="submit" class="inline-flex items-center gap-2 px-4 py-2 bg-orange-600 text-white rounded-xl hover:bg-orange-700 transition font-medium text-sm">
                                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
                                         </svg>
@@ -174,26 +179,26 @@
                         @endforeach
 
                         @foreach($unpaidOrders as $order)
-                        <div class="flex items-center justify-between p-4 bg-white dark:bg-neutral-800 rounded-xl border border-red-200 dark:border-red-700">
+                        <div class="flex flex-col md:flex-row md:items-center justify-between p-4 bg-gray-50 rounded-xl border border-gray-200 gap-4">
                             <div class="flex items-center gap-4">
                                 @if($order->product->image)
-                                <img src="{{ asset('images/' . $order->product->image) }}" alt="{{ $order->product->name }}" class="w-12 h-12 rounded-lg object-cover">
+                                <img src="{{ asset('images/' . $order->product->image) }}" alt="{{ $order->product->name }}" class="w-12 h-12 rounded-xl object-cover flex-shrink-0">
                                 @else
-                                <div class="w-12 h-12 rounded-lg bg-red-100 dark:bg-red-900/30 flex items-center justify-center">
-                                    <svg class="w-6 h-6 text-red-600 dark:text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <div class="w-12 h-12 rounded-xl bg-red-100 flex items-center justify-center flex-shrink-0">
+                                    <svg class="w-6 h-6 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
                                     </svg>
                                 </div>
                                 @endif
                                 <div>
-                                    <h4 class="font-semibold text-gray-900 dark:text-white">{{ $order->product->name }}</h4>
-                                    <p class="text-sm text-gray-500 dark:text-neutral-400">{{ $order->created_at->format('M d, Y') }}</p>
-                                    <p class="text-sm text-gray-500 dark:text-neutral-400">Rp {{ number_format($order->total_price, 0, ',', '.') }}</p>
+                                    <h4 class="font-semibold text-gray-900">{{ $order->product->name }}</h4>
+                                    <p class="text-sm text-gray-500">{{ $order->created_at->format('M d, Y') }}</p>
+                                    <p class="text-sm font-medium text-gray-700">Rp {{ number_format($order->total_price, 0, ',', '.') }}</p>
                                 </div>
                             </div>
-                            <div class="flex gap-2">
+                            <div class="flex flex-wrap gap-2">
                                 @if($order->payment_url)
-                                <a href="{{ $order->payment_url }}" target="_blank" class="inline-flex items-center gap-2 px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors font-medium">
+                                <a href="{{ $order->payment_url }}" target="_blank" class="inline-flex items-center gap-2 px-4 py-2 bg-red-600 text-white rounded-xl hover:bg-red-700 transition font-medium text-sm">
                                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2z" />
                                     </svg>
@@ -201,7 +206,7 @@
                                 </a>
                                 <form action="{{ route('product-orders.check-payment', $order->id) }}" method="POST" class="inline">
                                     @csrf
-                                    <button type="submit" class="inline-flex items-center gap-2 px-3 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors font-medium">
+                                    <button type="submit" class="inline-flex items-center gap-2 px-3 py-2 bg-blue-600 text-white rounded-xl hover:bg-blue-700 transition font-medium text-sm">
                                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
                                         </svg>
@@ -211,7 +216,7 @@
                                 @else
                                 <form action="{{ route('product-orders.generate-payment', $order->id) }}" method="POST" class="inline">
                                     @csrf
-                                    <button type="submit" class="inline-flex items-center gap-2 px-4 py-2 bg-orange-600 text-white rounded-lg hover:bg-orange-700 transition-colors font-medium">
+                                    <button type="submit" class="inline-flex items-center gap-2 px-4 py-2 bg-orange-600 text-white rounded-xl hover:bg-orange-700 transition font-medium text-sm">
                                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
                                         </svg>

@@ -162,6 +162,20 @@ class BookingController extends Controller
     }
 
     /**
+     * Delete all bookings (Admin only)
+     */
+    public function deleteAll()
+    {
+        try {
+            $count = Booking::count();
+            Booking::truncate();
+            return redirect()->route('admin.bookings.index')->with('success', "Successfully deleted {$count} booking(s).");
+        } catch (\Exception $e) {
+            return redirect()->route('admin.bookings.index')->with('error', 'Failed to delete bookings: ' . $e->getMessage());
+        }
+    }
+
+    /**
      * Verify payment status (Admin only)
      */
     public function verifyPayment($id)
@@ -170,7 +184,7 @@ class BookingController extends Controller
 
         // Check if booking has payment_id
         if (!$booking->payment_id) {
-            return redirect()->back()->with('error', 'Booking ini belum memiliki payment ID.');
+            return redirect()->route('admin.bookings.index')->with('error', 'Booking ini belum memiliki payment ID.');
         }
 
         try {
@@ -186,18 +200,18 @@ class BookingController extends Controller
                     'payment_status' => 'paid',
                     'status' => 'completed',
                 ]);
-                return redirect()->back()->with('success', 'Payment verified! Booking status updated to completed.');
+                return redirect()->route('admin.bookings.index')->with('success', 'Payment verified! Booking status updated to completed.');
             } elseif ($invoice['status'] == 'EXPIRED') {
                 $booking->update([
                     'payment_status' => 'expired',
                     'status' => 'cancelled',
                 ]);
-                return redirect()->back()->with('info', 'Invoice expired. Booking status updated to cancelled.');
+                return redirect()->route('admin.bookings.index')->with('info', 'Invoice expired. Booking status updated to cancelled.');
             } else {
-                return redirect()->back()->with('info', 'Payment still pending. Status: ' . $invoice['status']);
+                return redirect()->route('admin.bookings.index')->with('info', 'Payment still pending. Status: ' . $invoice['status']);
             }
         } catch (\Exception $e) {
-            return redirect()->back()->with('error', 'Failed to verify payment: ' . $e->getMessage());
+            return redirect()->route('admin.bookings.index')->with('error', 'Failed to verify payment: ' . $e->getMessage());
         }
     }
 

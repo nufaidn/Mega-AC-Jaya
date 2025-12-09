@@ -1,27 +1,27 @@
 <div>
-<div class="p-4 md:p-6 bg-gradient-to-br from-wa-light/5 to-wa-dark/5 dark:from-neutral-900/50 dark:to-neutral-900 min-h-screen">
+<div class="p-4 md:p-6 bg-gray-50 min-h-screen">
     <div class="max-w-7xl mx-auto">
         <!-- Header Section -->
         <div class="mb-8 md:mb-10">
             <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                 <div>
                     <div class="flex items-center gap-3 mb-2">
-                        <div class="p-2 rounded-xl bg-gradient-to-r from-wa-light to-wa-dark">
+                        <div class="p-2 rounded-xl bg-gradient-wa">
                             <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
                             </svg>
                         </div>
-                        <h2 class="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white">Gallery Management</h2>
+                        <h2 class="text-2xl md:text-3xl font-bold text-gray-900">Kelola Galeri</h2>
                     </div>
-                    <p class="text-sm text-gray-500 dark:text-gray-400 ml-12">Upload and manage your gallery photos</p>
+                    <p class="text-sm text-gray-500 ml-12">Upload dan kelola foto galeri Anda</p>
                 </div>
                 <div class="flex flex-wrap gap-3">
                     <a href="{{ route('dashboard') }}" 
-                       class="inline-flex items-center gap-2 px-4 py-2.5 bg-gradient-to-r from-gray-600 to-gray-700 text-white rounded-xl hover:from-gray-700 hover:to-gray-800 transition-all duration-300 hover:shadow-lg font-medium group">
+                       class="inline-flex items-center gap-2 px-5 py-2.5 bg-white text-gray-700 border border-gray-300 rounded-xl hover:bg-gray-50 transition-all duration-200 shadow-sm hover:shadow font-medium group">
                         <svg class="w-4 h-4 transform group-hover:-translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
                         </svg>
-                        Back to Dashboard
+                        Kembali
                     </a>
                 </div>
             </div>
@@ -29,19 +29,19 @@
 
         <!-- Success Message -->
         @if (session()->has('message'))
-        <div class="mb-8 p-4 rounded-xl border border-wa-light/20 dark:border-wa-dark/30 bg-gradient-to-r from-wa-light/5 to-wa-dark/5 shadow-sm" role="alert">
+        <div class="mb-8 p-4 rounded-xl border border-wa-200 bg-wa-50 shadow-sm" role="alert">
             <div class="flex items-center gap-3">
                 <div class="flex-shrink-0">
-                    <div class="w-8 h-8 rounded-full bg-wa-light/20 flex items-center justify-center">
-                        <svg class="w-4 h-4 text-wa-dark dark:text-wa-light" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <div class="w-8 h-8 rounded-full bg-wa-100 flex items-center justify-center">
+                        <svg class="w-4 h-4 text-wa-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
                         </svg>
                     </div>
                 </div>
                 <div class="flex-1">
-                    <p class="text-sm font-medium text-wa-dark dark:text-wa-light">{{ session('message') }}</p>
+                    <p class="text-sm font-medium text-wa-700">{{ session('message') }}</p>
                 </div>
-                <button type="button" class="text-wa-dark/70 hover:text-wa-dark dark:text-wa-light/70 dark:hover:text-wa-light" onclick="this.parentElement.parentElement.remove()">
+                <button type="button" class="text-wa-600 hover:text-wa-700 transition-colors" onclick="this.parentElement.parentElement.remove()">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
                     </svg>
@@ -51,26 +51,26 @@
         @endif
 
         <!-- Upload Form Card -->
-        <div class="bg-white dark:bg-neutral-800 rounded-2xl border border-gray-200 dark:border-neutral-700 shadow-lg p-6 mb-8 md:mb-10 backdrop-blur-sm bg-white/95 dark:bg-neutral-800/95">
+        <div class="bg-white rounded-2xl border border-gray-200 shadow-lg p-6 mb-8 md:mb-10">
             <div class="flex items-center gap-3 mb-6">
-                <div class="p-2 rounded-xl bg-gradient-to-r from-wa-light to-wa-dark">
+                <div class="p-2 rounded-xl bg-gradient-wa">
                     <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
                     </svg>
                 </div>
-                <h3 class="text-lg md:text-xl font-semibold text-gray-900 dark:text-white">Upload New Photo</h3>
+                <h3 class="text-lg md:text-xl font-semibold text-gray-900">Upload Foto Baru</h3>
             </div>
 
             <form wire:submit.prevent="save" class="space-y-6">
                 <!-- Title Input -->
                 <div>
-                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                        Photo Title <span class="text-gray-400 dark:text-gray-500 text-sm font-normal">(Optional)</span>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">
+                        Judul Foto <span class="text-gray-400 text-sm font-normal">(Opsional)</span>
                     </label>
                     <div class="relative">
                         <input type="text" wire:model="title" 
-                               class="block w-full px-4 py-3 bg-white dark:bg-neutral-900 border border-gray-300 dark:border-neutral-600 rounded-xl focus:outline-none focus:ring-2 focus:ring-wa-light focus:border-transparent transition-all duration-200 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 hover:border-wa-light/50 dark:hover:border-wa-dark/50"
-                               placeholder="Enter a title for your photo">
+                               class="block w-full px-4 py-3 bg-white border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-wa-500 focus:border-transparent transition-all duration-200 placeholder-gray-400 hover:border-wa-500"
+                               placeholder="Masukkan judul untuk foto Anda">
                         <div class="absolute right-3 top-3">
                             <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
@@ -89,24 +89,24 @@
 
                 <!-- File Upload -->
                 <div>
-                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                        Select Photo
+                    <label class="block text-sm font-medium text-gray-700 mb-2">
+                        Pilih Foto
                     </label>
-                    <div class="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-dashed border-gray-300 dark:border-neutral-600 rounded-xl hover:border-wa-light dark:hover:border-wa-dark transition-all duration-200 group cursor-pointer">
+                    <div class="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-dashed border-gray-300 rounded-xl hover:border-wa-500 transition-all duration-200 group cursor-pointer">
                         <div class="space-y-1 text-center">
-                            <div class="mx-auto h-12 w-12 text-gray-400 group-hover:text-wa-light transition-colors">
+                            <div class="mx-auto h-12 w-12 text-gray-400 group-hover:text-wa-600 transition-colors">
                                 <svg class="w-full h-full" stroke="currentColor" fill="none" viewBox="0 0 48 48" aria-hidden="true">
                                     <path d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
                                 </svg>
                             </div>
-                            <div class="flex text-sm text-gray-600 dark:text-gray-400">
-                                <label for="file-upload" class="relative cursor-pointer rounded-md font-medium text-wa-dark dark:text-wa-light hover:text-wa-dark/80 dark:hover:text-wa-light/80 focus-within:outline-none">
-                                    <span>Upload a file</span>
+                            <div class="flex text-sm text-gray-600">
+                                <label for="file-upload" class="relative cursor-pointer rounded-md font-medium text-wa-600 hover:text-wa-700 focus-within:outline-none">
+                                    <span>Upload file</span>
                                     <input id="file-upload" type="file" wire:model="photo" class="sr-only">
                                 </label>
-                                <p class="pl-1">or drag and drop</p>
+                                <p class="pl-1">atau drag and drop</p>
                             </div>
-                            <p class="text-xs text-gray-500 dark:text-gray-400">PNG, JPG, GIF up to 10MB</p>
+                            <p class="text-xs text-gray-500">PNG, JPG, GIF maksimal 10MB</p>
                         </div>
                     </div>
                     @error('photo') 
@@ -122,27 +122,27 @@
                 <!-- Upload Progress -->
                 <div wire:loading wire:target="photo" class="space-y-2">
                     <div class="flex items-center justify-between text-sm">
-                        <span class="text-gray-600 dark:text-gray-400">Uploading...</span>
-                        <span class="font-medium text-wa-dark dark:text-wa-light">0%</span>
+                        <span class="text-gray-600">Mengupload...</span>
+                        <span class="font-medium text-wa-600">0%</span>
                     </div>
-                    <div class="w-full bg-gray-200 dark:bg-neutral-700 rounded-full h-2">
-                        <div class="bg-gradient-to-r from-wa-light to-wa-dark h-2 rounded-full animate-pulse" style="width: 45%"></div>
+                    <div class="w-full bg-gray-200 rounded-full h-2">
+                        <div class="bg-gradient-wa h-2 rounded-full animate-pulse" style="width: 45%"></div>
                     </div>
                 </div>
 
                 <!-- Preview Section -->
                 @if ($photo)
-                <div class="rounded-xl border border-gray-200 dark:border-neutral-700 overflow-hidden bg-gradient-to-br from-wa-light/5 to-wa-dark/5 dark:from-wa-dark/10 dark:to-wa-dark/5 p-4">
-                    <p class="text-sm font-medium text-gray-700 dark:text-gray-300 mb-3 flex items-center gap-2">
-                        <svg class="w-4 h-4 text-wa-dark dark:text-wa-light" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <div class="rounded-xl border border-gray-200 overflow-hidden bg-wa-50 p-4">
+                    <p class="text-sm font-medium text-gray-700 mb-3 flex items-center gap-2">
+                        <svg class="w-4 h-4 text-wa-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
                         </svg>
                         Preview
                     </p>
-                    <div class="relative rounded-lg overflow-hidden border border-wa-light/20 dark:border-wa-dark/30">
+                    <div class="relative rounded-lg overflow-hidden border border-wa-200">
                         <img src="{{ $photo->temporaryUrl() }}" 
                              class="w-full h-48 md:h-56 object-cover rounded-lg transition-transform duration-300 hover:scale-105">
-                        <div class="absolute inset-0 bg-gradient-to-t from-wa-dark/10 to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300"></div>
+                        <div class="absolute inset-0 bg-gradient-to-t from-wa-600/10 to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300"></div>
                     </div>
                 </div>
                 @endif
@@ -150,7 +150,7 @@
                 <!-- Submit Button -->
                 <div class="pt-2">
                     <button type="submit" 
-                            class="inline-flex items-center justify-center gap-2 w-full sm:w-auto px-6 py-3 bg-gradient-to-r from-wa-light to-wa-dark text-white font-medium rounded-xl hover:from-wa-light/90 hover:to-wa-dark/90 transition-all duration-300 hover:shadow-lg shadow-wa-dark/20 hover:shadow-wa-dark/30 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-wa-light disabled:opacity-50 disabled:cursor-not-allowed group/btn"
+                            class="inline-flex items-center justify-center gap-2 w-full sm:w-auto px-6 py-3 bg-gradient-wa text-white font-medium rounded-xl hover:shadow-lg transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-wa-500 disabled:opacity-50 disabled:cursor-not-allowed group/btn"
                             wire:loading.attr="disabled" 
                             wire:target="photo, save">
                         <svg class="w-4 h-4 group-hover/btn:animate-bounce" fill="none" stroke="currentColor" viewBox="0 0 24 24" wire:loading.remove wire:target="save">
@@ -160,8 +160,8 @@
                             <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
                             <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                         </svg>
-                        <span wire:loading.remove wire:target="save">Save Photo</span>
-                        <span wire:loading wire:target="save">Saving...</span>
+                        <span wire:loading.remove wire:target="save">Simpan Foto</span>
+                        <span wire:loading wire:target="save">Menyimpan...</span>
                     </button>
                 </div>
             </form>
@@ -172,22 +172,22 @@
             <div class="flex items-center justify-between mb-6">
                 <div>
                     <div class="flex items-center gap-3">
-                        <div class="p-2 rounded-lg bg-gradient-to-r from-wa-light/10 to-wa-dark/10">
-                            <svg class="w-5 h-5 text-wa-dark dark:text-wa-light" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <div class="p-2 rounded-lg bg-wa-50">
+                            <svg class="w-5 h-5 text-wa-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" />
                             </svg>
                         </div>
-                        <h3 class="text-lg md:text-xl font-semibold text-gray-900 dark:text-white">Gallery Photos</h3>
+                        <h3 class="text-lg md:text-xl font-semibold text-gray-900">Foto Galeri</h3>
                     </div>
-                    <p class="text-sm text-gray-500 dark:text-gray-400 ml-12">{{ count($galleries) }} photos in gallery</p>
+                    <p class="text-sm text-gray-500 ml-12">{{ count($galleries) }} foto di galeri</p>
                 </div>
                 <div class="flex items-center gap-3">
-                    <button class="p-2 text-gray-400 hover:text-wa-dark dark:hover:text-wa-light hover:bg-wa-light/10 dark:hover:bg-wa-dark/20 rounded-lg transition-colors">
+                    <button class="p-2 text-gray-400 hover:text-wa-600 hover:bg-wa-50 rounded-lg transition-colors">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z" />
                         </svg>
                     </button>
-                    <button class="p-2 text-gray-400 hover:text-wa-dark dark:hover:text-wa-light hover:bg-wa-light/10 dark:hover:bg-wa-dark/20 rounded-lg transition-colors">
+                    <button class="p-2 text-gray-400 hover:text-wa-600 hover:bg-wa-50 rounded-lg transition-colors">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h7" />
                         </svg>
@@ -196,15 +196,15 @@
             </div>
 
             @if(count($galleries) === 0)
-            <div class="text-center py-12 md:py-16 rounded-2xl border-2 border-dashed border-wa-light/30 dark:border-wa-dark/40 bg-gradient-to-br from-wa-light/5 to-wa-dark/5 dark:from-wa-dark/10 dark:to-wa-dark/5">
-                <div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-gradient-to-r from-wa-light/10 to-wa-dark/10 mb-4">
-                    <svg class="w-8 h-8 text-wa-dark/50 dark:text-wa-light/50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <div class="text-center py-12 md:py-16 rounded-2xl border-2 border-dashed border-wa-200 bg-wa-50">
+                <div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-wa-100 mb-4">
+                    <svg class="w-8 h-8 text-wa-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
                     </svg>
                 </div>
-                <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-2">No photos yet</h3>
-                <p class="text-gray-500 dark:text-gray-400 mb-6 max-w-md mx-auto">Upload your first photo to start building your gallery</p>
-                <div class="w-48 h-1 mx-auto bg-gradient-to-r from-transparent via-wa-light to-transparent dark:via-wa-dark rounded-full"></div>
+                <h3 class="text-lg font-semibold text-gray-900 mb-2">Belum ada foto</h3>
+                <p class="text-gray-500 mb-6 max-w-md mx-auto">Upload foto pertama Anda untuk memulai membangun galeri</p>
+                <div class="w-48 h-1 mx-auto bg-gradient-wa rounded-full opacity-30"></div>
             </div>
             @else
             <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
