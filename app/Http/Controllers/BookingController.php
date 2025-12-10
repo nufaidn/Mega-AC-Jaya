@@ -54,17 +54,14 @@ class BookingController extends Controller
             'notes' => 'nullable|string',
         ]);
 
-        Booking::create([
-            'user_id' => Auth::id(),
-            'service' => $request->service,
-            'full_name' => $request->full_name,
-            'phone_number' => $request->phone_number,
-            'address' => $request->address,
-            'date' => $request->date,
-            'time' => $request->time,
-            'notes' => $request->notes,
-            'status' => 'pending',
-        ]);
+        // Get service price
+        $service = Service::where('name', $request->service)->first();
+        if (!$service) {
+            return redirect()->back()->with('error', 'Service tidak ditemukan.');
+        }
+
+        $totalPrice = $service->price;
+        $user = Auth::user();
 
         // Create Xendit invoice
         Configuration::setXenditKey(config('services.xendit.secret_key'));
