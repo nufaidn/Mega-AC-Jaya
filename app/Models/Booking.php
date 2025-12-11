@@ -21,6 +21,8 @@ class Booking extends Model
         'payment_status',
         'payment_url',
         'total_price',
+        'payment_type',
+        'dp_amount',
     ];
 
     public function service()

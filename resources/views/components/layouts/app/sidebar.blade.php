@@ -145,7 +145,7 @@
 
     <!-- Mobile Bottom Navigation for Admin -->
     <div class="fixed bottom-0 left-0 right-0 z-50 bg-white dark:bg-neutral-800 border-t border-gray-200 dark:border-neutral-700 md:hidden">
-        <div class="grid grid-cols-3 h-16">
+        <div class="grid grid-cols-4 h-16">
             <!-- Services -->
             <a href="{{ route('admin.services.index') }}" class="flex flex-col items-center justify-center gap-1 text-gray-500 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-gray-50 dark:hover:bg-neutral-700/50 transition-colors relative group {{ request()->routeIs('admin.services.*') ? 'text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/10' : '' }}">
                 <div class="relative">
@@ -172,6 +172,22 @@
                 <span class="text-xs font-medium">Galleries</span>
             </a>
 
+            <!-- Bookings -->
+            <a href="{{ route('admin.bookings.index') }}" class="flex flex-col items-center justify-center gap-1 text-gray-500 dark:text-gray-400 hover:text-orange-600 dark:hover:text-orange-400 hover:bg-gray-50 dark:hover:bg-neutral-700/50 transition-colors relative group {{ request()->routeIs('admin.bookings.*') ? 'text-orange-600 dark:text-orange-400 bg-orange-50 dark:bg-orange-900/10' : '' }}">
+                <div class="relative">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                    </svg>
+                    @php
+                    $navTotalBookings = isset($totalBookings) ? $totalBookings : \App\Models\Booking::count();
+                    @endphp
+                    <span class="absolute -top-2 -right-2 min-w-[1.25rem] h-5 flex items-center justify-center text-[10px] font-bold text-white bg-orange-600 rounded-full px-1 border-2 border-white dark:border-neutral-800">
+                        {{ $navTotalBookings }}
+                    </span>
+                </div>
+                <span class="text-xs font-medium">Bookings</span>
+            </a>
+
             <!-- Products -->
             <a href="{{ route('admin.products.index') }}" class="flex flex-col items-center justify-center gap-1 text-gray-500 dark:text-gray-400 hover:text-purple-600 dark:hover:text-purple-400 hover:bg-gray-50 dark:hover:bg-neutral-700/50 transition-colors relative group {{ request()->routeIs('admin.products.*') ? 'text-purple-600 dark:text-purple-400 bg-purple-50 dark:bg-purple-900/10' : '' }}">
                 <div class="relative">
@@ -195,7 +211,7 @@
 
     <!-- Mobile Bottom Navigation for User -->
     <div class="fixed bottom-0 left-0 right-0 z-50 bg-white dark:bg-neutral-800 border-t border-gray-200 dark:border-neutral-700 md:hidden">
-        <div class="grid grid-cols-3 h-16">
+        <div class="grid grid-cols-4 h-16">
             <!-- My Bookings -->
             <a href="{{ route('bookings.index') }}" class="flex flex-col items-center justify-center gap-1 text-gray-500 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-gray-50 dark:hover:bg-neutral-700/50 transition-colors relative group {{ request()->routeIs('bookings.index') ? 'text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/10' : '' }}">
                 <div class="relative">
@@ -222,8 +238,8 @@
                 <span class="text-xs font-medium">My Orders</span>
             </a>
 
-            <!-- My Expedition -->
-            <a href="{{ route('dashboard') }}" class="flex flex-col items-center justify-center gap-1 text-gray-500 dark:text-gray-400 hover:text-purple-600 dark:hover:text-purple-400 hover:bg-gray-50 dark:hover:bg-neutral-700/50 transition-colors relative group {{ request()->routeIs('dashboard') && !request()->routeIs('bookings.index') && !request()->routeIs('product-orders.index') ? 'text-purple-600 dark:text-purple-400 bg-purple-50 dark:bg-purple-900/10' : '' }}">
+            <!-- Completed Orders -->
+            <a href="{{ route('product-orders.index') }}" class="flex flex-col items-center justify-center gap-1 text-gray-500 dark:text-gray-400 hover:text-purple-600 dark:hover:text-purple-400 hover:bg-gray-50 dark:hover:bg-neutral-700/50 transition-colors relative group {{ request()->routeIs('product-orders.index') && request()->get('status') == 'completed' ? 'text-purple-600 dark:text-purple-400 bg-purple-50 dark:bg-purple-900/10' : '' }}">
                 <div class="relative">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
@@ -232,7 +248,17 @@
                         {{ $navCompletedOrders }}
                     </span>
                 </div>
-                <span class="text-xs font-medium">My Expedition</span>
+                <span class="text-xs font-medium">Completed</span>
+            </a>
+
+            <!-- Create Booking -->
+            <a href="{{ route('bookings.create') }}" class="flex flex-col items-center justify-center gap-1 text-gray-500 dark:text-gray-400 hover:text-orange-600 dark:hover:text-orange-400 hover:bg-gray-50 dark:hover:bg-neutral-700/50 transition-colors relative group {{ request()->routeIs('bookings.create') ? 'text-orange-600 dark:text-orange-400 bg-orange-50 dark:bg-orange-900/10' : '' }}">
+                <div class="relative">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+                    </svg>
+                </div>
+                <span class="text-xs font-medium">Booking</span>
             </a>
         </div>
     </div>

@@ -21,8 +21,8 @@
                 <div class="absolute -top-6 -left-6 w-32 h-32 bg-white/10 rounded-full blur-xl"></div>
             </div>
     
-            <!-- Stats Cards Section -->
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
+            <!-- Stats Cards Section - Hidden on mobile, shown on desktop -->
+            <div class="hidden md:grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
                 <!-- My Bookings -->
                 <div class="group relative overflow-hidden rounded-2xl border border-gray-200 bg-white p-5 md:p-6 transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
                     <div class="flex items-center justify-between mb-4">
@@ -86,6 +86,29 @@
                     </div>
                     <a href="{{ route('product-orders.index') }}" class="flex items-center justify-between text-sm font-medium text-wa-dark hover:text-wa-darker transition-colors">
                         <span>Lihat Completed</span>
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                        </svg>
+                    </a>
+                </div>
+
+                <!-- Create Booking -->
+                <div class="group relative overflow-hidden rounded-2xl border border-gray-200 bg-white p-5 md:p-6 transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="p-3 rounded-xl bg-gradient-to-br from-orange-100 to-orange-200">
+                            <svg class="w-6 h-6 text-orange-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+                            </svg>
+                        </div>
+                        <span class="text-xs font-medium px-3 py-1 rounded-full bg-orange-100 text-orange-600">New</span>
+                    </div>
+                    <div class="mb-4">
+                        <h3 class="text-sm font-medium text-gray-500 mb-1">Create Booking</h3>
+                        <p class="text-3xl md:text-4xl font-bold text-gray-900">+</p>
+                        <div class="mt-2 h-1 w-16 bg-gradient-to-r from-orange-400 to-orange-600 rounded-full"></div>
+                    </div>
+                    <a href="{{ route('bookings.create') }}" class="flex items-center justify-between text-sm font-medium text-orange-600 hover:text-orange-700 transition-colors">
+                        <span>Buat Booking</span>
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
                         </svg>

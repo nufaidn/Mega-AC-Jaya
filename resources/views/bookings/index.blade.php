@@ -86,7 +86,11 @@
                             </div>
                         </div>
                         <div class="text-right flex flex-col items-end gap-2">
-                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium {{ $booking->status === 'confirmed' ? 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400' : ($booking->status === 'pending' ? 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-400' : 'bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400') }}">
+                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium {{ 
+                                $booking->status === 'lunas' ? 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400' : 
+                                ($booking->status === 'baru dp' ? 'bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-400' : 
+                                ($booking->status === 'pending' ? 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-400' : 
+                                'bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400')) }}">
                                 {{ ucfirst($booking->status) }}
                             </span>
                             @if($booking->payment_status)
@@ -94,7 +98,16 @@
                                 Payment: {{ ucfirst($booking->payment_status) }}
                             </span>
                             @endif
-                            @if($booking->payment_status === 'pending' && $booking->payment_url)
+                            @if($booking->payment_status === 'unpaid')
+                            <div class="flex gap-2">
+                                <a href="{{ route('bookings.payment-choice', $booking->id) }}" class="inline-flex items-center gap-1 px-3 py-1 bg-wa-600 text-white text-xs rounded-lg hover:bg-wa-700 transition-colors">
+                                    <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2z" />
+                                    </svg>
+                                    Pilih Pembayaran
+                                </a>
+                            </div>
+                            @elseif($booking->payment_status === 'pending' && $booking->payment_url)
                             <div class="flex gap-2">
                                 <a href="{{ $booking->payment_url }}" target="_blank" class="inline-flex items-center gap-1 px-3 py-1 bg-red-600 text-white text-xs rounded-lg hover:bg-red-700 transition-colors">
                                     <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -113,12 +126,23 @@
                                 </form>
                             </div>
                             @elseif($booking->payment_status === 'paid')
-                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400">
-                                <svg class="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-                                </svg>
-                                Sudah Dibayar
-                            </span>
+                            <div class="flex flex-col gap-1">
+                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400">
+                                    <svg class="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                                    </svg>
+                                    @if($booking->payment_type === 'dp')
+                                        DP Sudah Dibayar
+                                    @else
+                                        Sudah Dibayar Penuh
+                                    @endif
+                                </span>
+                                @if($booking->payment_type === 'dp')
+                                <span class="text-xs text-gray-500">
+                                    DP: Rp {{ number_format($booking->dp_amount, 0, ',', '.') }}
+                                </span>
+                                @endif
+                            </div>
                             @elseif($booking->payment_status === 'expired')
                             <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400">
                                 <svg class="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">

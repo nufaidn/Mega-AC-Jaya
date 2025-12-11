@@ -87,6 +87,8 @@ Route::middleware(['auth'])->group(function () {
     })->name('bookings.index');
     Route::get('bookings/create', [BookingController::class, 'create'])->name('bookings.create');
     Route::post('bookings', [BookingController::class, 'store'])->name('bookings.store');
+    Route::get('bookings/{id}/payment-choice', [BookingController::class, 'paymentChoice'])->name('bookings.payment-choice');
+    Route::post('bookings/{id}/process-payment', [BookingController::class, 'processPayment'])->name('bookings.process-payment');
     Route::post('bookings/callback', [BookingController::class, 'paymentCallback'])->name('bookings.callback');
     Route::post('bookings/{id}/generate-payment', [BookingController::class, 'generatePayment'])->name('bookings.generate-payment');
     Route::post('bookings/{id}/check-payment', [BookingController::class, 'checkPaymentStatus'])->name('bookings.check-payment');

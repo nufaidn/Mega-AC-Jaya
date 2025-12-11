@@ -63,48 +63,23 @@ class BookingController extends Controller
         $totalPrice = $service->price;
         $user = Auth::user();
 
-        // Create Xendit invoice
-        Configuration::setXenditKey(config('services.xendit.secret_key'));
+        // Create booking without payment first
+        $booking = Booking::create([
+            'user_id' => $user->id,
+            'service' => $request->service,
+            'full_name' => $request->full_name,
+            'phone_number' => $request->phone_number,
+            'address' => $request->address,
+            'date' => $request->date,
+            'time' => $request->time,
+            'notes' => $request->notes,
+            'total_price' => $totalPrice,
+            'status' => 'pending',
+            'payment_status' => 'unpaid',
+        ]);
 
-        $invoiceApi = new InvoiceApi();
-        $create_invoice_request = [
-            'external_id' => 'booking-' . time() . '-' . $user->id,
-            'amount' => $totalPrice,
-            'description' => 'Booking ' . $service->name . ' pada ' . $request->date . ' ' . $request->time,
-            'invoice_duration' => 86400, // 24 hours
-            'currency' => 'IDR',
-            'customer' => [
-                'given_names' => $request->full_name,
-                'email' => $user->email,
-                'mobile_number' => $request->phone_number,
-            ],
-            'success_redirect_url' => route('bookings.index'),
-            'failure_redirect_url' => route('bookings.index'),
-        ];
-
-        try {
-            $invoice = $invoiceApi->createInvoice($create_invoice_request);
-
-            Booking::create([
-                'user_id' => $user->id,
-                'service' => $request->service,
-                'full_name' => $request->full_name,
-                'phone_number' => $request->phone_number,
-                'address' => $request->address,
-                'date' => $request->date,
-                'time' => $request->time,
-                'notes' => $request->notes,
-                'total_price' => $totalPrice,
-                'status' => 'pending',
-                'payment_id' => $invoice['id'],
-                'payment_status' => 'pending',
-                'payment_url' => $invoice['invoice_url'],
-            ]);
-
-            return redirect($invoice['invoice_url']);
-        } catch (\Exception $e) {
-            return redirect()->route('service')->with('error', 'Gagal membuat booking. Silakan coba lagi.');
-        }
+        // Redirect to payment choice page
+        return redirect()->route('bookings.payment-choice', $booking->id);
     }
 
     /**
@@ -191,13 +166,21 @@ class BookingController extends Controller
             // Get invoice from Xendit
             $invoice = $invoiceApi->getInvoiceById($booking->payment_id);
             
-            // Update booking based on invoice status
+            // Update booking based on invoice status and payment type
             if ($invoice['status'] == 'PAID') {
-                $booking->update([
-                    'payment_status' => 'paid',
-                    'status' => 'completed',
-                ]);
-                return redirect()->route('admin.bookings.index')->with('success', 'Payment verified! Booking status updated to completed.');
+                if ($booking->payment_type === 'dp') {
+                    $booking->update([
+                        'payment_status' => 'paid',
+                        'status' => 'baru dp',
+                    ]);
+                    return redirect()->route('admin.bookings.index')->with('success', 'Payment verified! Booking status updated to "Baru DP".');
+                } else {
+                    $booking->update([
+                        'payment_status' => 'paid',
+                        'status' => 'lunas',
+                    ]);
+                    return redirect()->route('admin.bookings.index')->with('success', 'Payment verified! Booking status updated to "Lunas".');
+                }
             } elseif ($invoice['status'] == 'EXPIRED') {
                 $booking->update([
                     'payment_status' => 'expired',
@@ -236,13 +219,21 @@ class BookingController extends Controller
             // Get invoice from Xendit
             $invoice = $invoiceApi->getInvoiceById($booking->payment_id);
             
-            // Update booking based on invoice status
+            // Update booking based on invoice status and payment type
             if ($invoice['status'] == 'PAID') {
-                $booking->update([
-                    'payment_status' => 'paid',
-                    'status' => 'completed',
-                ]);
-                return redirect()->back()->with('success', 'Pembayaran berhasil! Status booking telah diupdate.');
+                if ($booking->payment_type === 'dp') {
+                    $booking->update([
+                        'payment_status' => 'paid',
+                        'status' => 'baru dp',
+                    ]);
+                    return redirect()->back()->with('success', 'Pembayaran DP berhasil! Status booking: Baru DP.');
+                } else {
+                    $booking->update([
+                        'payment_status' => 'paid',
+                        'status' => 'lunas',
+                    ]);
+                    return redirect()->back()->with('success', 'Pembayaran berhasil! Status booking: Lunas.');
+                }
             } elseif ($invoice['status'] == 'EXPIRED') {
                 $booking->update([
                     'payment_status' => 'expired',
@@ -319,6 +310,96 @@ class BookingController extends Controller
     }
 
     /**
+     * Show payment choice page
+     */
+    public function paymentChoice($id)
+    {
+        $booking = Booking::findOrFail($id);
+        
+        // Check if user owns this booking
+        if ($booking->user_id !== Auth::id()) {
+            abort(403, 'Unauthorized action.');
+        }
+
+        // Check if booking already has payment
+        if ($booking->payment_status === 'paid') {
+            return redirect()->route('bookings.index')->with('info', 'Booking ini sudah dibayar.');
+        }
+
+        return view('bookings.payment-choice', compact('booking'));
+    }
+
+    /**
+     * Process payment based on type (DP or Full)
+     */
+    public function processPayment(Request $request, $id)
+    {
+        $request->validate([
+            'payment_type' => 'required|in:dp,full',
+        ]);
+
+        $booking = Booking::findOrFail($id);
+        
+        // Check if user owns this booking
+        if ($booking->user_id !== Auth::id()) {
+            abort(403, 'Unauthorized action.');
+        }
+
+        // Check if booking already has payment
+        if ($booking->payment_status === 'paid') {
+            return redirect()->route('bookings.index')->with('info', 'Booking ini sudah dibayar.');
+        }
+
+        $paymentType = $request->payment_type;
+        $user = Auth::user();
+
+        // Calculate amount based on payment type
+        if ($paymentType === 'dp') {
+            $amount = $booking->total_price * 0.3; // 30% DP
+            $description = 'DP Booking ' . $booking->service . ' pada ' . $booking->date . ' ' . $booking->time;
+        } else {
+            $amount = $booking->total_price;
+            $description = 'Pembayaran Penuh Booking ' . $booking->service . ' pada ' . $booking->date . ' ' . $booking->time;
+        }
+
+        // Create Xendit invoice
+        Configuration::setXenditKey(config('services.xendit.secret_key'));
+
+        $invoiceApi = new InvoiceApi();
+        $create_invoice_request = [
+            'external_id' => 'booking-' . $booking->id . '-' . $paymentType . '-' . time(),
+            'amount' => $amount,
+            'description' => $description,
+            'invoice_duration' => 86400, // 24 hours
+            'currency' => 'IDR',
+            'customer' => [
+                'given_names' => $booking->full_name,
+                'email' => $user->email,
+                'mobile_number' => $booking->phone_number,
+            ],
+            'success_redirect_url' => route('bookings.index'),
+            'failure_redirect_url' => route('bookings.index'),
+        ];
+
+        try {
+            $invoice = $invoiceApi->createInvoice($create_invoice_request);
+
+            // Update booking with payment info
+            $booking->update([
+                'payment_id' => $invoice['id'],
+                'payment_status' => 'pending',
+                'payment_url' => $invoice['invoice_url'],
+                'payment_type' => $paymentType,
+                'dp_amount' => $paymentType === 'dp' ? $amount : null,
+            ]);
+
+            return redirect($invoice['invoice_url']);
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Gagal membuat link pembayaran. Silakan coba lagi.');
+        }
+    }
+
+    /**
      * Handle Xendit payment callback
      */
     public function paymentCallback(Request $request)
@@ -331,10 +412,18 @@ class BookingController extends Controller
 
             if ($booking) {
                 if ($data['status'] == 'PAID') {
-                    $booking->update([
-                        'payment_status' => 'paid',
-                        'status' => 'completed', // Update booking status to completed
-                    ]);
+                    // Update payment status based on payment type
+                    if ($booking->payment_type === 'dp') {
+                        $booking->update([
+                            'payment_status' => 'paid',
+                            'status' => 'baru dp', // Status khusus untuk DP
+                        ]);
+                    } else {
+                        $booking->update([
+                            'payment_status' => 'paid',
+                            'status' => 'lunas', // Status untuk pembayaran penuh
+                        ]);
+                    }
                 } elseif ($data['status'] == 'EXPIRED') {
                     $booking->update([
                         'payment_status' => 'expired',

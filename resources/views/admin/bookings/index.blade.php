@@ -77,11 +77,19 @@
                                         <div class="text-sm text-gray-500">{{ $booking->time }}</div>
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap">
-                                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full
-                                            {{ $booking->status === 'confirmed' ? 'bg-green-100 text-green-800' :
-                                               ($booking->status === 'cancelled' ? 'bg-red-100 text-red-800' : 'bg-yellow-100 text-yellow-800') }}">
-                                            {{ ucfirst($booking->status) }}
-                                        </span>
+                                        <div class="flex flex-col gap-1">
+                                            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full
+                                                {{ $booking->status === 'lunas' ? 'bg-green-100 text-green-800' :
+                                                   ($booking->status === 'baru dp' ? 'bg-blue-100 text-blue-800' :
+                                                   ($booking->status === 'cancelled' ? 'bg-red-100 text-red-800' : 'bg-yellow-100 text-yellow-800')) }}">
+                                                {{ ucfirst($booking->status) }}
+                                            </span>
+                                            @if($booking->payment_type === 'dp' && $booking->dp_amount)
+                                            <span class="text-xs text-gray-500">
+                                                DP: Rp {{ number_format($booking->dp_amount, 0, ',', '.') }}
+                                            </span>
+                                            @endif
+                                        </div>
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap">
                                         <div class="flex flex-col gap-1">
