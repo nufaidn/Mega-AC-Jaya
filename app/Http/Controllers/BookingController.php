@@ -26,7 +26,7 @@ class BookingController extends Controller
     public function userIndex()
     {
         $bookings = Booking::where('user_id', Auth::id())->get();
-        return view('bookings.index', compact('bookings'));
+        return view('user.bookings.index', compact('bookings'));
     }
 
     /**

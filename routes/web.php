@@ -38,7 +38,7 @@ Route::get('dashboard', function () {
         $data['totalProducts'] = \App\Models\Product::count();
         $data['totalBookings'] = \App\Models\Booking::count();
         $data['products'] = \App\Models\Product::latest()->take(6)->get(); // Get latest 6 products
-        return view('dashboard', $data);
+        return view('livewire.admin.dashboard', $data);
     } else {
         // User dashboard data
         $user = Auth::user();
