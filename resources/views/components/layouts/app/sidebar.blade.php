@@ -211,8 +211,18 @@
 
     <!-- Mobile Bottom Navigation for User -->
     <div class="fixed bottom-0 left-0 right-0 z-50 bg-white dark:bg-neutral-800 border-t border-gray-200 dark:border-neutral-700 md:hidden">
-        <div class="grid grid-cols-4 h-16">
-            <!-- My Bookings -->
+        <div class="grid grid-cols-5 h-16">
+        <!-- Home -->
+            <a href="{{ route('home') }}" class="flex flex-col items-center justify-center gap-1 text-gray-500 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-gray-50 dark:hover:bg-neutral-700/50 transition-colors relative group {{ request()->routeIs('home') ? 'text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/10' : '' }}">
+                <div class="relative">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                    </svg>
+                </div>
+                <span class="text-xs font-medium">Home</span>
+            </a>
+        
+        <!-- My Bookings -->
             <a href="{{ route('bookings.index') }}" class="flex flex-col items-center justify-center gap-1 text-gray-500 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-gray-50 dark:hover:bg-neutral-700/50 transition-colors relative group {{ request()->routeIs('bookings.index') ? 'text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/10' : '' }}">
                 <div class="relative">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -223,6 +233,16 @@
                     </span>
                 </div>
                 <span class="text-xs font-medium">My Bookings</span>
+            </a>
+
+            <!-- Create Booking -->
+            <a href="{{ route('service') }}" class="flex flex-col items-center justify-center gap-1 text-gray-500 dark:text-gray-400 hover:text-orange-600 dark:hover:text-orange-400 hover:bg-gray-50 dark:hover:bg-neutral-700/50 transition-colors relative group {{ request()->routeIs('bookings.create') ? 'text-orange-600 dark:text-orange-400 bg-orange-50 dark:bg-orange-900/10' : '' }}">
+                <div class="relative">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+                    </svg>
+                </div>
+                <span class="text-xs font-medium">Booking</span>
             </a>
 
             <!-- My Orders -->
@@ -249,16 +269,6 @@
                     </span>
                 </div>
                 <span class="text-xs font-medium">Completed</span>
-            </a>
-
-            <!-- Create Booking -->
-            <a href="{{ route('bookings.create') }}" class="flex flex-col items-center justify-center gap-1 text-gray-500 dark:text-gray-400 hover:text-orange-600 dark:hover:text-orange-400 hover:bg-gray-50 dark:hover:bg-neutral-700/50 transition-colors relative group {{ request()->routeIs('bookings.create') ? 'text-orange-600 dark:text-orange-400 bg-orange-50 dark:bg-orange-900/10' : '' }}">
-                <div class="relative">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
-                    </svg>
-                </div>
-                <span class="text-xs font-medium">Booking</span>
             </a>
         </div>
     </div>

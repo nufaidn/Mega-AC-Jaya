@@ -20,7 +20,7 @@ class ProductOrderController extends Controller
             return redirect()->route('product')->with('error', 'Produk tidak ditemukan.');
         }
         
-        return view('product-orders.create', compact('selectedProduct'));
+        return view('user.product-orders.create', compact('selectedProduct'));
     }
 
     public function store(Request $request)
@@ -86,7 +86,7 @@ class ProductOrderController extends Controller
     public function userIndex()
     {
         $productOrders = ProductOrder::where('user_id', Auth::id())->get();
-        return view('product-orders.index', compact('productOrders'));
+        return view('user.product-orders.index', compact('productOrders'));
     }
 
     /**

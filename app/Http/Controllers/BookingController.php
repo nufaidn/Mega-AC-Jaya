@@ -36,7 +36,7 @@ class BookingController extends Controller
     {
         $services = Service::all();
         $selectedService = $request->query('service');
-        return view('bookings.create', compact('services', 'selectedService'));
+        return view('user.bookings.create', compact('services', 'selectedService'));
     }
 
     /**
@@ -326,7 +326,7 @@ class BookingController extends Controller
             return redirect()->route('bookings.index')->with('info', 'Booking ini sudah dibayar.');
         }
 
-        return view('bookings.payment-choice', compact('booking'));
+        return view('user.bookings.payment-choice', compact('booking'));
     }
 
     /**

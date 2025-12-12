@@ -28,6 +28,10 @@ Route::get('product', function () {
     $products = \App\Models\Product::all();
     return view('pages.product', compact('products'));
 })->name('product');
+Route::get('product/{id}', function ($id) {
+    $product = \App\Models\Product::findOrFail($id);
+    return view('pages.product-detail', compact('product'));
+})->name('product.detail');
 Route::view('contact', 'pages.contact')->name('contact');
 
 Route::get('dashboard', function () {

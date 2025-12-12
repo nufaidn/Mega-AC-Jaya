@@ -21,6 +21,35 @@
                 <div class="absolute -top-6 -left-6 w-32 h-32 bg-white/10 rounded-full blur-xl"></div>
             </div>
     
+            <!-- Mobile Action Cards - Shown only on mobile -->
+            <div class="md:hidden grid grid-cols-2 gap-3">
+                <!-- Buat Booking Card -->
+                <a href="{{ route('service') }}" class="group relative overflow-hidden rounded-2xl border border-gray-200 bg-white p-4 transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
+                    <div class="flex flex-col items-center text-center">
+                        <div class="p-3 rounded-xl bg-gradient-to-br from-wa-light/10 to-wa-dark/10 mb-3">
+                            <svg class="w-6 h-6 text-wa-dark" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                            </svg>
+                        </div>
+                        <h3 class="text-sm font-semibold text-gray-900 mb-1">Buat Booking</h3>
+                        <p class="text-xs text-gray-500">Booking layanan</p>
+                    </div>
+                </a>
+
+                <!-- Lihat Produk Card -->
+                <a href="{{ route('product') }}" class="group relative overflow-hidden rounded-2xl border border-gray-200 bg-white p-4 transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
+                    <div class="flex flex-col items-center text-center">
+                        <div class="p-3 rounded-xl bg-gradient-to-br from-wa-light/10 to-wa-dark/10 mb-3">
+                            <svg class="w-6 h-6 text-wa-dark" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
+                            </svg>
+                        </div>
+                        <h3 class="text-sm font-semibold text-gray-900 mb-1">Lihat Produk</h3>
+                        <p class="text-xs text-gray-500">Jelajahi produk</p>
+                    </div>
+                </a>
+            </div>
+
             <!-- Stats Cards Section - Hidden on mobile, shown on desktop -->
             <div class="hidden md:grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
                 <!-- My Bookings -->
@@ -115,8 +144,45 @@
                     </a>
                 </div>
             </div>
+
+            <!-- Mobile Stats Section - Compact stats for mobile -->
+            <div class="md:hidden">
+                <div class="rounded-2xl border border-gray-200 bg-white p-4 shadow-lg">
+                    <h3 class="text-lg font-bold text-gray-900 mb-4 flex items-center gap-2">
+                        <svg class="w-5 h-5 text-wa-dark" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                        </svg>
+                        Statistik Saya
+                    </h3>
+                    <div class="grid grid-cols-2 gap-4">
+                        <!-- My Bookings -->
+                        <div class="text-center p-3 bg-gradient-to-br from-wa-light/5 to-wa-dark/5 rounded-xl border border-wa-light/20">
+                            <div class="text-2xl font-bold text-wa-dark mb-1">{{ $totalBookings ?? 0 }}</div>
+                            <div class="text-xs text-gray-600 font-medium">My Bookings</div>
+                        </div>
+                        
+                        <!-- My Orders -->
+                        <div class="text-center p-3 bg-gradient-to-br from-wa-light/5 to-wa-dark/5 rounded-xl border border-wa-light/20">
+                            <div class="text-2xl font-bold text-wa-dark mb-1">{{ $totalOrders ?? 0 }}</div>
+                            <div class="text-xs text-gray-600 font-medium">My Orders</div>
+                        </div>
+                    </div>
+                    
+                    <!-- Quick Actions -->
+                    <div class="mt-4 pt-4 border-t border-gray-100">
+                        <div class="flex gap-2">
+                            <a href="{{ route('bookings.index') }}" class="flex-1 text-center py-2 px-3 bg-wa-dark text-white rounded-lg text-sm font-medium hover:bg-wa-darker transition">
+                                Bookings
+                            </a>
+                            <a href="{{ route('product-orders.index') }}" class="flex-1 text-center py-2 px-3 border border-wa-dark text-wa-dark rounded-lg text-sm font-medium hover:bg-wa-light/5 transition">
+                                Orders
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
     
-            <!-- Unpaid Items Section -->
+            <!-- Menunggu Pembayaran Section -->
             @php
                 // Filter hanya yang belum bayar (bukan paid)
                 $unpaidBookings = \App\Models\Booking::where('user_id', Auth::id())
@@ -130,30 +196,57 @@
                     ->whereNotNull('payment_url')
                     ->get();
             @endphp
-            @if($unpaidBookings->count() > 0 || $unpaidOrders->count() > 0)
+            
             <div class="rounded-2xl border border-red-200 bg-white overflow-hidden shadow-lg">
                 <div class="bg-red-100 p-5 md:p-6 border-b border-red-200">
-                    <div class="flex flex-col gap-3">
-                        <div class="flex items-center gap-3">
-                            <div class="w-10 h-10 bg-red-600 rounded-lg flex items-center justify-center">
-                                <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                </svg>
-                            </div>
-                            <div>
-                                <h3 class="text-xl font-bold text-red-900">Menunggu Pembayaran</h3>
-                                <p class="text-sm text-red-700">Item yang perlu dibayar</p>
-                            </div>
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 bg-red-600 rounded-lg flex items-center justify-center">
+                            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
                         </div>
-                        <div class="bg-yellow-50 border border-yellow-200 rounded-lg p-3">
-                            <p class="text-sm text-yellow-800">
-                                <strong>💡 Tips:</strong> Setelah melakukan pembayaran, klik tombol <strong>"Cek Status"</strong> untuk memperbarui status pembayaran Anda.
-                            </p>
+                        <div>
+                            <h3 class="text-xl font-bold text-red-900">Menunggu Pembayaran</h3>
+                            <p class="text-sm text-red-700">Item yang perlu dibayar</p>
                         </div>
                     </div>
+                    @if($unpaidBookings->count() > 0 || $unpaidOrders->count() > 0)
+                    <div class="bg-yellow-50 border border-yellow-200 rounded-lg p-3 mt-3">
+                        <p class="text-sm text-yellow-800">
+                            <strong>💡 Tips:</strong> Setelah melakukan pembayaran, klik tombol <strong>"Cek Status"</strong> untuk memperbarui status pembayaran Anda.
+                        </p>
+                    </div>
+                    @endif
                 </div>
 
                 <div class="p-5 md:p-6">
+                    @if($unpaidBookings->count() == 0 && $unpaidOrders->count() == 0)
+                    <!-- Empty State -->
+                    <div class="text-center py-8">
+                        <div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-green-100 mb-4">
+                            <svg class="w-8 h-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                        </div>
+                        <h4 class="text-lg font-semibold text-gray-900 mb-2">Kosong</h4>
+                        <p class="text-gray-500 mb-6">Belum ada pembayaran yang tertunda. Semua transaksi Anda sudah lunas atau belum ada pesanan.</p>
+                        <div class="flex flex-col sm:flex-row gap-3 justify-center">
+                            <a href="{{ route('service') }}" class="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-wa-light to-wa-dark text-white rounded-lg hover:shadow-lg transition font-medium text-sm">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                                </svg>
+                                Buat Booking
+                            </a>
+                            <a href="{{ route('product') }}" class="inline-flex items-center gap-2 px-4 py-2 border border-wa-light text-wa-dark rounded-lg hover:bg-wa-light/5 transition font-medium text-sm">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
+                                </svg>
+                                Lihat Produk
+                            </a>
+                        </div>
+                    </div>
+                    @else
+                    <!-- Unpaid Items List -->
                     <div class="space-y-4">
                         @foreach($unpaidBookings as $booking)
                         <div class="flex flex-col md:flex-row md:items-center justify-between p-4 bg-gray-50 rounded-xl border border-gray-200 gap-4">
@@ -251,14 +344,14 @@
                         </div>
                         @endforeach
                     </div>
+                    @endif
                 </div>
             </div>
-            @endif
 
             <!-- Recent Orders Section -->
             @isset($recentOrders)
-            <div class="rounded-2xl border border-neutral-200 dark:border-neutral-700 bg-white dark:bg-neutral-800 overflow-hidden transition-all duration-300 hover:shadow-lg backdrop-blur-sm bg-white/95 dark:bg-neutral-800/95">
-                <div class="p-5 md:p-6 border-b border-neutral-100 dark:border-neutral-700">
+            <div class="rounded-2xl border border-gray-200 bg-white overflow-hidden shadow-lg">
+                <div class="p-5 md:p-6 border-b border-gray-100">
                     <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                         <div>
                             <div class="flex items-center gap-3">
@@ -267,9 +360,9 @@
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
                                     </svg>
                                 </div>
-                                <h3 class="text-xl md:text-2xl font-bold text-gray-900 dark:text-white">Recent Orders</h3>
+                                <h3 class="text-xl md:text-2xl font-bold text-gray-900">Recent Orders</h3>
                             </div>
-                            <p class="text-sm text-gray-500 dark:text-neutral-400 mt-1 ml-12">Your latest product orders</p>
+                            <p class="text-sm text-gray-500 mt-1 ml-12">Your latest product orders</p>
                         </div>
                         <div class="flex flex-wrap gap-3">
                             <a href="{{ route('product-orders.create') }}" class="px-4 py-2.5 bg-gradient-to-r from-wa-light to-wa-dark text-white rounded-xl hover:from-wa-light/90 hover:to-wa-dark/90 transition-all duration-300 hover:shadow-lg shadow-wa-dark/20 hover:shadow-wa-dark/30 flex items-center gap-2 font-medium group/btn">
@@ -290,19 +383,19 @@
     
                 <div class="p-5 md:p-6">
                     @if($recentOrders->isEmpty())
-                    <div class="text-center py-10 md:py-12">
-                        <div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-gradient-to-r from-wa-light/10 to-wa-dark/10 mb-4">
-                            <svg class="w-8 h-8 text-wa-dark/50 dark:text-wa-light/50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <div class="text-center py-8">
+                        <div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-gray-100 mb-4">
+                            <svg class="w-8 h-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
                             </svg>
                         </div>
-                        <h4 class="text-lg font-semibold text-gray-900 dark:text-white mb-2">No orders yet</h4>
-                        <p class="text-gray-500 dark:text-gray-400 mb-6 max-w-md mx-auto">Start by placing your first product order to see it here.</p>
-                        <a href="{{ route('product-orders.create') }}" class="inline-flex items-center gap-2 px-5 py-3 bg-gradient-to-r from-wa-light to-wa-dark text-white rounded-xl hover:from-wa-light/90 hover:to-wa-dark/90 transition-all duration-300 hover:shadow-lg font-medium group/btn">
-                            <svg class="w-4 h-4 group-hover/btn:animate-bounce" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <h4 class="text-lg font-semibold text-gray-900 mb-2">Kosong</h4>
+                        <p class="text-gray-500 mb-6">Belum ada pesanan produk. Mulai dengan membuat pesanan pertama Anda untuk melihatnya di sini.</p>
+                        <a href="{{ route('product-orders.create') }}" class="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-wa-light to-wa-dark text-white rounded-lg hover:shadow-lg transition font-medium text-sm">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
                             </svg>
-                            Create Your First Order
+                            Buat Pesanan Pertama
                         </a>
                     </div>
                     @else
@@ -350,123 +443,7 @@
             </div>
             @endisset
 
-            <!-- Quick Actions Section -->
-            <div class="rounded-2xl border border-neutral-200 dark:border-neutral-700 bg-white dark:bg-neutral-800 overflow-hidden transition-all duration-300 hover:shadow-lg backdrop-blur-sm bg-white/95 dark:bg-neutral-800/95">
-                <div class="p-5 md:p-6 border-b border-neutral-100 dark:border-neutral-700">
-                    <div class="flex items-center gap-3">
-                        <div class="p-2 rounded-lg bg-gradient-to-r from-wa-light/10 to-wa-dark/10">
-                            <svg class="w-5 h-5 text-wa-dark dark:text-wa-light" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
-                            </svg>
-                        </div>
-                        <div>
-                            <h3 class="text-xl md:text-2xl font-bold text-gray-900 dark:text-white">Quick Actions</h3>
-                            <p class="text-sm text-gray-500 dark:text-neutral-400 mt-1">Common tasks you can perform</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="p-5 md:p-6">
-                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                        <!-- Book Service -->
-                        <a href="{{ route('bookings.create') }}" class="group p-4 bg-gradient-to-br from-wa-light/5 to-wa-dark/5 dark:from-wa-dark/10 dark:to-wa-darker/10 rounded-xl border border-wa-light/20 dark:border-wa-dark/20 hover:shadow-lg hover:-translate-y-1 transition-all duration-300 hover:border-wa-light/40 dark:hover:border-wa-dark/40">
-                            <div class="flex items-center gap-3 mb-3">
-                                <div class="p-2 bg-gradient-to-r from-wa-light to-wa-dark rounded-lg group-hover:from-wa-light/90 group-hover:to-wa-dark/90 transition-all duration-300">
-                                    <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                                    </svg>
-                                </div>
-                                <h4 class="font-semibold text-gray-900 dark:text-white group-hover:text-wa-dark dark:group-hover:text-wa-light transition-colors">Book Service</h4>
-                            </div>
-                            <p class="text-sm text-gray-600 dark:text-gray-300">Schedule a service appointment</p>
-                            <div class="mt-3 pt-3 border-t border-wa-light/10 dark:border-wa-dark/20">
-                                <span class="text-xs text-wa-dark dark:text-wa-light flex items-center gap-1">
-                                    <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6" />
-                                    </svg>
-                                    Click to book
-                                </span>
-                            </div>
-                        </a>
-    
-                        <!-- Order Product -->
-                        <a href="{{ route('product-orders.create') }}" class="group p-4 bg-gradient-to-br from-wa-light/5 to-wa-dark/5 dark:from-wa-dark/10 dark:to-wa-darker/10 rounded-xl border border-wa-light/20 dark:border-wa-dark/20 hover:shadow-lg hover:-translate-y-1 transition-all duration-300 hover:border-wa-light/40 dark:hover:border-wa-dark/40">
-                            <div class="flex items-center gap-3 mb-3">
-                                <div class="p-2 bg-gradient-to-r from-wa-light to-wa-dark rounded-lg group-hover:from-wa-light/90 group-hover:to-wa-dark/90 transition-all duration-300">
-                                    <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
-                                    </svg>
-                                </div>
-                                <h4 class="font-semibold text-gray-900 dark:text-white group-hover:text-wa-dark dark:group-hover:text-wa-light transition-colors">Order Product</h4>
-                            </div>
-                            <p class="text-sm text-gray-600 dark:text-gray-300">Purchase products online</p>
-                            <div class="mt-3 pt-3 border-t border-wa-light/10 dark:border-wa-dark/20">
-                                <span class="text-xs text-wa-dark dark:text-wa-light flex items-center gap-1">
-                                    <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6" />
-                                    </svg>
-                                    Click to order
-                                </span>
-                            </div>
-                        </a>
-    
-                        <!-- Browse Products -->
-                        <a href="{{ route('product') }}" class="group p-4 bg-gradient-to-br from-wa-light/5 to-wa-dark/5 dark:from-wa-dark/10 dark:to-wa-darker/10 rounded-xl border border-wa-light/20 dark:border-wa-dark/20 hover:shadow-lg hover:-translate-y-1 transition-all duration-300 hover:border-wa-light/40 dark:hover:border-wa-dark/40">
-                            <div class="flex items-center gap-3 mb-3">
-                                <div class="p-2 bg-gradient-to-r from-wa-light to-wa-dark rounded-lg group-hover:from-wa-light/90 group-hover:to-wa-dark/90 transition-all duration-300">
-                                    <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
-                                    </svg>
-                                </div>
-                                <h4 class="font-semibold text-gray-900 dark:text-white group-hover:text-wa-dark dark:group-hover:text-wa-light transition-colors">Browse Products</h4>
-                            </div>
-                            <p class="text-sm text-gray-600 dark:text-gray-300">Explore available products</p>
-                            <div class="mt-3 pt-3 border-t border-wa-light/10 dark:border-wa-dark/20">
-                                <span class="text-xs text-wa-dark dark:text-wa-light flex items-center gap-1">
-                                    <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6" />
-                                    </svg>
-                                    Click to browse
-                                </span>
-                            </div>
-                        </a>
-                    </div>
-                </div>
-            </div>
-    
-            <!-- Recent Activity Section -->
-            <div class="rounded-2xl border border-neutral-200 dark:border-neutral-700 bg-white dark:bg-neutral-800 overflow-hidden transition-all duration-300 hover:shadow-lg backdrop-blur-sm bg-white/95 dark:bg-neutral-800/95">
-                <div class="p-5 md:p-6 border-b border-neutral-100 dark:border-neutral-700">
-                    <div class="flex items-center gap-3">
-                        <div class="p-2 rounded-lg bg-gradient-to-r from-wa-light/10 to-wa-dark/10">
-                            <svg class="w-5 h-5 text-wa-dark dark:text-wa-light" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
-                            </svg>
-                        </div>
-                        <div>
-                            <h3 class="text-xl md:text-2xl font-bold text-gray-900 dark:text-white">Recent Activity</h3>
-                            <p class="text-sm text-gray-500 dark:text-neutral-400 mt-1">Your latest dashboard activities</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="p-5 md:p-6">
-                    <div class="space-y-4">
-                        <div class="flex items-center gap-4 p-3 rounded-lg bg-gradient-to-r from-wa-light/5 to-wa-dark/5">
-                            <div class="p-2 rounded-full bg-wa-light/10">
-                                <svg class="w-4 h-4 text-wa-dark dark:text-wa-light" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-                                </svg>
-                            </div>
-                            <div class="flex-1">
-                                <p class="text-sm font-medium text-gray-900 dark:text-white">Welcome to your dashboard</p>
-                                <p class="text-xs text-gray-500 dark:text-gray-400">You logged in successfully</p>
-                            </div>
-                            <span class="text-xs text-gray-400">{{ now()->format('h:i A') }}</span>
-                        </div>
-                        <div class="w-full h-1 bg-gradient-to-r from-wa-light/20 via-wa-dark/20 to-transparent rounded-full"></div>
-                    </div>
-                </div>
-            </div>
-        </div>
+           
     
     <style>
     /* WhatsApp Green Colors (P3 color space) */
