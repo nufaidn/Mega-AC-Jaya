@@ -201,10 +201,10 @@
                 <h2 class="text-3xl lg:text-4xl font-bold text-gray-900 mb-4">Layanan Kami</h2>
                 <p class="text-xl text-gray-600">Solusi lengkap untuk segala masalah AC Anda</p>
             </div>
-            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div class="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-8">
                 @foreach ($services as $service)
                 <div class="bg-white rounded-2xl hover:shadow-xl transition-all duration-300 group overflow-hidden border border-gray-100 flex flex-col h-full">
-                    <div class="relative w-full h-56 overflow-hidden">
+                    <div class="relative w-full h-40 md:h-56 overflow-hidden">
                         @if($service->image)
                         <img src="{{ asset('images/' . $service->image) }}" alt="{{ $service->name }}" class="w-full h-full object-cover transform group-hover:scale-110 transition duration-500">
                         @else
@@ -217,16 +217,16 @@
                         <div class="absolute inset-0 bg-black bg-opacity-10 group-hover:bg-opacity-0 transition duration-300"></div>
                     </div>
 
-                    <div class="p-6 flex flex-col flex-grow">
-                        <h3 class="text-2xl font-bold mb-3 text-gray-900 group-hover:text-wa-600 transition">{{ $service->name }}</h3>
-                        <p class="text-gray-600 mb-6 flex-grow leading-relaxed">{{ $service->description }}</p>
+                    <div class="p-3 md:p-6 flex flex-col flex-grow">
+                        <h3 class="text-lg md:text-2xl font-bold mb-2 md:mb-3 text-gray-900 group-hover:text-wa-600 transition">{{ $service->name }}</h3>
+                        <p class="text-gray-600 mb-4 md:mb-6 flex-grow leading-relaxed text-sm md:text-base">{{ $service->description }}</p>
 
-                        <div class="mt-auto pt-4 border-t border-gray-100">
-                            <div class="flex items-center justify-between mb-4">
-                                <span class="text-gray-500 text-sm">Mulai dari</span>
-                                <span class="text-2xl font-bold text-wa-600">Rp {{ number_format($service->price, 0, ',', '.') }}</span>
+                        <div class="mt-auto pt-3 md:pt-4 border-t border-gray-100">
+                            <div class="flex flex-col md:flex-row md:items-center md:justify-between mb-3 md:mb-4">
+                                <span class="text-gray-500 text-xs md:text-sm">Mulai dari</span>
+                                <span class="text-lg md:text-2xl font-bold text-wa-600">Rp {{ number_format($service->price, 0, ',', '.') }}</span>
                             </div>
-                            <a href="{{ route('bookings.create', ['service' => $service->name]) }}" class="block w-full text-center bg-wa-600 text-white py-3 rounded-xl font-semibold hover:bg-wa-700 hover:shadow-lg transition transform active:scale-95">
+                            <a href="{{ route('bookings.create', ['service' => $service->name]) }}" class="block w-full text-center bg-wa-600 text-white py-2 md:py-3 rounded-xl font-semibold hover:bg-wa-700 hover:shadow-lg transition transform active:scale-95 text-sm md:text-base">
                                 Pesan Sekarang
                             </a>
                         </div>

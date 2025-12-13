@@ -60,6 +60,18 @@ Route::get('dashboard', function () {
         $data['pendingOrders'] = \App\Models\ProductOrder::where('user_id', $user->id)->where('status', 'pending')->count();
         $data['completedOrders'] = \App\Models\ProductOrder::where('user_id', $user->id)->where('status', 'completed')->count();
         $data['recentOrders'] = \App\Models\ProductOrder::with('product')->where('user_id', $user->id)->latest()->take(5)->get();
+        
+        // Add dynamic products and services for dashboard
+        $data['featuredProducts'] = \App\Models\Product::latest()->take(6)->get(); // Keep for stats cards
+        $data['featuredServices'] = \App\Models\Service::latest()->take(6)->get(); // Keep for stats cards
+        
+        // Add limited products and services for toggle content
+        $data['dashboardProducts'] = \App\Models\Product::latest()->take(6)->get();
+        $data['dashboardServices'] = \App\Models\Service::latest()->take(4)->get();
+        
+        // Count total for display
+        $data['totalProducts'] = \App\Models\Product::count();
+        $data['totalServices'] = \App\Models\Service::count();
         return view('user.dashboard', $data);
     }
 })

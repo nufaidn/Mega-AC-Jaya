@@ -1,10 +1,14 @@
+@php
+use Illuminate\Support\Str;
+@endphp
+
 <!DOCTYPE html>
 <html lang="id" class="scroll-smooth">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Booking Service - CoolService AC</title>
+    <title>Booking Service - MEGA AC JAYA</title>
     <meta name="description" content="Booking layanan service AC profesional.">
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -31,6 +35,21 @@
     <style>
         .bg-gradient-wa {
             background: linear-gradient(135deg, #00d95f 0%, #00ba54 100%);
+        }
+        
+        /* Custom radio button styling */
+        input[type="radio"]:checked + div .radio-indicator {
+            border-color: #00ba54;
+            background-color: #00ba54;
+        }
+        
+        input[type="radio"]:checked + div .radio-dot {
+            opacity: 1;
+        }
+        
+        input[type="radio"]:checked + div {
+            border-color: #00ba54;
+            background-color: #e8fdf2;
         }
     </style>
 </head>
@@ -91,11 +110,50 @@
                         @csrf
 
                         <div>
-                            <div class="bg-wa-50 border border-wa-100 rounded-lg p-4 mb-6">
-                                <p class="text-sm text-gray-600 mb-1">Service yang dipilih:</p>
-                                <h3 class="text-lg font-bold text-wa-700">{{ $selectedService ?? 'Tidak ada service dipilih' }}</h3>
+                            <label for="service" class="block font-medium text-sm text-gray-700 mb-3">{{ __('Pilih Service') }}</label>
+                            
+                            @if($selectedService)
+                                <!-- Jika service sudah dipilih dari dashboard -->
+                                <div class="bg-wa-50 border border-wa-100 rounded-lg p-4 mb-4">
+                                    <p class="text-sm text-gray-600 mb-1">Service yang dipilih:</p>
+                                    <h3 class="text-lg font-bold text-wa-700">{{ $selectedService }}</h3>
+                                    <p class="text-sm text-gray-500 mt-1">Ingin ganti service? Pilih dari daftar di bawah.</p>
+                                </div>
+                            @endif
+
+                            <!-- Daftar Service -->
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                @forelse($services as $service)
+                                <label class="relative cursor-pointer">
+                                    <input type="radio" name="service" value="{{ $service->name }}" 
+                                           class="sr-only peer" 
+                                           {{ ($selectedService == $service->name || old('service') == $service->name) ? 'checked' : '' }}
+                                           required>
+                                    <div class="border-2 border-gray-200 rounded-lg p-4 peer-checked:border-wa-600 peer-checked:bg-wa-50 hover:border-wa-300 transition-all">
+                                        <div class="flex items-start justify-between">
+                                            <div class="flex-1">
+                                                <h4 class="font-semibold text-gray-900 mb-1">{{ $service->name }}</h4>
+                                                <p class="text-sm text-gray-600 mb-2">{{ Str::limit($service->description, 80) }}</p>
+                                                <p class="text-lg font-bold text-wa-600">Rp {{ number_format($service->price, 0, ',', '.') }}</p>
+                                            </div>
+                                            <div class="ml-3">
+                                                <div class="w-5 h-5 border-2 border-gray-300 rounded-full radio-indicator flex items-center justify-center">
+                                                    <div class="w-2 h-2 bg-white rounded-full opacity-0 radio-dot"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </label>
+                                @empty
+                                <div class="col-span-full text-center py-8">
+                                    <svg class="w-16 h-16 text-gray-300 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                                    </svg>
+                                    <p class="text-gray-500">Belum ada service tersedia</p>
+                                </div>
+                                @endforelse
                             </div>
-                            <input type="hidden" name="service" value="{{ $selectedService }}">
+                            
                             @error('service')
                             <p class="text-sm text-red-600 space-y-1 mt-2">{{ $message }}</p>
                             @enderror
@@ -158,6 +216,7 @@
                         </div>
 
                         <div class="flex items-center justify-end mt-4">
+                            <a href="{{ route('dashboard') }}">Back</a>
                             <button type="submit" class="inline-flex items-center px-4 py-2 bg-wa-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-wa-700 focus:bg-wa-700 active:bg-wa-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition ease-in-out duration-150 ml-4">
                                 {{ __('Book Now') }}
                             </button>
